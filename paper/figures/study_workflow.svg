@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="450" viewBox="0 0 1120 450">
+<rect width="1120" height="450" fill="#f4f6fa"/>
+<text x="30" y="42" font-family="Arial" font-size="24" font-weight="bold" fill="#17233c">Study workflow and evidence boundary</text>
+<path d="M250 140 L310 140" stroke="#65718a" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M530 140 L590 140" stroke="#65718a" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M810 140 L870 140" stroke="#65718a" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M700 190 L700 285" stroke="#65718a" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M530 335 L590 335" stroke="#65718a" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M250 335 L310 335" stroke="#65718a" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="30" y="90" width="220" height="100" rx="12" fill="#ffffff" stroke="#3976c5" stroke-width="2"/>
+<text x="44" y="125" font-family="Arial" font-size="15" font-weight="bold" fill="#17233c">SOURCE SITES</text>
+<text x="44" y="155" font-family="Arial" font-size="13" fill="#65718a">Train frozen/LoRA head</text>
+<rect x="310" y="90" width="220" height="100" rx="12" fill="#ffffff" stroke="#3976c5" stroke-width="2"/>
+<text x="324" y="125" font-family="Arial" font-size="15" font-weight="bold" fill="#17233c">SOURCE VALIDATION</text>
+<text x="324" y="155" font-family="Arial" font-size="13" fill="#65718a">Fix score threshold / model</text>
+<rect x="590" y="90" width="220" height="100" rx="12" fill="#ffffff" stroke="#3976c5" stroke-width="2"/>
+<text x="604" y="125" font-family="Arial" font-size="15" font-weight="bold" fill="#17233c">TARGET POSITIVES</text>
+<text x="604" y="155" font-family="Arial" font-size="13" fill="#65718a">Draw calibration sample</text>
+<rect x="870" y="90" width="220" height="100" rx="12" fill="#ffffff" stroke="#3976c5" stroke-width="2"/>
+<text x="884" y="125" font-family="Arial" font-size="15" font-weight="bold" fill="#17233c">CERTIFY OR REFUSE</text>
+<text x="884" y="155" font-family="Arial" font-size="13" fill="#65718a">Exact binomial order statistic</text>
+<rect x="590" y="285" width="220" height="100" rx="12" fill="#ffffff" stroke="#3976c5" stroke-width="2"/>
+<text x="604" y="320" font-family="Arial" font-size="15" font-weight="bold" fill="#17233c">TARGET HOLDOUT</text>
+<text x="604" y="350" font-family="Arial" font-size="13" fill="#65718a">Estimate sensitivity / specificity</text>
+<rect x="310" y="285" width="220" height="100" rx="12" fill="#ffffff" stroke="#3976c5" stroke-width="2"/>
+<text x="324" y="320" font-family="Arial" font-size="15" font-weight="bold" fill="#17233c">SELECTIVE LABELS</text>
+<text x="324" y="350" font-family="Arial" font-size="13" fill="#65718a">Known verification policy in simulation</text>
+<rect x="30" y="285" width="220" height="100" rx="12" fill="#ffffff" stroke="#3976c5" stroke-width="2"/>
+<text x="44" y="320" font-family="Arial" font-size="15" font-weight="bold" fill="#17233c">ASSUMPTIONS</text>
+<text x="44" y="350" font-family="Arial" font-size="13" fill="#65718a">Patient i.i.d., fixed model, stationarity</text>
+<defs><marker id="arrow" markerWidth="10" height="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#65718a"/></marker></defs>
+<text x="30" y="430" font-family="Arial" font-size="13" fill="#8a3b3b">All current public-data splits are image-level; patient-level validity is not established.</text>
+</svg>

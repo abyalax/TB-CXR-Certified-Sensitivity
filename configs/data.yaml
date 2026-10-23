@@ -1,0 +1,34 @@
+# Data policy for the first real-data experiments.
+tbx11k:
+  archive: data/raw/TBX11K.zip
+  annotation_license: CC-BY-NC-SA-2.0
+  citation_required: true
+  public_split: trainval
+  official_train_list: TBX11K/lists/TBX11K_train.txt
+  official_validation_list: TBX11K/lists/TBX11K_val.txt
+  positive_policy: at_least_one_ActiveTuberculosis_box
+  annotation_manifest: TBX11K/annotations/json/TBX11K_trainval.json
+  excluded_tb_policy:
+    - ObsoletePulmonaryTuberculosis_only
+    - PulmonaryTuberculosis_only
+    - no_TB_lesion_annotation
+  negative_categories:
+    healthy: health
+    non_tb_disease: sick
+  excluded_categories:
+    - test # test ground-truth labels are not released
+  exclude_all_lists: true # all_* mixes TBX11K with external-site images
+  patient_id_mapping: null # do not claim patient-level splits without this
+
+roi_annotations:
+  montgomery: data/raw/montgomery/montgomery_consensus_roi.csv
+  shenzhen: data/raw/shenzhen/shenzhen_consensus_roi.csv
+  image_id_column: patientId
+  patient_id_column: null
+  semantics: positive-lesion-boxes-only
+
+negative_controls:
+  - name: healthy_only
+    classes: [healthy]
+  - name: healthy_plus_non_tb_disease
+    classes: [healthy, non_tb_disease]

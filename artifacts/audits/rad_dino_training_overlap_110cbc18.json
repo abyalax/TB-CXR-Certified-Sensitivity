@@ -1,0 +1,36 @@
+{
+  "limitations": [
+    "The public list contains image IDs and paths, not source image hashes.",
+    "Renamed or transformed copies cannot be excluded by this comparison."
+  ],
+  "local_manifest_rows": 9060,
+  "metadata_overlap": {
+    "basename_matches": 0,
+    "image_id_matches": 0,
+    "image_id_vs_source_stem_matches": 0,
+    "path_stem_matches": 0,
+    "pixel_level_duplicate_check": "not_performed"
+  },
+  "model": "microsoft/rad-dino",
+  "model_revision": "110cbc18d5133582e320b43d53bf5c44e410c936",
+  "training_image_count": 882775,
+  "training_list_header": [
+    "image_id",
+    "rel_image_path"
+  ],
+  "training_list_sha256": "baab4b9b33f036deb38298b46095de32e39fbc86ffb7c153f1e160c6ce2db007",
+  "training_list_size_bytes": 94929974,
+  "training_list_url": "https://huggingface.co/microsoft/rad-dino/resolve/110cbc18d5133582e320b43d53bf5c44e410c936/training_images.csv",
+  "training_row_widths": {
+    "2": 882775
+  },
+  "training_rows_by_source": {
+    "BRAX": 41260,
+    "Chexpert": 223648,
+    "NIH_CXR8": 112120,
+    "mimic-cxr-2.0.0_png_518": 368960,
+    "padchest_png_518": 136787
+  },
+  "unique_training_image_ids": 882775,
+  "unique_training_paths": 882775
+}

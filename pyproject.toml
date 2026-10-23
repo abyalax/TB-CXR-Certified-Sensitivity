@@ -1,0 +1,79 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tb-cxr-certified"
+version = "1.0.0"
+description = "Certify-or-Refuse Sensitivity Calibration for Chest X-Ray Tuberculosis Triage at New Sites: Class-Conditional PAC Certificates under Selective Verification"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Abya", email = "abyalaxx@gmail.com" }]
+license = { text = "MIT" }
+keywords = ["tuberculosis", "chest x-ray", "PAC calibration", "risk control"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+
+dependencies = [
+    "numpy>=1.24",
+    "Pillow>=9.0",
+    "scipy>=1.10",
+    "scikit-learn>=1.2",
+]
+
+[project.optional-dependencies]
+vision = [
+    "torch>=2.1",
+    "torchvision>=0.16",
+    "timm>=1.0",
+    "transformers>=4.52,<5",
+    "peft>=0.21,<0.22",
+    "PyYAML>=6.0",
+    "hf_xet>=1.1",
+]
+
+[project.scripts]
+tb-certify = "tb_certify.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tb_certify"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
+torchvision = { index = "pytorch-cu130" }
+
+[project.urls]
+Homepage = "https://github.com/abyalax/tobeupdated"
+Repository = "https://github.com/abyalax/tobeupdated.git"
+Issues = "https://github.com/abyalax/tobeupdated/issues"

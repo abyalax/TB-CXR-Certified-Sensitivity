@@ -1,0 +1,26 @@
+# Prespecified primary-method settings from the research protocol.
+target_fnr: 0.10
+failure_probability: 0.05
+target_sensitivity: 0.90
+target_specificity: 0.70
+audit_confidence: 0.95
+seed: 42
+
+tier_a:
+  positive_calibration_sizes: [29, 46, 61, 100, 200]
+  repetitions: 1000
+  score_direction: higher_means_more_likely_active_tb
+  selection: exact_binomial_order_statistic
+  below_floor_action: refuse
+
+verification_bias:
+  enabled_after_complete_labels_are_available: true
+  reference_threshold: null # must be fixed before reviewing confirmation labels
+  low_score_verification_probabilities: [0.10, 0.25, 0.50, 1.00]
+  threshold_grid: null # fixed before labels; do not tune on verification outcomes
+  confidence_bound: clopper_pearson_four_component
+  delta_allocation: four_equal_parts
+
+reproducibility:
+  calibration_evaluation_split_unit: patient
+  resampling_without_replacement: true

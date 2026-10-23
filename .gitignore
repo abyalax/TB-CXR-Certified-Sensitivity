@@ -1,0 +1,27 @@
+.venv/
+.uv-cache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+AGENTS.md
+CONTEXT.md
+TODO.md
+
+# Public source images, expanded datasets, and derived caches are large.
+data/raw/
+data/processed/
+
+# Keep split manifests versioned; discard generated runs and model weights.
+artifacts/checkpoints/
+artifacts/embeddings/
+artifacts/*.pt
+artifacts/*.pth
+artifacts/*.ckpt
+
+# Local Typst compiler and generated manuscript output.
+paper/.tools/
+paper/main.pdf
+
+# Local Notes, Symlink with my obsidian vault
+SA-CTC for Tuberculosis

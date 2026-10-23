@@ -1,0 +1,47 @@
+# Pinned frozen encoders selected after a source-level license/provenance audit.
+preprocessing:
+  image_size: 224
+  low_percentile_16bit: 0.5
+  high_percentile_16bit: 99.5
+  resize_policy: square_lanczos
+  output_channels: 3
+
+encoders:
+  general:
+    # ImageNet terms permit non-commercial research; audit is dataset-level.
+    model_name: timm/resnet50.a1_in1k
+    revision: 767268603ca0cb0bfe326fa87277f19c419566ef
+    input_resolution: 224
+    license_name: Apache-2.0
+    license_verified: true
+    pretraining_sites: [ImageNet-1K]
+    pretraining_data_reviewed: true
+  chest_xray:
+    # Dataset-level audit found no named target-site pretraining datasets.
+    # Metadata audit found no ID, stem, or basename matches; pixel audit is unavailable.
+    model_name: microsoft/rad-dino
+    revision: 110cbc18d5133582e320b43d53bf5c44e410c936
+    input_resolution: 518
+    local_checkpoint_dir: artifacts/checkpoints/rad-dino-110cbc18
+    checkpoint:
+      weight_file: model.safetensors
+      size_bytes: 346345912
+      sha256: dbfb9f54459c38773505de64a6ab7807bdcb392610fe1e697166342e43fb91ae
+    license_name: MIT
+    license_verified: true
+    pretraining_sites: [MIMIC-CXR, CheXpert, NIH-CXR, PadChest, BRAX]
+    pretraining_data_reviewed: true
+    training_list:
+      revision: 110cbc18d5133582e320b43d53bf5c44e410c936
+      image_count: 882775
+      sha256: baab4b9b33f036deb38298b46095de32e39fbc86ffb7c153f1e160c6ce2db007
+      metadata_overlap_count: 0
+      pixel_level_duplicate_check: false
+
+head:
+  type: standardized_logistic_regression
+  regularization: 1.0
+  max_iterations: 2000
+  seed: 42
+  threshold_target_sensitivity: 0.90
+  threshold_is_certified: false

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1050"
+ viewBox="0 0 1080 1050">
+<rect width="1080" height="1050" fill="#f4f6fa"/>
+<text x="24" y="36" font-family="Arial, sans-serif"
+ font-size="23" font-weight="bold" fill="#17233c">
+Latest aggregate audit results - image-level</text>
+<text x="24" y="58" font-family="Arial, sans-serif"
+ font-size="13" fill="#65718a">Generated from experiment JSON;
+ descriptive only, patient independence unverified.</text>
+<g font-family="Arial, sans-serif">
+<rect x="24" y="72" width="500" height="490" rx="14" fill="#ffffff" stroke="#d9deea"/>
+<text x="44" y="104" font-size="18" fill="#17233c">B0: source threshold on target evaluation</text>
+<text x="204" y="130" font-size="11" fill="#65718a">proportion</text>
+<text x="44" y="159" font-size="13" fill="#17233c">LOSO logistic sensitivity</text><rect x="204" y="144" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="144" width="238" height="16" rx="4" fill="#3976c5"/><text x="474" y="158" font-size="13" fill="#3976c5">91.5%</text>
+<text x="44" y="198" font-size="13" fill="#17233c">LOSO logistic specificity</text><rect x="204" y="183" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="183" width="167" height="16" rx="4" fill="#7656bd"/><text x="474" y="197" font-size="13" fill="#7656bd">64.3%</text>
+<text x="44" y="237" font-size="13" fill="#17233c">Mixed logistic sensitivity</text><rect x="204" y="222" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="222" width="212" height="16" rx="4" fill="#3976c5"/><text x="474" y="236" font-size="13" fill="#3976c5">81.5%</text>
+<text x="44" y="276" font-size="13" fill="#17233c">Mixed logistic specificity</text><rect x="204" y="261" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="261" width="258" height="16" rx="4" fill="#7656bd"/><text x="474" y="275" font-size="13" fill="#7656bd">99.3%</text>
+<text x="44" y="315" font-size="13" fill="#17233c">LOSO mlp sensitivity</text><rect x="204" y="300" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="300" width="249" height="16" rx="4" fill="#3976c5"/><text x="474" y="314" font-size="13" fill="#3976c5">95.7%</text>
+<text x="44" y="354" font-size="13" fill="#17233c">LOSO mlp specificity</text><rect x="204" y="339" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="339" width="150" height="16" rx="4" fill="#7656bd"/><text x="474" y="353" font-size="13" fill="#7656bd">57.5%</text>
+<text x="44" y="393" font-size="13" fill="#17233c">Mixed mlp sensitivity</text><rect x="204" y="378" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="378" width="223" height="16" rx="4" fill="#3976c5"/><text x="474" y="392" font-size="13" fill="#3976c5">85.8%</text>
+<text x="44" y="432" font-size="13" fill="#17233c">Mixed mlp specificity</text><rect x="204" y="417" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="417" width="258" height="16" rx="4" fill="#7656bd"/><text x="474" y="431" font-size="13" fill="#7656bd">99.2%</text>
+<text x="44" y="471" font-size="13" fill="#17233c">LoRA sensitivity</text><rect x="204" y="456" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="456" width="249" height="16" rx="4" fill="#3976c5"/><text x="474" y="470" font-size="13" fill="#3976c5">95.7%</text>
+<text x="44" y="510" font-size="13" fill="#17233c">LoRA specificity</text><rect x="204" y="495" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="495" width="231" height="16" rx="4" fill="#7656bd"/><text x="474" y="509" font-size="13" fill="#7656bd">88.8%</text>
+<rect x="548" y="72" width="500" height="560" rx="14" fill="#ffffff" stroke="#d9deea"/>
+<text x="568" y="104" font-size="18" fill="#17233c">Tier A: mean sensitivity / specificity</text>
+<text x="728" y="130" font-size="11" fill="#65718a">proportion</text>
+<text x="568" y="159" font-size="13" fill="#17233c">logistic n+=29 sensitivity</text><rect x="728" y="144" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="144" width="250" height="16" rx="4" fill="#3976c5"/><text x="998" y="158" font-size="13" fill="#3976c5">96.1%</text>
+<text x="568" y="198" font-size="13" fill="#17233c">logistic n+=29 specificity</text><rect x="728" y="183" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="183" width="107" height="16" rx="4" fill="#7656bd"/><text x="998" y="197" font-size="13" fill="#7656bd">41.0%</text>
+<text x="568" y="237" font-size="13" fill="#17233c">logistic n+=200 sensitivity</text><rect x="728" y="222" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="222" width="243" height="16" rx="4" fill="#3976c5"/><text x="998" y="236" font-size="13" fill="#3976c5">93.5%</text>
+<text x="568" y="276" font-size="13" fill="#17233c">logistic n+=200 specificity</text><rect x="728" y="261" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="261" width="150" height="16" rx="4" fill="#7656bd"/><text x="998" y="275" font-size="13" fill="#7656bd">57.6%</text>
+<text x="568" y="315" font-size="13" fill="#17233c">mlp n+=29 sensitivity</text><rect x="728" y="300" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="300" width="252" height="16" rx="4" fill="#3976c5"/><text x="998" y="314" font-size="13" fill="#3976c5">97.1%</text>
+<text x="568" y="354" font-size="13" fill="#17233c">mlp n+=29 specificity</text><rect x="728" y="339" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="339" width="101" height="16" rx="4" fill="#7656bd"/><text x="998" y="353" font-size="13" fill="#7656bd">39.0%</text>
+<text x="568" y="393" font-size="13" fill="#17233c">mlp n+=200 sensitivity</text><rect x="728" y="378" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="378" width="247" height="16" rx="4" fill="#3976c5"/><text x="998" y="392" font-size="13" fill="#3976c5">94.8%</text>
+<text x="568" y="432" font-size="13" fill="#17233c">mlp n+=200 specificity</text><rect x="728" y="417" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="417" width="167" height="16" rx="4" fill="#7656bd"/><text x="998" y="431" font-size="13" fill="#7656bd">64.0%</text>
+<text x="568" y="471" font-size="13" fill="#17233c">LoRA n+=29 sensitivity</text><rect x="728" y="456" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="456" width="250" height="16" rx="4" fill="#3976c5"/><text x="998" y="470" font-size="13" fill="#3976c5">96.3%</text>
+<text x="568" y="510" font-size="13" fill="#17233c">LoRA n+=29 specificity</text><rect x="728" y="495" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="495" width="192" height="16" rx="4" fill="#7656bd"/><text x="998" y="509" font-size="13" fill="#7656bd">73.9%</text>
+<text x="568" y="549" font-size="13" fill="#17233c">LoRA n+=200 sensitivity</text><rect x="728" y="534" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="534" width="244" height="16" rx="4" fill="#3976c5"/><text x="998" y="548" font-size="13" fill="#3976c5">93.8%</text>
+<text x="568" y="588" font-size="13" fill="#17233c">LoRA n+=200 specificity</text><rect x="728" y="573" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="573" width="244" height="16" rx="4" fill="#7656bd"/><text x="998" y="587" font-size="13" fill="#7656bd">94.0%</text>
+<rect x="24" y="650" width="500" height="370" rx="14" fill="#ffffff" stroke="#d9deea"/>
+<text x="44" y="682" font-size="18" fill="#17233c">Selective verification (logistic audit)</text>
+<text x="204" y="708" font-size="11" fill="#65718a">proportion</text>
+<text x="44" y="737" font-size="13" fill="#17233c">q=0.10 naive issue</text><rect x="204" y="722" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="722" width="260" height="16" rx="4" fill="#df8b2b"/><text x="474" y="736" font-size="13" fill="#df8b2b">100.0%</text>
+<text x="44" y="776" font-size="13" fill="#17233c">q=0.10 VB issue</text><rect x="204" y="761" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="761" width="10" height="16" rx="4" fill="#3976c5"/><text x="474" y="775" font-size="13" fill="#3976c5">4.0%</text>
+<text x="44" y="815" font-size="13" fill="#17233c">q=0.10 naive violation</text><rect x="204" y="800" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="800" width="260" height="16" rx="4" fill="#c44949"/><text x="474" y="814" font-size="13" fill="#c44949">100.0%</text>
+<text x="44" y="854" font-size="13" fill="#17233c">q=0.10 VB violation</text><rect x="204" y="839" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="839" width="0" height="16" rx="4" fill="#4e9b71"/><text x="474" y="853" font-size="13" fill="#4e9b71">0.0%</text>
+<text x="44" y="893" font-size="13" fill="#17233c">q=0.25 naive issue</text><rect x="204" y="878" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="878" width="260" height="16" rx="4" fill="#df8b2b"/><text x="474" y="892" font-size="13" fill="#df8b2b">100.0%</text>
+<text x="44" y="932" font-size="13" fill="#17233c">q=0.25 VB issue</text><rect x="204" y="917" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="917" width="260" height="16" rx="4" fill="#3976c5"/><text x="474" y="931" font-size="13" fill="#3976c5">100.0%</text>
+<text x="44" y="971" font-size="13" fill="#17233c">q=0.25 naive violation</text><rect x="204" y="956" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="956" width="260" height="16" rx="4" fill="#c44949"/><text x="474" y="970" font-size="13" fill="#c44949">100.0%</text>
+<text x="44" y="1010" font-size="13" fill="#17233c">q=0.25 VB violation</text><rect x="204" y="995" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="204" y="995" width="0" height="16" rx="4" fill="#4e9b71"/><text x="474" y="1009" font-size="13" fill="#4e9b71">0.0%</text>
+<rect x="548" y="650" width="500" height="370" rx="14" fill="#ffffff" stroke="#d9deea"/>
+<text x="568" y="682" font-size="18" fill="#17233c">Shenzhen positive-only ROI subset (n=68)</text>
+<text x="728" y="708" font-size="11" fill="#65718a">proportion</text>
+<text x="568" y="737" font-size="13" fill="#17233c">logistic small ROI</text><rect x="728" y="722" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="722" width="226" height="16" rx="4" fill="#3976c5"/><text x="998" y="736" font-size="13" fill="#3976c5">87.0%</text>
+<text x="568" y="776" font-size="13" fill="#17233c">logistic medium ROI</text><rect x="728" y="761" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="761" width="226" height="16" rx="4" fill="#3976c5"/><text x="998" y="775" font-size="13" fill="#3976c5">87.0%</text>
+<text x="568" y="815" font-size="13" fill="#17233c">logistic large ROI</text><rect x="728" y="800" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="800" width="225" height="16" rx="4" fill="#3976c5"/><text x="998" y="814" font-size="13" fill="#3976c5">86.4%</text>
+<text x="568" y="854" font-size="13" fill="#17233c">mlp small ROI</text><rect x="728" y="839" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="839" width="249" height="16" rx="4" fill="#7656bd"/><text x="998" y="853" font-size="13" fill="#7656bd">95.7%</text>
+<text x="568" y="893" font-size="13" fill="#17233c">mlp medium ROI</text><rect x="728" y="878" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="878" width="237" height="16" rx="4" fill="#7656bd"/><text x="998" y="892" font-size="13" fill="#7656bd">91.3%</text>
+<text x="568" y="932" font-size="13" fill="#17233c">mlp large ROI</text><rect x="728" y="917" width="260" height="16" rx="4" fill="#e7ebf2"/><rect x="728" y="917" width="236" height="16" rx="4" fill="#7656bd"/><text x="998" y="931" font-size="13" fill="#7656bd">90.9%</text>
+</g>
+</svg>

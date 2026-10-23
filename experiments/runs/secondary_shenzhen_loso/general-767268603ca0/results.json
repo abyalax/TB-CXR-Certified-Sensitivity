@@ -1,0 +1,365 @@
+{
+  "encoder": {
+    "batch_size": 64,
+    "cache_metadata_sha256": "bdce0fb998c355bec7cf6503c202b5295249b017eff174c852faea56dad8ae77",
+    "cache_root": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\processed\\primary",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "embedding_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\embeddings\\general-767268603ca0\\embeddings.npy",
+    "embedding_sha256": "b0271dd291e16ddaea7199d524360443acfffb1f66e5793a8057f7205996e2ef",
+    "encoder_key": "general",
+    "feature_dimension": 2048,
+    "feature_pooling": "global_average_pooling",
+    "image_count": 9060,
+    "input_normalization": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    },
+    "input_resolution": 224,
+    "license_name": "Apache-2.0",
+    "manifest_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\embeddings\\general-767268603ca0\\manifest.csv",
+    "model_name": "timm/resnet50.a1_in1k",
+    "pretraining_sites": [
+      "ImageNet-1K"
+    ],
+    "revision": "767268603ca0cb0bfe326fa87277f19c419566ef",
+    "software_versions": {
+      "cuda_runtime": "13.0",
+      "encoder_library": "1.0.30",
+      "python": "3.12.13",
+      "torch": "2.14.1+cu130"
+    },
+    "source_manifest_sha256": "a15b667cf6fb2f787b994380e1e700055854fc9ff4fe268d3c3d238df25988ee"
+  },
+  "heads": {
+    "logistic": {
+      "negative_controls": {},
+      "source_threshold_target_sensitivity": 0.9,
+      "source_validation_metrics": {
+        "false_negatives": 17,
+        "false_positives": 117,
+        "sensitivity": 0.9034090909090909,
+        "specificity": 0.9275990099009901,
+        "threshold": -4.995263863629878,
+        "true_negatives": 1499,
+        "true_positives": 159
+      },
+      "source_validation_threshold": -4.995263863629878,
+      "target_b0_metrics": {
+        "false_negatives": 42,
+        "false_positives": 109,
+        "sensitivity": 0.75,
+        "specificity": 0.3312883435582822,
+        "threshold": -4.995263863629878,
+        "true_negatives": 54,
+        "true_positives": 126
+      },
+      "tier_a_exploratory": {
+        "failure_probability": 0.05,
+        "resampling": "independent simple random samples without replacement",
+        "seed": 42,
+        "summaries": [
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": 0.9724047619047619,
+            "mean_evaluation_specificity": 0.06458895705521474,
+            "probability_specificity_at_least_target": 0.0,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 29,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": 0.103,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.08485136534991759,
+              "successes": 103,
+              "trials": 1000,
+              "upper": 0.12352292640142576
+            },
+            "violations": 103
+          },
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": 0.9634642857142858,
+            "mean_evaluation_specificity": 0.07980981595092024,
+            "probability_specificity_at_least_target": 0.0,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 46,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": 0.11,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.09127777445946614,
+              "successes": 110,
+              "trials": 1000,
+              "upper": 0.13105246363748774
+            },
+            "violations": 110
+          },
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": 0.9545535714285713,
+            "mean_evaluation_specificity": 0.09080368098159508,
+            "probability_specificity_at_least_target": 0.0,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 61,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": 0.123,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.1032769096414177,
+              "successes": 123,
+              "trials": 1000,
+              "upper": 0.14497223867356843
+            },
+            "violations": 123
+          },
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": 0.9550833333333334,
+            "mean_evaluation_specificity": 0.08979141104294477,
+            "probability_specificity_at_least_target": 0.0,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 100,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": 0.056,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.04257554968661718,
+              "successes": 56,
+              "trials": 1000,
+              "upper": 0.07210774628325273
+            },
+            "violations": 56
+          },
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 0,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "probability_specificity_at_least_target": null,
+            "refusal_rate": 1.0,
+            "refusal_reason": "requested_size_exceeds_available_pool",
+            "refused_repetitions": 1000,
+            "repetitions": 1000,
+            "requested_positive_count": 200,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": null,
+            "violation_rate_interval": null,
+            "violations": 0
+          }
+        ],
+        "target_fnr": 0.1
+      }
+    },
+    "mlp": {
+      "negative_controls": {},
+      "source_threshold_target_sensitivity": 0.9,
+      "source_validation_metrics": {
+        "false_negatives": 17,
+        "false_positives": 65,
+        "sensitivity": 0.9034090909090909,
+        "specificity": 0.9597772277227723,
+        "threshold": 0.04740605875849724,
+        "true_negatives": 1551,
+        "true_positives": 159
+      },
+      "source_validation_threshold": 0.04740605875849724,
+      "target_b0_metrics": {
+        "false_negatives": 53,
+        "false_positives": 89,
+        "sensitivity": 0.6845238095238095,
+        "specificity": 0.4539877300613497,
+        "threshold": 0.04740605875849724,
+        "true_negatives": 74,
+        "true_positives": 115
+      },
+      "tier_a_exploratory": {
+        "failure_probability": 0.05,
+        "resampling": "independent simple random samples without replacement",
+        "seed": 42,
+        "summaries": [
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": 0.9821011904761905,
+            "mean_evaluation_specificity": 0.0758036809815951,
+            "probability_specificity_at_least_target": 0.0,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 29,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": 0.043,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.0312911704560926,
+              "successes": 43,
+              "trials": 1000,
+              "upper": 0.057486257961972334
+            },
+            "violations": 43
+          },
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": 0.9749880952380952,
+            "mean_evaluation_specificity": 0.0987116564417178,
+            "probability_specificity_at_least_target": 0.0,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 46,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": 0.038,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.027028815982983928,
+              "successes": 38,
+              "trials": 1000,
+              "upper": 0.05178710362196412
+            },
+            "violations": 38
+          },
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": 0.9689880952380951,
+            "mean_evaluation_specificity": 0.11417177914110428,
+            "probability_specificity_at_least_target": 0.0,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 61,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": 0.034,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.023658648107596745,
+              "successes": 34,
+              "trials": 1000,
+              "upper": 0.04718943861570743
+            },
+            "violations": 34
+          },
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": 0.9733452380952381,
+            "mean_evaluation_specificity": 0.1152760736196319,
+            "probability_specificity_at_least_target": 0.0,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 100,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": 0.007,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.0028188587596205245,
+              "successes": 7,
+              "trials": 1000,
+              "upper": 0.014369194978918632
+            },
+            "violations": 7
+          },
+          {
+            "available_calibration_positive_count": 168,
+            "certified_repetitions": 0,
+            "evaluation_negative_count": 163,
+            "evaluation_positive_count": 168,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "probability_specificity_at_least_target": null,
+            "refusal_rate": 1.0,
+            "refusal_reason": "requested_size_exceeds_available_pool",
+            "refused_repetitions": 1000,
+            "repetitions": 1000,
+            "requested_positive_count": 200,
+            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "target_specificity": 0.7,
+            "violation_rate": null,
+            "violation_rate_interval": null,
+            "violations": 0
+          }
+        ],
+        "target_fnr": 0.1
+      }
+    }
+  },
+  "interpretation_limit": "Tier A outputs are exploratory because one independent score per patient cannot be confirmed from the available manifests.",
+  "pac_claim": false,
+  "patient_level_claim": false,
+  "repetitions": 1000,
+  "seed": 42,
+  "source_sites": [
+    "Montgomery",
+    "TBX11K"
+  ],
+  "source_train_count": 6606,
+  "source_validation_count": 1792,
+  "split_manifest": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\splits\\secondary_shenzhen_loso_image_split_seed42.csv",
+  "split_unit": "image-level; patient identity and independence unverified",
+  "study": "secondary_shenzhen_loso exploratory image-level evaluation",
+  "target_calibration_pool_count": 168,
+  "target_calibration_positive_count": 168,
+  "target_calibration_split_count": 331,
+  "target_evaluation_count": 331,
+  "target_evaluation_negative_count": 163,
+  "target_evaluation_positive_count": 168,
+  "target_site": "Shenzhen"
+}

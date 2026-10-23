@@ -1,0 +1,177 @@
+{
+  "analysis_unit": "annotated positive image",
+  "annotated_positive_images": 68,
+  "encoder": {
+    "batch_size": 8,
+    "cache_metadata_sha256": "c26efaf356c748f1601bb5974d5ea564a739b2e39d736cb73b5c83cbc6e4abfa",
+    "cache_root": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\processed\\rad_dino_518",
+    "checkpoint_sha256": "dbfb9f54459c38773505de64a6ab7807bdcb392610fe1e697166342e43fb91ae",
+    "checkpoint_source": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\checkpoints\\rad-dino-110cbc18",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "embedding_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\embeddings\\chest_xray-110cbc18d513\\embeddings.npy",
+    "embedding_sha256": "59106d7c98777663fea84e94619a6a637e4cf99c69dbc853ab9a8b5231c0b62e",
+    "encoder_key": "chest_xray",
+    "feature_dimension": 768,
+    "feature_pooling": "cls_token",
+    "image_count": 9060,
+    "inference_precision": "float16_autocast",
+    "input_normalization": {
+      "crop_size": {
+        "height": 518,
+        "width": 518
+      },
+      "do_center_crop": true,
+      "do_convert_rgb": true,
+      "do_normalize": true,
+      "do_rescale": true,
+      "do_resize": true,
+      "mean": [
+        0.5307,
+        0.5307,
+        0.5307
+      ],
+      "resample": "3",
+      "rescale_factor": 0.00392156862745098,
+      "size": {
+        "shortest_edge": 518
+      },
+      "std": [
+        0.2583,
+        0.2583,
+        0.2583
+      ],
+      "use_fast": false
+    },
+    "input_resolution": 518,
+    "license_name": "MIT",
+    "manifest_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\embeddings\\chest_xray-110cbc18d513\\manifest.csv",
+    "model_name": "microsoft/rad-dino",
+    "pretraining_sites": [
+      "MIMIC-CXR",
+      "CheXpert",
+      "NIH-CXR",
+      "PadChest",
+      "BRAX"
+    ],
+    "revision": "110cbc18d5133582e320b43d53bf5c44e410c936",
+    "software_versions": {
+      "cuda_runtime": "13.0",
+      "encoder_library": "4.57.6",
+      "python": "3.12.13",
+      "torch": "2.14.1+cu130"
+    },
+    "source_manifest_sha256": "b755b078ccdd61a3df8da664afb4ad1b249caa607d4c32e99ecdbfe522c0c850"
+  },
+  "heads": {
+    "logistic": {
+      "by_lesion_size": {
+        "large": {
+          "detected": 19,
+          "sensitivity": 0.8636363636363636,
+          "sensitivity_interval": {
+            "confidence": 0.95,
+            "lower": 0.6508779027425919,
+            "successes": 19,
+            "trials": 22,
+            "upper": 0.9709441488712534
+          },
+          "total": 22
+        },
+        "medium": {
+          "detected": 20,
+          "sensitivity": 0.8695652173913043,
+          "sensitivity_interval": {
+            "confidence": 0.95,
+            "lower": 0.6641108624628791,
+            "successes": 20,
+            "trials": 23,
+            "upper": 0.9722484925772068
+          },
+          "total": 23
+        },
+        "small": {
+          "detected": 20,
+          "sensitivity": 0.8695652173913043,
+          "sensitivity_interval": {
+            "confidence": 0.95,
+            "lower": 0.6641108624628791,
+            "successes": 20,
+            "trials": 23,
+            "upper": 0.9722484925772068
+          },
+          "total": 23
+        }
+      },
+      "source_threshold": -0.8625847043553936
+    },
+    "mlp": {
+      "by_lesion_size": {
+        "large": {
+          "detected": 20,
+          "sensitivity": 0.9090909090909091,
+          "sensitivity_interval": {
+            "confidence": 0.95,
+            "lower": 0.7083872584460665,
+            "successes": 20,
+            "trials": 22,
+            "upper": 0.988794413975849
+          },
+          "total": 22
+        },
+        "medium": {
+          "detected": 21,
+          "sensitivity": 0.9130434782608695,
+          "sensitivity_interval": {
+            "confidence": 0.95,
+            "lower": 0.7196206640905891,
+            "successes": 21,
+            "trials": 23,
+            "upper": 0.9892900339621241
+          },
+          "total": 23
+        },
+        "small": {
+          "detected": 22,
+          "sensitivity": 0.9565217391304348,
+          "sensitivity_interval": {
+            "confidence": 0.95,
+            "lower": 0.7805133925465196,
+            "successes": 22,
+            "trials": 23,
+            "upper": 0.9988998313695585
+          },
+          "total": 23
+        }
+      },
+      "source_threshold": 0.3040822148323059
+    }
+  },
+  "interpretation_limit": "ROI tables contain only lesion-positive annotations. Results describe the 68 matched Shenzhen positives, not all target positives or a patient-level severity effect.",
+  "lesion_area_definition": "maximum annotated box area divided by original image area",
+  "patient_level_claim": false,
+  "seed": 42,
+  "source_sites": [
+    "Montgomery",
+    "TBX11K"
+  ],
+  "strata": {
+    "large": {
+      "count": 22,
+      "maximum_relative_area": 0.016789234024705616,
+      "minimum_relative_area": 0.0053099551641384345
+    },
+    "medium": {
+      "count": 23,
+      "maximum_relative_area": 0.0051168308888179664,
+      "minimum_relative_area": 0.002678732962350391
+    },
+    "small": {
+      "count": 23,
+      "maximum_relative_area": 0.002588939927509682,
+      "minimum_relative_area": 0.00015982340742889934
+    }
+  },
+  "study": "annotated-lesion-size sensitivity analysis",
+  "target_site": "Shenzhen"
+}

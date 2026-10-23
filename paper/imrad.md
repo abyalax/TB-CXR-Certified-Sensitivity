@@ -299,17 +299,17 @@ renamed pixel duplicates.
 
 ### 3.2 Source-threshold and target-only results
 
-| Protocol / target                               |        Head | Sensitivity | Specificity | Notes                                |
-| ----------------------------------------------- | ----------: | ----------: | ----------: | ------------------------------------ |
-| TBX11K official validation, RAD-DINO B0         |    Logistic |       91.5% |       64.3% | 164 positive / 1,600 negative images |
-| TBX11K official validation, RAD-DINO B0         |         MLP |       95.7% |       57.5% | Source threshold                     |
-| TBX11K official validation, ResNet50-A1 B0      |    Logistic |       84.1% |       33.3% | Source threshold                     |
-| TBX11K official validation, ResNet50-A1 B0      |         MLP |       88.4% |       31.0% | Source threshold                     |
+| Protocol / target                               |        Head | Sensitivity | Specificity | Notes                                                           |
+| ----------------------------------------------- | ----------: | ----------: | ----------: | --------------------------------------------------------------- |
+| TBX11K official validation, RAD-DINO B0         |    Logistic |       91.5% |       64.3% | 164 positive / 1,600 negative images                            |
+| TBX11K official validation, RAD-DINO B0         |         MLP |       95.7% |       57.5% | Source threshold                                                |
+| TBX11K official validation, ResNet50-A1 B0      |    Logistic |       84.1% |       33.3% | Source threshold                                                |
+| TBX11K official validation, ResNet50-A1 B0      |         MLP |       88.4% |       31.0% | Source threshold                                                |
 | Shenzhen image holdout, RAD-DINO B0             |    Logistic |       79.2% |       84.0% | Source threshold misses 90% target; 168 positive / 163 negative |
 | Shenzhen image holdout, RAD-DINO B0             |         MLP |       77.4% |       89.6% | Source threshold misses 90% target; 168 positive / 163 negative |
-| Site-mixed random split, RAD-DINO B0            |    Logistic |       81.5% |       99.3% | 211 positive / 1,601 negative images |
-| Site-mixed random split, RAD-DINO B0            |         MLP |       85.8% |       99.2% | Not a patient-level control          |
-| TBX11K validation, source-only RAD-DINO LoRA B0 | Linear head |       95.7% |       88.8% | 164 positive / 1,600 negative images |
+| Site-mixed random split, RAD-DINO B0            |    Logistic |       81.5% |       99.3% | 211 positive / 1,601 negative images                            |
+| Site-mixed random split, RAD-DINO B0            |         MLP |       85.8% |       99.2% | Not a patient-level control                                     |
+| TBX11K validation, source-only RAD-DINO LoRA B0 | Linear head |       95.7% |       88.8% | 164 positive / 1,600 negative images                            |
 
 In the primary TBX11K Tier A analysis, at $n^+=29$ mean sensitivity was
 96.0% (logistic) and 97.0% (MLP); mean specificity was 41.8% and 39.3%.
@@ -367,10 +367,10 @@ in the audits but the tightening/utility gate is not passed.
 
 Parentheses give exact 95% Clopper--Pearson confidence intervals.
 
-| Head     |                    Small tertile |            Medium tertile |             Large tertile |
-| -------- | -------------------------------: | ------------------------: | ------------------------: |
+| Head     |             Small tertile |            Medium tertile |             Large tertile |
+| -------- | ------------------------: | ------------------------: | ------------------------: |
 | Logistic | 20/23 = 87.0% (66.4-97.2) | 20/23 = 87.0% (66.4-97.2) | 19/22 = 86.4% (65.1-97.1) |
-| MLP      |        22/23 = 95.7% (78.1-99.9) | 21/23 = 91.3% (72.0-98.9) | 20/22 = 90.9% (70.8-98.9) |
+| MLP      | 22/23 = 95.7% (78.1-99.9) | 21/23 = 91.3% (72.0-98.9) | 20/22 = 90.9% (70.8-98.9) |
 
 Intervals are wide and overlap. Sensitivity was flat for logistic and decreased for MLP across annotated
 area; the small positive-only subset
@@ -392,12 +392,12 @@ The empirical violation frequency and Monte Carlo 95% CP interval at each
 calibration size were:
 
 | $n^+$ | Mean sensitivity | Mean specificity | Violation rate (count/1,000; 95% CP interval) |
-| ----: | ---------------: | ---------------: | -----------------------------------: |
-|    29 |            96.3% |            73.9% |            4.6% (46/1,000; 3.4–6.1%) |
-|    46 |            95.4% |            83.1% |            5.6% (56/1,000; 4.3–7.2%) |
-|    61 |            95.0% |            87.5% |            3.8% (38/1,000; 2.7–5.2%) |
-|   100 |            94.9% |            89.7% |            1.5% (15/1,000; 0.8–2.5%) |
-|   200 |            93.8% |            94.0% | 1.2% (12/1,000; 0.6–2.1%) |
+| ----: | ---------------: | ---------------: | --------------------------------------------: |
+|    29 |            96.3% |            73.9% |                     4.6% (46/1,000; 3.4–6.1%) |
+|    46 |            95.4% |            83.1% |                     5.6% (56/1,000; 4.3–7.2%) |
+|    61 |            95.0% |            87.5% |                     3.8% (38/1,000; 2.7–5.2%) |
+|   100 |            94.9% |            89.7% |                     1.5% (15/1,000; 0.8–2.5%) |
+|   200 |            93.8% |            94.0% |                     1.2% (12/1,000; 0.6–2.1%) |
 
 At $n^+=46$, the finite-holdout violation estimate is above 5%; these audit
 frequencies neither prove nor disprove the assumed population PAC statement.

@@ -22,7 +22,8 @@ Shenzhen positives.
 
 **Results:** At the source threshold, TBX11K validation sensitivity and
 specificity were 91.5%/64.3% for logistic regression and 95.7%/57.5% for the
-MLP. A source-only RAD-DINO LoRA ablation reached 95.7%/88.8% at its source
+MLP with RAD-DINO; ResNet50-A1 reached 84.1%/33.3% and 88.4%/31.0%,
+respectively. A source-only RAD-DINO LoRA ablation reached 95.7%/88.8% at its source
 threshold. At $n^+=200$, its Tier A mean was 93.8%/94.0% (empirical
 violation 1.2% across 1,000 resamples). The frozen-head Tier A means were
 93.2%/58.8% and 94.5%/65.7%, respectively. The random-split control had 99.3%/99.2%
@@ -273,6 +274,8 @@ renamed pixel duplicates.
 | ----------------------------------------------- | ----------: | ----------: | ----------: | ------------------------------------ |
 | TBX11K official validation, RAD-DINO B0         |    Logistic |       91.5% |       64.3% | 164 positive / 1,600 negative images |
 | TBX11K official validation, RAD-DINO B0         |         MLP |       95.7% |       57.5% | Source threshold                     |
+| TBX11K official validation, ResNet50-A1 B0      |    Logistic |       84.1% |       33.3% | Source threshold                     |
+| TBX11K official validation, ResNet50-A1 B0      |         MLP |       88.4% |       31.0% | Source threshold                     |
 | Shenzhen image holdout, RAD-DINO B0             |    Logistic |       79.2% |       84.0% | Threshold misses source 90% target   |
 | Shenzhen image holdout, RAD-DINO B0             |         MLP |       77.4% |       89.6% | Threshold misses source 90% target   |
 | Site-mixed random split, RAD-DINO B0            |    Logistic |       81.5% |       99.3% | 211 positive / 1,601 negative images |
@@ -282,16 +285,27 @@ renamed pixel duplicates.
 In the primary TBX11K Tier A analysis, at $n^+=29$ mean sensitivity was
 96.0% (logistic) and 97.0% (MLP); mean specificity was 41.8% and 39.3%.
 At $n^+=200$, means were 93.2%/58.8% and 94.5%/65.7%, respectively.
+Across $n^+=29,46,61,100,200$, the estimated probability that certified
+specificity reached 70% was 6.1%, 4.0%, 5.1%, 2.7%, and 2.3% for logistic
+regression, and 11.7%, 15.7%, 19.4%, 14.9%, and 33.2% for the MLP.
 The Shenzhen positive calibration pool contains only 168 images, so
-$n^+=200$ deterministically refuses there. Exact values, violation rates,
-refusal frequencies, and intervals are in the linked run JSON files below.
+$n^+=200$ deterministically refuses there. At $n^+=100$, the Shenzhen MLP
+mean was 92.1% sensitivity/62.9% specificity with 4.9% empirical violation;
+the logistic mean was 93.8%/39.9% with 28.8% violation. The probability of
+specificity reaching 70% at $n^+=100$ was 4.9% for MLP and 0.6% for logistic.
+At Shenzhen $n^+=29,46,61,100$, these probabilities were 10.4%, 10.3%,
+10.3%, and 4.9% for MLP, and 4.0%, 1.6%, 0.9%, and 0.6% for logistic.
+All are estimates from 1,000 image-level resamples; exact values, violation
+intervals, and refusal frequencies are in the linked run JSON files below.
 
 The site-origin probe reached 99.3% accuracy, 98.0% balanced accuracy, and
 99.9% macro one-vs-rest AUC over RAD-DINO embeddings. This indicates site
 information is present but does not identify its source or causal mechanism.
 At the primary logistic source threshold, specificity was 85.6% against
 healthy-only negatives compared with 64.3% against healthy plus non-TB
-disease, confirming substantial dependence on negative spectrum.
+disease; for the MLP it was 76.8% versus 57.5%. Sensitivity was unchanged
+within each head because the positive holdout was identical. This confirms
+substantial dependence of specificity on negative spectrum.
 
 ![Latest aggregate result preview generated from experiment JSON](figures/latest_results.svg)
 
@@ -393,8 +407,9 @@ outcomes or to assert clinical advantage.
 
 1. No verified cross-image patient crosswalk exists; no patient-level split,
    i.i.d. guarantee, or de-duplication claim is made.
-2. Upstream pretraining metadata has no binary image files or pixel hashes;
-   renamed duplicates are not ruled out.
+2. The public upstream pretraining list provides no image files or pixel hashes,
+   so we could not test for pixel-level duplicates under different filenames.
+   The metadata audit therefore does not rule out such overlap.
 3. The label reference standard and cohort spectrum are imperfect proxies for
    clinical confirmation and deployment populations.
 4. Selective verification is simulated, not prospectively observed; the VB

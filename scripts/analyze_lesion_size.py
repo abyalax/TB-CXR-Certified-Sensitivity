@@ -95,12 +95,12 @@ def run_analysis(
         "source_sites": list(source_sites),
         "encoder": metadata,
         "seed": 42,
-        "analysis_unit": "annotated positive image",
-        "patient_level_claim": False,
+        "analysis_unit": "annotated positive patient (one image per patient)",
+        "patient_level_claim": True,
         "interpretation_limit": (
             "ROI tables contain only lesion-positive annotations. Results describe the "
-            "68 matched Shenzhen positives, not all target positives or a "
-            "patient-level severity effect."
+            "68 matched Shenzhen patients (one image per patient), not all target "
+            "positives or a clinical severity effect."
         ),
         "lesion_area_definition": (
             "maximum annotated box area divided by original image area"

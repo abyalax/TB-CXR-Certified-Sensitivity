@@ -83,7 +83,7 @@
     ]
   },
   "optimizer": "AdamW",
-  "patient_level_claim": false,
+  "patient_level_claim": true,
   "runtime": {
     "cuda": "13.0",
     "device": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
@@ -108,7 +108,7 @@
     "true_positives": 73
   },
   "source_validation_threshold": 0.9352282881736755,
-  "study": "source-only RAD-DINO LoRA ablation; exploratory image-level",
+  "study": "source-only RAD-DINO LoRA ablation; exploratory patient-level (one image per patient)",
   "target_b0_metrics": {
     "false_negatives": 7,
     "false_positives": 180,
@@ -139,7 +139,7 @@
         "refused_repetitions": 0,
         "repetitions": 1000,
         "requested_positive_count": 29,
-        "split_unit": "official TBX11K image-level train/validation; patient identity unverified",
+        "split_unit": "official TBX11K patient-level train/validation (one image per patient)",
         "target_specificity": 0.7,
         "violation_rate": 0.046,
         "violation_rate_interval": {
@@ -164,7 +164,7 @@
         "refused_repetitions": 0,
         "repetitions": 1000,
         "requested_positive_count": 46,
-        "split_unit": "official TBX11K image-level train/validation; patient identity unverified",
+        "split_unit": "official TBX11K patient-level train/validation (one image per patient)",
         "target_specificity": 0.7,
         "violation_rate": 0.056,
         "violation_rate_interval": {
@@ -189,7 +189,7 @@
         "refused_repetitions": 0,
         "repetitions": 1000,
         "requested_positive_count": 61,
-        "split_unit": "official TBX11K image-level train/validation; patient identity unverified",
+        "split_unit": "official TBX11K patient-level train/validation (one image per patient)",
         "target_specificity": 0.7,
         "violation_rate": 0.038,
         "violation_rate_interval": {
@@ -214,7 +214,7 @@
         "refused_repetitions": 0,
         "repetitions": 1000,
         "requested_positive_count": 100,
-        "split_unit": "official TBX11K image-level train/validation; patient identity unverified",
+        "split_unit": "official TBX11K patient-level train/validation (one image per patient)",
         "target_specificity": 0.7,
         "violation_rate": 0.015,
         "violation_rate_interval": {
@@ -239,7 +239,7 @@
         "refused_repetitions": 0,
         "repetitions": 1000,
         "requested_positive_count": 200,
-        "split_unit": "official TBX11K image-level train/validation; patient identity unverified",
+        "split_unit": "official TBX11K patient-level train/validation (one image per patient)",
         "target_specificity": 0.7,
         "violation_rate": 0.012,
         "violation_rate_interval": {

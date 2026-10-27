@@ -71,7 +71,7 @@ def run_probe(embedding_dir: Path, seed: int = 42, folds: int = 5) -> dict[str, 
             "A high score means the frozen embedding retains site information; it "
             "does not identify its cause or prove TB-label shortcutting."
         ),
-        "split_unit": "image-level; patient mapping unverified",
+        "split_unit": "patient-level; one image represents one patient",
         "seed": seed,
         "folds": folds,
         "embedding_dir": str(embedding_dir),

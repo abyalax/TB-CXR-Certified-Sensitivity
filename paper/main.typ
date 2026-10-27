@@ -32,16 +32,16 @@
     yielding a 29-positive certification floor. Frozen ResNet50 and RAD-DINO
     embeddings were paired with source-only logistic and small multilayer
     perceptron heads on Montgomery, Shenzhen, and TBX11K public chest X-ray
-    data. All reported results are exploratory image-level analyses because
-    patient identity and independence cannot be verified from the public
-    manifests. On the TBX11K holdout, the RAD-DINO source threshold achieved
+    data. Each image represents one patient in the three datasets, so the results
+    are exploratory patient-level analyses. The PAC assumptions and clinical
+    validity are not established by this one-to-one mapping. On the TBX11K holdout, the RAD-DINO source threshold achieved
     91.5% sensitivity and 64.3% specificity for logistic regression, and
     95.7% and 57.5% for the multilayer perceptron. A site-origin probe achieved
     98.0% balanced accuracy. Simulated selective verification showed that
     naive calibration on selectively confirmed positives can violate the
     sensitivity target, whereas a conservative verification-bias certificate
     refused or reduced specificity. The study is an implementation and audit,
-    not a patient-level PAC validation or clinical-deployment claim.
+    not a validation of the PAC assumptions or a clinical-deployment claim.
   ],
   keywords: (
     "tuberculosis",
@@ -89,14 +89,15 @@ National Library of Medicine documented filename-label convention. TBX11K uses
 only its official train and validation lists; an active-TB positive requires an
 `ActiveTuberculosis` lesion annotation. Obsolete-only and unresolved findings
 are excluded. The processed cohort contains 9,060 images: 138 Montgomery, 662
-Shenzhen, and 8,260 TBX11K. Patient identifiers are unavailable or unverified;
-therefore, no split is described as patient-level.
+Shenzhen, and 8,260 TBX11K. Explicit patient identifiers may be blank, but dataset documentation and
+project confirmation establish one image per patient; image-based splits are
+therefore patient-level.
 
 We froze an ImageNet ResNet50-A1 encoder and the RAD-DINO chest-radiograph
 encoder, each pinned to an audited revision. Logistic-regression and small MLP
 heads trained only on source sites. TBX11K is the primary target: official
 training records provide target calibration and official validation records are
-the image-level evaluation holdout.
+the patient-level evaluation holdout (one image per patient).
 
 == Exact target-only certificate
 
@@ -111,9 +112,8 @@ calibration records, define
 The threshold is the $(k^* + 1)$-st smallest positive score. If no such $k^*$
 exists, the method returns *REFUSE*. The first feasible sample size is 29
 positives. Validity requires representative independent target positives, a
-fixed score rule, accurate reference labels, and stationarity. These conditions
-cannot be confirmed patient-wise in the public data, so the certificate outputs
-below are audit estimates rather than patient-level PAC claims.
+fixed score rule, accurate reference labels, and stationarity. The one-image-per-patient sampling unit is confirmed. Certificate outputs
+below remain empirical audit estimates and do not establish PAC assumptions.
 
 == Comparators and selective verification
 
@@ -148,7 +148,7 @@ cause or prove causal shortcutting.
     [Logistic], [91.5%], [64.3%],
     [MLP], [95.7%], [57.5%],
   ),
-  caption: [Source-threshold performance on the official TBX11K validation split using RAD-DINO. Results are image-level exploratory estimates.],
+  caption: [Source-threshold performance on the official TBX11K validation split using RAD-DINO. Results are exploratory patient-level estimates (one image per patient).],
 ) <tab:b0>
 
 == Tier A and negative spectrum
@@ -157,8 +157,8 @@ The TBX11K target split contains 496 calibration positives; the holdout has
 164 positives and 1,600 negatives. At $n^+ = 29$, RAD-DINO logistic Tier A had
 mean sensitivity 96.0% and specificity 41.8%; at $n^+ = 200$, it had 93.2% and
 58.8%. The MLP had 97.0%/39.3% at 29 and 94.5%/65.7% at 200. These finite
-holdout, image-level estimates illustrate the sensitivity--specificity cost of
-the certificate; they do not validate patient-level independence.
+holdout, patient-level estimates illustrate the sensitivity--specificity cost of
+the certificate; they do not validate all PAC assumptions.
 
 At the logistic source threshold, specificity was 85.6% against healthy-only
 TBX11K negatives but 64.3% against healthy plus non-TB disease. Any
@@ -192,14 +192,13 @@ so it failed the pre-specified utility gate.
 The experiment demonstrates why selectively confirmed positives cannot be
 naively treated as a random calibration sample. The exact target-only rule
 makes the 29-positive evidence floor explicit and refuses below it. Clinical
-use is not established: public manifests do not permit verification of
-patient-level independence, and selective verification was simulated rather
+use is not established: one image per patient is confirmed, but selective verification was simulated rather
 than prospectively deployed. A prospective study should lock the model,
 collect patient-level records, and follow an auditable confirmation policy.
 
 = Conclusion
 
-This repository provides a reproducible image-level audit of a
+This repository provides a reproducible patient-level audit (one image per patient) of a
 certify-or-refuse sensitivity-calibration workflow for TB chest-radiograph
 triage. The frozen RAD-DINO analyses show material site information and a
 negative-spectrum dependence of specificity. Under simulated selective

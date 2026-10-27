@@ -17,5 +17,5 @@
     "Shenzhen": 662,
     "TBX11K": 8260
   },
-  "split_unit": "image-level; patient mapping unverified"
+  "split_unit": "patient-level; one image per patient"
 }

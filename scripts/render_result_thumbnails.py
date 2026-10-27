@@ -182,10 +182,10 @@ def render_results(output: Path) -> None:
             '<rect width="1080" height="1050" fill="#f4f6fa"/>',
             '<text x="24" y="36" font-family="Arial, sans-serif"',
             ' font-size="23" font-weight="bold" fill="#17233c">',
-            "Latest aggregate audit results - image-level</text>",
+            "Latest aggregate audit results - patient-level (one image per patient)</text>",  # noqa: E501
             '<text x="24" y="58" font-family="Arial, sans-serif"',
             ' font-size="13" fill="#65718a">Generated from experiment JSON;',
-            " descriptive only, patient independence unverified.</text>",
+            " descriptive patient-level results (one image per patient).</text>",
             '<g font-family="Arial, sans-serif">',
             panel_a,
             panel_b,
@@ -256,8 +256,7 @@ def render_workflow(output: Path) -> None:
     )
     parts.append(
         '<text x="30" y="430" font-family="Arial" font-size="13" '
-        'fill="#8a3b3b">All current public-data splits are image-level; '
-        "patient-level validity is not established.</text>"
+        'fill="#8a3b3b">All current splits are patient-level (one image per patient); PAC assumptions still require validation.</text>'
     )
     parts.append("</svg>")
     output.parent.mkdir(parents=True, exist_ok=True)

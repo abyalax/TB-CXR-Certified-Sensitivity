@@ -80,7 +80,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 29,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.103,
             "violation_rate_interval": {
@@ -105,7 +105,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 46,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.11,
             "violation_rate_interval": {
@@ -130,7 +130,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 61,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.123,
             "violation_rate_interval": {
@@ -155,7 +155,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 100,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.056,
             "violation_rate_interval": {
@@ -180,7 +180,7 @@
             "refused_repetitions": 1000,
             "repetitions": 1000,
             "requested_positive_count": 200,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": null,
             "violation_rate_interval": null,
@@ -230,7 +230,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 29,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.043,
             "violation_rate_interval": {
@@ -255,7 +255,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 46,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.038,
             "violation_rate_interval": {
@@ -280,7 +280,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 61,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.034,
             "violation_rate_interval": {
@@ -305,7 +305,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 100,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.007,
             "violation_rate_interval": {
@@ -330,7 +330,7 @@
             "refused_repetitions": 1000,
             "repetitions": 1000,
             "requested_positive_count": 200,
-            "split_unit": "stratified 50/50 image split; patient mapping unverified; patient independence unverified",
+            "split_unit": "stratified 50/50 patient split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": null,
             "violation_rate_interval": null,
@@ -341,9 +341,9 @@
       }
     }
   },
-  "interpretation_limit": "Tier A outputs are exploratory because one independent score per patient cannot be confirmed from the available manifests.",
+  "interpretation_limit": "Tier A outputs are exploratory patient-level estimates; representativeness, i.i.d. sampling, label accuracy, and stationarity remain assumptions.",
   "pac_claim": false,
-  "patient_level_claim": false,
+  "patient_level_claim": true,
   "repetitions": 1000,
   "seed": 42,
   "source_sites": [
@@ -353,8 +353,8 @@
   "source_train_count": 6606,
   "source_validation_count": 1792,
   "split_manifest": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\splits\\secondary_shenzhen_loso_image_split_seed42.csv",
-  "split_unit": "image-level; patient identity and independence unverified",
-  "study": "secondary_shenzhen_loso exploratory image-level evaluation",
+  "split_unit": "patient-level; one image represents one patient",
+  "study": "secondary_shenzhen_loso exploratory patient-level evaluation (one image per patient)",
   "target_calibration_pool_count": 168,
   "target_calibration_positive_count": 168,
   "target_calibration_split_count": 331,

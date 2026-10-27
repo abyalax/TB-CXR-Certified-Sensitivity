@@ -56,7 +56,7 @@ Run this script on powershell for download it from source
 - Montgomery and Shenzhen ROI CSV files contain positive-lesion annotations rather than complete image-level label inventories.
 - Montgomery and Shenzhen labels are derived from the filename suffixes documented in the NLM README: `_0` indicates normal, while `_1` indicates abnormal/TB.
 - Each image has a corresponding `ClinicalReading` with a matching filename stem.
-- Image stems are treated as image IDs. Cross-image patient identity has not been verified.
+- Each dataset image represents one unique patient, as documented in `data/README.md` and confirmed for all study datasets; image-based splits therefore preserve patient-level separation.
 - For TBX11K, the primary positive-label definition requires at least one `ActiveTuberculosis` bounding box. Obsolete or ambiguous findings, as well as TB images without such boxes, are recorded separately rather than automatically classified as negative.
 
 ## Repository Structure
@@ -257,7 +257,7 @@ specificity; MLP 95.7% / 57.5%. Shenzhen last recorded B0: logistic 79.2% /
 [`primary results`](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/results.json)
 and
 [`Shenzhen results`](experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513/results.json).
-All estimates are image-level and exploratory.
+All estimates are image-level observations with one image per patient, so the sample unit is patient-level; the results remain exploratory.
 
 ### Selective-verification audit
 
@@ -283,8 +283,7 @@ Last recorded random-split control: source-threshold specificity was 99.3%
 (logistic) and 99.2% (MLP), versus 64.3% and 57.5% in the primary
 leave-site-out evaluation. Last ROI run: 68 annotated Shenzhen positive
 images; logistic sensitivity was 86.4–87.0% across size tertiles and MLP
-sensitivity 90.9–95.7%. These are descriptive image-level controls, not
-patient-level or severity claims. See
+sensitivity 90.9–95.7%. These are descriptive patient-level controls, not clinical severity claims. See
 [`random split results`](experiments/runs/random_image_control/chest_xray-110cbc18d513/results.json)
 and
 [`ROI results`](experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513/p0_9_lesion_size/results.json).
@@ -351,12 +350,11 @@ these commands after a code change. No claim is made here about a new test run.
 
 ### Patient Identity and Data Leakage
 
-Patient-level independence has not been established for the available datasets.
+One image per patient is confirmed for Montgomery, Shenzhen, and TBX11K (see `data/README.md`).
 
-- **TBX11K:** The available archive does not provide a verified patient-identity mapping.
-- **Montgomery and Shenzhen:** Image stems are unique and linked to individual clinical readings, but no verified crosswalk establishes that each patient contributes only one image.
+- Each of the three datasets contains one image per patient. The source manifest may leave the explicit `patient_id` column blank, but the one-to-one image-to-patient relationship is confirmed.
 
-Consequently, a split based on image IDs **must not be described as a patient-level split**.
+Consequently, splits based on image IDs are patient-level splits under the confirmed one-image-per-patient relationship.
 
 ### RAD-DINO Pretraining Audit
 
@@ -373,11 +371,13 @@ The PAC interpretation assumes:
 3. A fixed model during calibration and evaluation.
 4. A stationary target population.
 
-These assumptions are important to the interpretation of the statistical guarantees. In particular, the current image-level manifests do not independently establish patient-level i.i.d. sampling.
+These assumptions are important to the interpretation of the statistical guarantees. The one-image-per-patient mapping establishes distinct patient units; representativeness, i.i.d. sampling, accurate labels, and stationarity remain assumptions.
 
 Results should therefore be interpreted as methodological evidence under the stated assumptions, not as proof of clinical safety or validated performance at arbitrary deployment sites.
 
 ## Reproducibility
+For the complete end-to-end commands, see [`docs/REPRODUCE.md`](docs/REPRODUCE.md).
+
 
 The project uses the following practices to support reproducible experiments:
 

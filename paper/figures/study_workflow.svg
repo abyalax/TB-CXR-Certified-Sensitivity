@@ -29,5 +29,5 @@
 <text x="44" y="320" font-family="Arial" font-size="15" font-weight="bold" fill="#17233c">ASSUMPTIONS</text>
 <text x="44" y="350" font-family="Arial" font-size="13" fill="#65718a">Patient i.i.d., fixed model, stationarity</text>
 <defs><marker id="arrow" markerWidth="10" height="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#65718a"/></marker></defs>
-<text x="30" y="430" font-family="Arial" font-size="13" fill="#8a3b3b">All current public-data splits are image-level; patient-level validity is not established.</text>
+<text x="30" y="430" font-family="Arial" font-size="13" fill="#8a3b3b">All current splits are patient-level (one image per patient); PAC assumptions still require validation.</text>
 </svg>

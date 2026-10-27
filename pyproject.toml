@@ -74,6 +74,6 @@ torch = { index = "pytorch-cu130" }
 torchvision = { index = "pytorch-cu130" }
 
 [project.urls]
-Homepage = "https://github.com/abyalax/tobeupdated"
-Repository = "https://github.com/abyalax/tobeupdated.git"
-Issues = "https://github.com/abyalax/tobeupdated/issues"
+Homepage = "https://github.com/abyalax/TB-CXR-Certified-Sensitivity"
+Repository = "https://github.com/abyalax/TB-CXR-Certified-Sensitivity.git"
+Issues = "https://github.com/abyalax/TB-CXR-Certified-Sensitivity/issues"

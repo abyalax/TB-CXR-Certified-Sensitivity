@@ -3,10 +3,10 @@
 <rect width="1080" height="1050" fill="#f4f6fa"/>
 <text x="24" y="36" font-family="Arial, sans-serif"
  font-size="23" font-weight="bold" fill="#17233c">
-Latest aggregate audit results - image-level</text>
+Latest aggregate audit results - patient-level (one image per patient)</text>
 <text x="24" y="58" font-family="Arial, sans-serif"
  font-size="13" fill="#65718a">Generated from experiment JSON;
- descriptive only, patient independence unverified.</text>
+ descriptive patient-level results (one image per patient).</text>
 <g font-family="Arial, sans-serif">
 <rect x="24" y="72" width="500" height="490" rx="14" fill="#ffffff" stroke="#d9deea"/>
 <text x="44" y="104" font-size="18" fill="#17233c">B0: source threshold on target evaluation</text>

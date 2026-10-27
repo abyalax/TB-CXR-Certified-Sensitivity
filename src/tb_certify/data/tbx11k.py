@@ -321,7 +321,7 @@ class TBX11KArchiveCatalog:
         )
 
     def write_manifest(self, destination: str | Path, split: str = "trainval") -> Path:
-        """Write a public-label manifest; patient_id remains blank unless mapped."""
+        """Write a public-label manifest; image_id identifies one patient in this cohort."""  # noqa: E501
 
         target = Path(destination)
         target.parent.mkdir(parents=True, exist_ok=True)

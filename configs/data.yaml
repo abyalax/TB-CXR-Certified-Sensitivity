@@ -18,7 +18,8 @@ tbx11k:
   excluded_categories:
     - test # test ground-truth labels are not released
   exclude_all_lists: true # all_* mixes TBX11K with external-site images
-  patient_id_mapping: null # do not claim patient-level splits without this
+  patient_id_mapping: image_id # one image represents one unique patient, confirmed in data/README.md
+  patient_level_claim: true
 
 roi_annotations:
   montgomery: data/raw/montgomery/montgomery_consensus_roi.csv

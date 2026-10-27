@@ -73,7 +73,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 29,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.043,
                 "violation_rate_interval": {
@@ -98,7 +98,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 46,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.044,
                 "violation_rate_interval": {
@@ -123,7 +123,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 61,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.054,
                 "violation_rate_interval": {
@@ -148,7 +148,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 100,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.021,
                 "violation_rate_interval": {
@@ -173,7 +173,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 200,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.009,
                 "violation_rate_interval": {
@@ -220,7 +220,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 29,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.043,
                 "violation_rate_interval": {
@@ -245,7 +245,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 46,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.044,
                 "violation_rate_interval": {
@@ -270,7 +270,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 61,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.054,
                 "violation_rate_interval": {
@@ -295,7 +295,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 100,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.021,
                 "violation_rate_interval": {
@@ -320,7 +320,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 200,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.009,
                 "violation_rate_interval": {
@@ -375,7 +375,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 29,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.043,
             "violation_rate_interval": {
@@ -400,7 +400,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 46,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.044,
             "violation_rate_interval": {
@@ -425,7 +425,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 61,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.054,
             "violation_rate_interval": {
@@ -450,7 +450,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 100,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.021,
             "violation_rate_interval": {
@@ -475,7 +475,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 200,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.009,
             "violation_rate_interval": {
@@ -524,7 +524,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 29,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.015,
                 "violation_rate_interval": {
@@ -549,7 +549,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 46,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.007,
                 "violation_rate_interval": {
@@ -574,7 +574,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 61,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.006,
                 "violation_rate_interval": {
@@ -599,7 +599,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 100,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.0,
                 "violation_rate_interval": {
@@ -624,7 +624,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 200,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.0,
                 "violation_rate_interval": {
@@ -671,7 +671,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 29,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.015,
                 "violation_rate_interval": {
@@ -696,7 +696,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 46,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.007,
                 "violation_rate_interval": {
@@ -721,7 +721,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 61,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.006,
                 "violation_rate_interval": {
@@ -746,7 +746,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 100,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.0,
                 "violation_rate_interval": {
@@ -771,7 +771,7 @@
                 "refused_repetitions": 0,
                 "repetitions": 1000,
                 "requested_positive_count": 200,
-                "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
                 "target_specificity": 0.7,
                 "violation_rate": 0.0,
                 "violation_rate_interval": {
@@ -826,7 +826,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 29,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.015,
             "violation_rate_interval": {
@@ -851,7 +851,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 46,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.007,
             "violation_rate_interval": {
@@ -876,7 +876,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 61,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.006,
             "violation_rate_interval": {
@@ -901,7 +901,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 100,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.0,
             "violation_rate_interval": {
@@ -926,7 +926,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 200,
-            "split_unit": "official TBX11K train/validation image split; patient independence unverified",
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
             "target_specificity": 0.7,
             "violation_rate": 0.0,
             "violation_rate_interval": {
@@ -943,9 +943,9 @@
       }
     }
   },
-  "interpretation_limit": "Tier A outputs are exploratory because one independent score per patient cannot be confirmed from the available manifests.",
+  "interpretation_limit": "Tier A outputs are exploratory patient-level estimates; representativeness, i.i.d. sampling, label accuracy, and stationarity remain assumptions.",
   "pac_claim": false,
-  "patient_level_claim": false,
+  "patient_level_claim": true,
   "repetitions": 1000,
   "seed": 42,
   "source_sites": [
@@ -955,8 +955,8 @@
   "source_train_count": 639,
   "source_validation_count": 161,
   "split_manifest": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\splits\\primary_tbx11k_loso_image_split_seed42.csv",
-  "split_unit": "image-level; patient identity and independence unverified",
-  "study": "primary_tbx11k_loso exploratory image-level evaluation",
+  "split_unit": "patient-level; one image represents one patient",
+  "study": "primary_tbx11k_loso exploratory patient-level evaluation (one image per patient)",
   "target_calibration_pool_count": 496,
   "target_calibration_positive_count": 496,
   "target_calibration_split_count": 6496,

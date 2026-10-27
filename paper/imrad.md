@@ -2,8 +2,8 @@
 
 **Working research manuscript (IMRAD).** This is the active manuscript file.
 The JUTI Typst draft is not updated by this workflow. All real-data estimates
-below are exploratory image-level results; no patient-level independence or
-clinical validity is claimed.
+below are exploratory patient-level results, with one image representing one
+patient in each dataset. Clinical validity is not claimed.
 
 ## Abstract
 
@@ -44,9 +44,9 @@ trend.
 
 **Conclusion:** The implementation makes the exact sample-size refusal rule
 explicit and demonstrates the utility cost of conservative selective-label
-certification. All conclusions remain image-level and exploratory. Verified
-patient linkage, external database screening, ethics review, and data-use
-review remain outstanding before a submission or artifact release.
+certification. All conclusions remain exploratory patient-level analyses (one image per
+patient). External database screening, ethics review, and data-use review
+remain outstanding before submission or artifact release.
 
 ## 1. Introduction
 
@@ -63,7 +63,7 @@ populations, and an individual-participant diagnostic-accuracy meta-analysis
 has examined threshold behavior across studies ([Qin et al., 2019](https://pubmed.ncbi.nlm.nih.gov/31628424/);
 [Tavaziva et al., 2022](https://pubmed.ncbi.nlm.nih.gov/34286831/)). These
 records motivate local evaluation. Our exploratory searches did not identify
-a study that evaluates an image-level certify-or-refuse sensitivity rule under
+a study that evaluates a patient-level certify-or-refuse sensitivity rule under
 selectively verified TB labels while reporting its target-site specificity
 tradeoff. This is a scoped research gap, not a systematic novelty claim.
 Exploratory searches were recorded in PubMed and IEEE
@@ -92,7 +92,7 @@ audit of the assumptions, refusal behavior, and empirical utility trade-offs.
 Research questions are:
 
 1. What sensitivity/specificity trade-off does the target-only exact rule show
-   on an image-level target holdout?
+   on a patient-level target holdout?
 2. How different is a site-mixed random image split from leave-site-out
    evaluation?
 3. How do naive and conservative procedures behave when low-score reference
@@ -126,9 +126,9 @@ resized to 224 × 224 with Lanczos interpolation and replicated to three
 channels. This cache resolution was used by ResNet50; RAD-DINO inputs were
 processed at 518 × 518.
 Montgomery/Shenzhen region-of-interest (ROI) CSVs annotate positive lesions only; they are not
-complete label inventories. Image names and ROI `patientId` values are not
-treated as verified patient identifiers. The sampling unit throughout is
-therefore an image, and patient-level independence is unknown.
+complete label inventories. Each image represents one patient according to `data/README.md` and the
+confirmed dataset structure. The sampling unit throughout is therefore one
+patient per image; the explicit `patient_id` column may remain blank.
 
 ### 2.2 Encoders and source-only decision rules
 
@@ -253,9 +253,9 @@ claim that it is uniformly tighter or empirically useful.
 
 N1 denotes healthy-only negatives, and N2 denotes healthy plus non-TB disease
 negatives in the negative-spectrum control. The random-split negative control uses a
-stratified image-level random split that allows each site to occur in model
+stratified patient-level random split (one image per patient) that allows each site to occur in model
 training, calibration, validation, and evaluation; it is intentionally not
-a transportability estimate and may retain within-patient dependence.
+a transportability estimate, although each image represents a distinct patient.
 
 For lesion size, we used the 250 boxes in the Shenzhen consensus ROI table;
 the available public documentation did not establish whether this table
@@ -308,7 +308,7 @@ renamed pixel duplicates.
 | Shenzhen image holdout, RAD-DINO B0             |    Logistic |       79.2% |       84.0% | Source threshold misses 90% target; 168 positive / 163 negative |
 | Shenzhen image holdout, RAD-DINO B0             |         MLP |       77.4% |       89.6% | Source threshold misses 90% target; 168 positive / 163 negative |
 | Site-mixed random split, RAD-DINO B0            |    Logistic |       81.5% |       99.3% | 211 positive / 1,601 negative images                            |
-| Site-mixed random split, RAD-DINO B0            |         MLP |       85.8% |       99.2% | Not a patient-level control                                     |
+| Site-mixed random split, RAD-DINO B0            |         MLP |       85.8% |       99.2% | Not a transportability control                                     |
 | TBX11K validation, source-only RAD-DINO LoRA B0 | Linear head |       95.7% |       88.8% | 164 positive / 1,600 negative images                            |
 
 In the primary TBX11K Tier A analysis, at $n^+=29$ mean sensitivity was
@@ -330,7 +330,7 @@ violation frequency and the other is the frequency of specificity at least
 
 At Shenzhen $n^+=29,46,61,100$, these probabilities were 10.4%, 10.3%,
 10.3%, and 4.9% for MLP, and 4.0%, 1.6%, 0.9%, and 0.6% for logistic.
-All are estimates from 1,000 image-level resamples; exact values, violation
+All are estimates from 1,000 patient-level resamples (one image per patient); exact values, violation
 intervals, and refusal frequencies are in the linked run JSON files below.
 
 The site-origin probe reached 99.3% accuracy, 98.0% balanced accuracy, and
@@ -355,7 +355,7 @@ with specificity means 23.1% and 10.5% in those few issued runs. At
 $q=0.25$, issue rate was 100% for both heads, with zero observed violations.
 The linear IPW--Hoeffding arm refused every threshold in all audited policy
 runs. Zero observed violations is not proof of the nominal 5% population
-failure bound, especially given finite and image-level data.
+failure bound, especially given finite data.
 
 At $q=1$, a pre-specified tightening utility gate required VB mean
 specificity to be no more than 3 percentage points below naive Tier A. It failed: logistic
@@ -428,7 +428,7 @@ specificity 62.9% and a 4.9% empirical violation rate; logistic violation
 was 28.8%. At this calibration size, specificities around 40--63% imply that
 a substantial share of non-TB images in the holdout would be flagged for
 follow-up: about 37--60 per 100 across the reported heads. This could increase
-confirmatory-testing workload; the image-level holdout does not estimate
+confirmatory-testing workload; the patient-level holdout does not estimate
 referral burden or predictive value in a deployment population. The 4.9%
 violation rate and 4.9% frequency of specificity at least 70% are distinct
 resampling measures that happen to be numerically equal.
@@ -466,15 +466,16 @@ outcomes or to assert clinical advantage.
 
 ### Limitations and open research checkpoints
 
-1. No verified cross-image patient crosswalk exists; no patient-level split,
-   i.i.d. guarantee, or de-duplication claim is made.
+1. One image per patient is confirmed for all three datasets, so the image-based
+   splits are patient-level. This does not establish i.i.d. sampling or rule out
+   duplicate images across separate source datasets.
 2. The public upstream pretraining list provides no image files or pixel hashes,
    so we could not test for pixel-level duplicates under different filenames.
    The metadata audit therefore does not rule out such overlap.
 3. The label reference standard and cohort spectrum are imperfect proxies for
    clinical confirmation and deployment populations.
 4. Selective verification is simulated, not prospectively observed; the VB
-   and linear arms are image-level audits.
+   and linear arms are patient-level audits (one image per patient).
 5. The Shenzhen consensus ROI table contains 250 rows, but public
    documentation does not establish whether these combine both upstream
    annotation sets.
@@ -490,10 +491,10 @@ outcomes or to assert clinical advantage.
 ### Conclusion
 
 This work implements an exact target-positive certify-or-refuse threshold,
-audits its image-level trade-off, and compares it with selective-verification
+audits its patient-level trade-off, and compares it with selective-verification
 procedures. The 29-positive floor is exact for the selected error and
-confidence levels, but the empirical studies do not verify its patient-level
-assumptions. Future claims require patient-linked prospective cohorts,
+confidence levels, but the empirical studies do not establish all distributional and labeling
+assumptions. Future claims require prospective cohorts,
 pre-specified verification, ethics approval or waiver, completed literature
 screening, and data-use approval.
 

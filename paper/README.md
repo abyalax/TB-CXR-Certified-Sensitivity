@@ -43,5 +43,5 @@ Before submission, replace the provisional affiliation and corresponding email
 if needed, confirm every BibTeX entry against its primary source, set official
 issue, page, DOI, and article-history metadata, and review the data-availability
 and generative-AI declarations. The paper intentionally describes all current
-numeric results as exploratory image-level analyses: the public data do not
-verify patient identity or patient-level independence.
+numeric results as exploratory patient-level analyses (one image per patient);
+the PAC assumptions and clinical validity are not thereby established.

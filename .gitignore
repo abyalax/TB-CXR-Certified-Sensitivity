@@ -1,4 +1,5 @@
 .venv/
+active/
 .uv-cache/
 __pycache__/
 *.py[cod]
@@ -25,3 +26,4 @@ paper/main.pdf
 
 # Local Notes, Symlink with my obsidian vault
 SA-CTC for Tuberculosis
+docs/

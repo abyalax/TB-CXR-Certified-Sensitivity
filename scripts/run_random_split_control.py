@@ -2,7 +2,7 @@
 
 This deliberately allows every site to appear in model development. It is a
 negative control for distribution shift, not a transportability evaluation and
-not a patient-level analysis.
+patient-level unit of analysis (one image per patient).
 """
 
 from __future__ import annotations
@@ -61,7 +61,7 @@ def _write_split_manifest(
                     "patient_id": row.get("patient_id", ""),
                     "label": row["label"],
                     "role": roles[index],
-                    "split_unit": "stratified image-level; patient identity unverified",
+                    "split_unit": "stratified patient-level; one image represents one patient",
                     "seed": str(seed),
                 }
             )
@@ -135,10 +135,10 @@ def run_control(
         "study": "random_image_split_negative_control exploratory evaluation",
         "purpose": (
             "Contrast an image-randomized, site-mixed split with leave-site-out; "
-            "not a transportability or patient-level study."
+            "not a transportability study."
         ),
-        "split_unit": "image-level; patient identity and independence unverified",
-        "patient_level_claim": False,
+        "split_unit": "patient-level; one image represents one patient",
+        "patient_level_claim": True,
         "pac_claim": False,
         "seed": seed,
         "repetitions": repetitions,
@@ -179,7 +179,7 @@ def run_control(
             repetitions=repetitions,
             seed=seed,
             split_unit=(
-                "stratified image-level; site-mixed; patient independence unverified"
+                "stratified patient-level; site-mixed; one image per patient"
             ),
         )
         results["heads"][head_name] = {

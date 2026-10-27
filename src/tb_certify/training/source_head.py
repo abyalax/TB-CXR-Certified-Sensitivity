@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Sequence
 from math import isfinite
-from typing import Iterable, Sequence
 
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -48,7 +48,7 @@ class SourceOnlyLogisticHead:
         site_ids: Sequence[str],
         source_sites: Sequence[str],
         held_out_target_site: str,
-    ) -> "SourceOnlyLogisticHead":
+    ) -> SourceOnlyLogisticHead:
         feature_array = np.asarray(features, dtype=np.float64)
         label_array = np.asarray(tuple(labels), dtype=int)
         site_array = np.asarray(tuple(site_ids), dtype=str)
@@ -128,7 +128,7 @@ class SourceOnlyLogisticHead:
         if labels.shape[0] != len(validation_site_ids):
             raise ValueError("Validation labels and site IDs must have equal length.")
         if not sites or not sites.issubset(self.source_sites):
-            raise ValueError("Threshold validation must use declared source sites only.")
+            raise ValueError("Threshold validation must use declared source sites only.")  # noqa: E501
         if labels.size == 0 or not np.isin(labels, [0, 1]).all():
             raise ValueError("Validation data must have binary labels.")
         validation_scores = self.score(validation_features)

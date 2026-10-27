@@ -86,7 +86,7 @@ def _source_split(
                     "source_split": row["source_split"],
                     "label": row["label"],
                     "role": "train" if int(index) in train_set else "validation",
-                    "split_unit": "image_id; patient mapping unverified",
+                    "split_unit": "patient_id (image_id; one image represents one patient)",
                     "seed": str(seed),
                 }
             )
@@ -228,7 +228,7 @@ def run_study(
             ],
             dtype=int,
         )
-        target_split_unit = "official TBX11K train/validation image split"
+        target_split_unit = "official TBX11K patient-level train/validation split (one image per patient)"
     else:
         target_split_labels = np.asarray(
             [_binary_label(rows[index]["label"]) for index in target_site_indices]
@@ -239,7 +239,7 @@ def run_study(
             random_state=seed,
             stratify=target_split_labels,
         )
-        target_split_unit = "stratified 50/50 image split; patient mapping unverified"
+        target_split_unit = "stratified 50/50 patient split (one image per patient)"
     calibration_indices = np.asarray(
         [
             index
@@ -305,15 +305,15 @@ def run_study(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     results: dict[str, Any] = {
-        "study": f"{protocol_name} exploratory image-level evaluation",
+        "study": f"{protocol_name} exploratory patient-level evaluation (one image per patient)",
         "target_site": target_site,
         "source_sites": list(source_sites),
-        "split_unit": "image-level; patient identity and independence unverified",
-        "patient_level_claim": False,
+        "split_unit": "patient-level; one image represents one patient",
+        "patient_level_claim": True,
         "pac_claim": False,
         "interpretation_limit": (
-            "Tier A outputs are exploratory because one independent score per patient "
-            "cannot be confirmed from the available manifests."
+            "Tier A outputs are exploratory patient-level estimates; representativeness, "
+            "i.i.d. sampling, label accuracy, and stationarity remain assumptions."
         ),
         "seed": seed,
         "repetitions": repetitions,
@@ -384,7 +384,7 @@ def run_study(
             calibration_sizes=calibration_sizes,
             repetitions=repetitions,
             seed=seed,
-            split_unit=f"{target_split_unit}; patient independence unverified",
+            split_unit=f"{target_split_unit}; one image per patient (confirmed)",
         )
         negative_control_masks = (
             {
@@ -411,7 +411,7 @@ def run_study(
                 calibration_sizes=calibration_sizes,
                 repetitions=repetitions,
                 seed=seed,
-                split_unit=f"{target_split_unit}; patient independence unverified",
+                split_unit=f"{target_split_unit}; one image per patient (confirmed)",
             )
             negative_controls[control_name] = {
                 "evaluation_count": int(np.sum(control_mask)),
@@ -448,7 +448,7 @@ def run_study(
                 repetitions=selective_repetitions,
                 seed=seed,
                 split_unit=(
-                    f"{target_split_unit}; patient independence unverified; "
+                    f"{target_split_unit}; one image per patient (confirmed); "
                     "fully labelled target split used only to simulate verification"
                 ),
             ).to_dict()

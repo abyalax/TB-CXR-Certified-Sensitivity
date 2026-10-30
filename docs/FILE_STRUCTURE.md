@@ -122,6 +122,12 @@
             ├── random_image_control_seed42.csv
             ├── secondary_shenzhen_loso_image_split_seed42.csv
         ├── README.md
+    └── 📁docs
+        ├── ConfusionMatrix.json
+        ├── FILE_STRUCTURE.md
+        ├── PIPELINE.md
+        ├── REPRODUCE.md
+        └── RESEARCH_PROCESS.md
     └── 📁experiments
         └── 📁runs
             └── 📁primary_tbx11k_loso
@@ -175,6 +181,7 @@
             ├── latest_results.svg
             ├── study_workflow.svg
         ├── build.ps1
+        ├── abstract.md
         ├── imrad.md
         ├── literature_search.md
         ├── main.pdf
@@ -183,7 +190,7 @@
         ├── references.bib
         ├── setup.typ
         ├── template.typ
-    └── 📁SA-CTC for Tuberculosis
+    └── 📁SA-CTC for Tuberculosis (this is symbolic link to my obsidian vault)
         └── 📁Literature Review
             ├── A Joint Finite-Sample Certificate for Adaptive Selective Conformal Risk Control.pdf
             ├── A multi-country head-to-head accuracy comparison of automated chest X-ray algorithms for tuberculosis.pdf

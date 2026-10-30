@@ -151,6 +151,8 @@ uv run --extra vision hf download microsoft/rad-dino \
   --local-dir artifacts/checkpoints/rad-dino-110cbc18
 ```
 
+> if you want to just see on the web hugging face, open this https://huggingface.co/microsoft/rad-dino/tree/110cbc18d5133582e320b43d53bf5c44e410c936
+
 ### 3. Extract Frozen Embeddings
 
 Extract embeddings using the general-purpose and chest-X-ray encoder configurations:
@@ -251,9 +253,15 @@ uv run --extra vision python scripts/run_primary_real_study.py --project-root . 
 uv run --extra vision python scripts/run_primary_real_study.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output-dir experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513 --target-site Shenzhen --repetitions 1000 --seed 42
 ```
 
-Last recorded primary RAD-DINO B0: logistic 91.5% sensitivity / 64.3%
-specificity; MLP 95.7% / 57.5%. Shenzhen last recorded B0: logistic 79.2% /
-84.0%; MLP 77.4% / 89.6%. Result files are respectively
+Last recorded 
+primary RAD-DINO B0: logistic 91.5% sensitivity / 64.3%
+specificity; MLP 95.7% / 57.5%. 
+
+Shenzhen last recorded 
+B0: logistic 79.2% / 84.0%; 
+MLP 77.4% / 89.6%. 
+
+Result files are respectively
 [`primary results`](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/results.json)
 and
 [`Shenzhen results`](experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513/results.json).

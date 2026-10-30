@@ -14,6 +14,12 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
+from tb_certify.calibration.risk_control import (
+    ImportanceWeightedLTTCalibrator,
+    MarginalCRCCalibrator,
+    RiskControlStatus,
+    WeightedCRCCalibrator,
+)
 from tb_certify.calibration.source_threshold import EmpiricalSensitivityThreshold
 from tb_certify.evaluation.metrics import evaluate_threshold
 from tb_certify.evaluation.selective_study import SelectiveVerificationStudy
@@ -86,7 +92,7 @@ def _source_split(
                     "source_split": row["source_split"],
                     "label": row["label"],
                     "role": "train" if int(index) in train_set else "validation",
-                    "split_unit": "patient_id (image_id; one image represents one patient)",
+                    "split_unit": "patient_id (image_id; one image represents one patient)", # noqa: E501
                     "seed": str(seed),
                 }
             )
@@ -171,6 +177,56 @@ def _scores(head: Any, head_name: str, features: np.ndarray) -> np.ndarray:
     return np.asarray(head.predict_proba(features)[:, 1], dtype=float)
 
 
+def _risk_control_comparison(
+    calibration_scores: np.ndarray,
+    evaluation_scores: np.ndarray,
+    evaluation_labels: np.ndarray,
+    source_validation_scores: np.ndarray,
+    seed: int,
+) -> dict[str, Any]:
+    """Compare CRC-family rules under the explicit unit-weight baseline."""
+    unit_weights = np.ones(calibration_scores.size, dtype=float)
+    crc = MarginalCRCCalibrator(0.10).calibrate(calibration_scores)
+    wcrc = WeightedCRCCalibrator(0.10).calibrate(
+        calibration_scores, unit_weights, np.ones(evaluation_scores.size)
+    )
+    ltt_thresholds = np.unique(
+        np.quantile(source_validation_scores, np.linspace(0.01, 0.99, 25))
+    )
+    if not ltt_thresholds.size:
+        raise ValueError("Source validation scores cannot define an IW-LTT grid.")
+    ltt = ImportanceWeightedLTTCalibrator(
+        target_fnr=0.10, failure_probability=0.05, seed=seed
+    ).calibrate(
+        calibration_scores,
+        unit_weights,
+        weight_upper_bound=1.0,
+        thresholds=ltt_thresholds,
+    )
+    methods: dict[str, Any] = {}
+    for name, certificate in (
+        ("crc", crc),
+        ("w_crc_unit_weights", wcrc[0] if wcrc else None),
+        ("iw_ltt_unit_weights", ltt),
+    ):
+        if certificate is None:
+            methods[name] = {"status": "not_evaluated", "reason": "empty_evaluation"}
+            continue
+        record = {key: value.value if isinstance(value, RiskControlStatus) else value
+                  for key, value in certificate.__dict__.items()}
+        if certificate.status is RiskControlStatus.ACCEPTED:
+            record["evaluation_metrics"] = evaluate_threshold(
+                evaluation_scores, evaluation_labels, certificate.threshold
+            ).__dict__
+        methods[name] = record
+    return {
+        "weight_assumption": "unit density ratios; exchangeable positive examples",
+        "shift_adjusted": False,
+        "ltt_threshold_grid": "25 source-validation score quantiles from 0.01 to 0.99",
+        "ltt_thresholds": [float(value) for value in ltt_thresholds],
+        "methods": methods,
+    }
+
 def run_study(
     project_root: Path,
     embedding_dir: Path,
@@ -228,7 +284,7 @@ def run_study(
             ],
             dtype=int,
         )
-        target_split_unit = "official TBX11K patient-level train/validation split (one image per patient)"
+        target_split_unit = "official TBX11K patient-level train/validation split (one image per patient)"  # noqa: E501
     else:
         target_split_labels = np.asarray(
             [_binary_label(rows[index]["label"]) for index in target_site_indices]
@@ -305,14 +361,14 @@ def run_study(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     results: dict[str, Any] = {
-        "study": f"{protocol_name} exploratory patient-level evaluation (one image per patient)",
+        "study": f"{protocol_name} exploratory patient-level evaluation (one image per patient)",  # noqa: E501
         "target_site": target_site,
         "source_sites": list(source_sites),
         "split_unit": "patient-level; one image represents one patient",
         "patient_level_claim": True,
         "pac_claim": False,
         "interpretation_limit": (
-            "Tier A outputs are exploratory patient-level estimates; representativeness, "
+            "Tier A outputs are exploratory patient-level estimates; representativeness, "  # noqa: E501
             "i.i.d. sampling, label accuracy, and stationarity remain assumptions."
         ),
         "seed": seed,
@@ -376,6 +432,13 @@ def run_study(
         target_calibration_all_labels = np.asarray(
             [_binary_label(rows[index]["label"]) for index in target_train_indices],
             dtype=int,
+        )
+        risk_control_comparison = _risk_control_comparison(
+            target_calibration_scores,
+            target_scores,
+            target_labels,
+            source_validation_scores,
+            seed,
         )
         study = TierAStudy(target_specificity=0.70, confidence=0.95).run(
             calibration_positive_scores=target_calibration_scores,
@@ -458,6 +521,7 @@ def run_study(
             "source_validation_metrics": source_metrics.__dict__,
             "target_b0_metrics": target_b0_metrics.__dict__,
             "tier_a_exploratory": study.to_dict(),
+            "risk_control_comparison": risk_control_comparison,
             "negative_controls": negative_controls,
             "selective_verification_exploratory": selective_verification,
         }

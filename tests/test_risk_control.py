@@ -52,6 +52,7 @@ def test_weighted_ltt_selects_safe_prefix_with_wsr_fixed_sequence() -> None:
         calibration_scores=np.arange(100, dtype=float),
         calibration_weights=np.ones(100),
         weight_upper_bound=1.0,
+        thresholds=np.arange(1, 100, dtype=float),
     )
 
     assert certificate.status is RiskControlStatus.ACCEPTED
@@ -64,4 +65,9 @@ def test_weighted_ltt_selects_safe_prefix_with_wsr_fixed_sequence() -> None:
 def test_weighted_ltt_rejects_invalid_weight_bound() -> None:
     calibrator = ImportanceWeightedLTTCalibrator(permutations=1)
     with pytest.raises(ValueError, match="bound every"):
-        calibrator.calibrate([0.1, 0.2], [1.0, 2.0], weight_upper_bound=1.0)
+        calibrator.calibrate(
+            [0.1, 0.2],
+            [1.0, 2.0],
+            weight_upper_bound=1.0,
+            thresholds=[0.15],
+        )

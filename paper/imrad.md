@@ -66,20 +66,21 @@ records motivate local evaluation. Our exploratory searches did not identify
 a study that evaluates a patient-level certify-or-refuse sensitivity rule under
 selectively verified TB labels while reporting its target-site specificity
 tradeoff. This is a scoped research gap, not a systematic novelty claim.
-Exploratory searches were recorded in PubMed and IEEE
-Xplore; Scopus was not accessed. This is not a systematic review (see
+Exploratory searches were recorded in PubMed and IEEE Xplore; Scopus was not
+accessed. This is not a systematic review (see
 [`literature_search.md`](literature_search.md)).
 
 Risk-control comparators motivate finite-sample calibration and covariate-shift
 corrections ([Bates et al., 2021](https://doi.org/10.1145/3478535);
 [Zecchin et al., 2025](https://arxiv.org/abs/2501.11413);
 [Almeida et al., 2025](https://proceedings.mlr.press/v266/almeida25a.html)).
-The code includes conformal risk control (CRC), weighted CRC (W-CRC), and
-importance-weighted learn-then-test (IW-LTT) components, but no validated
-positive-conditional density ratio and weight bound are
-available for these real sites; those weighted baselines are therefore not
-reported as real-data competitors. RAD-DINO is a self-supervised chest-X-ray
-encoder ([Pérez-García et al., 2024](https://doi.org/10.1038/s42256-024-00965-w)).
+The runner compares marginal conformal risk control (CRC), weighted CRC
+(W-CRC), and importance-weighted learn-then-test (IW-LTT) using unit density
+weights and evaluates issued thresholds on an independent target holdout. This
+is an exchangeable positive-class baseline, not a shift-adjusted comparison. A
+real-site shift analysis still requires a justified positive-conditional density
+ratio and valid upper bound, which are unavailable. RAD-DINO is a
+self-supervised chest-X-ray encoder ([Pérez-García et al., 2024](https://doi.org/10.1038/s42256-024-00965-w)).
 
 This study investigates a certify-or-refuse workflow: calibrate a threshold
 using target-site TB-positive scores and issue it only if an exact
@@ -146,7 +147,25 @@ An origin probe used five-fold stratified cross-validation to predict site
 from RAD-DINO embeddings. It diagnoses whether embeddings contain site
 information; it cannot establish causal shortcut learning.
 
-### 2.3 Exact Tier A certificate
+### 2.3 CRC-family baseline comparison
+
+For each fitted head, the primary and secondary runners calibrate marginal CRC,
+W-CRC, and IW-LTT on the full target-positive calibration pool, then evaluate
+issued thresholds on the independent target holdout. The comparison uses unit
+density ratios and upper bound one, representing the exchangeable positive-class
+baseline. CRC and W-CRC use target FNR tolerance $alpha=0.10$; IW-LTT also uses
+failure probability $delta=0.05$. W-CRC uses unit test weights, so deployment
+points share the same certificate. These results do not adjust for covariate
+shift. A valid shift-adjusted analysis requires a justified target/source
+density ratio conditional on TB positivity and a valid bound; neither is
+available here. The runner records certificate status, threshold, diagnostics,
+and holdout sensitivity/specificity under `risk_control_comparison` in each
+head's `results.json`. For IW-LTT, its 25 candidate thresholds are the unique
+0.01--0.99 quantiles of source-validation scores, fixed independently of the
+target calibration sample. The WSR p-value averages 100 seeded random
+orderings (seed 42 in the reported run).
+
+### 2.4 Exact Tier A certificate
 
 Let $s(x)$ increase with evidence for active TB, and predict positive when
 $s(x)\ge t$. For a target population $P_T$, the sensitivity estimand is
@@ -197,7 +216,7 @@ PAC interpretation for patients.
 
 We refer to this exact target-positive order-statistic procedure as Tier A.
 
-### 2.4 Selective-verification policy and certificates
+### 2.5 Selective-verification policy and certificates
 
 For each fully labeled record in the TBX11K-train simulation, a fixed
 reference score cutoff $c$ was used. All records with $s_i\ge c$ were
@@ -249,7 +268,7 @@ and passes if this upper bound is at most zero. The implementation stops at
 the first failing threshold. This is the evaluated Hoeffding arm, not a
 claim that it is uniformly tighter or empirically useful.
 
-### 2.5 Controls, secondary analysis, and uncertainty summaries
+### 2.6 Controls, secondary analysis, and uncertainty summaries
 
 N1 denotes healthy-only negatives, and N2 denotes healthy plus non-TB disease
 negatives in the negative-spectrum control. The random-split negative control uses a
@@ -273,7 +292,7 @@ Empirical violation frequency is computed against the finite target holdout;
 its CP interval describes Monte Carlo frequency uncertainty, not uncertainty
 from sampling an infinite patient population.
 
-### 2.6 LoRA ablation protocol
+### 2.7 LoRA ablation protocol
 
 The RAD-DINO LoRA arm is an optional source-only fine-tuning ablation. It
 targets the query and value attention projections with rank 8, alpha 16,
@@ -308,7 +327,7 @@ renamed pixel duplicates.
 | Shenzhen image holdout, RAD-DINO B0             |    Logistic |       79.2% |       84.0% | Source threshold misses 90% target; 168 positive / 163 negative |
 | Shenzhen image holdout, RAD-DINO B0             |         MLP |       77.4% |       89.6% | Source threshold misses 90% target; 168 positive / 163 negative |
 | Site-mixed random split, RAD-DINO B0            |    Logistic |       81.5% |       99.3% | 211 positive / 1,601 negative images                            |
-| Site-mixed random split, RAD-DINO B0            |         MLP |       85.8% |       99.2% | Not a transportability control                                     |
+| Site-mixed random split, RAD-DINO B0            |         MLP |       85.8% |       99.2% | Not a transportability control                                  |
 | TBX11K validation, source-only RAD-DINO LoRA B0 | Linear head |       95.7% |       88.8% | 164 positive / 1,600 negative images                            |
 
 In the primary TBX11K Tier A analysis, at $n^+=29$ mean sensitivity was
@@ -363,7 +382,23 @@ VB specificity was 51.8% versus naive 63.6% (gap 11.8 points); MLP VB was
 51.1% versus 73.7% (gap 22.6 points). The VB arm is therefore conservative
 in the audits but the tightening/utility gate is not passed.
 
-### 3.4 Lesion-size ROI analysis
+### 3.4 CRC-family comparison
+
+On the RAD-DINO TBX11K primary holdout, CRC and unit-weight W-CRC selected the
+same threshold for each head, as expected when every density ratio is one.
+Logistic regression had 90.9% sensitivity and 70.2% specificity; the MLP had
+91.5% sensitivity and 81.5% specificity. Unit-weight IW-LTT selected a lower
+threshold: logistic regression had 94.5% sensitivity and 51.8% specificity,
+and the MLP had 93.3% sensitivity and 68.0% specificity. The IW-LTT p-values
+at the selected thresholds were 0.00000577 and 0.00918, respectively, at nominal
+$delta=0.05$. On the Shenzhen holdout, CRC/W-CRC had sensitivity/specificity
+of 86.3%/68.1% for logistic regression and 85.7%/76.1% for the MLP. IW-LTT
+had 97.0%/31.3% and 94.0%/51.5%, with p-values 0.00784 and 0.000113.
+These are empirical holdout results under unit weights, not evidence of
+correction for site shift. The comparison calibrates on target positives, so it
+does not replace a source-to-target weighted transport analysis.
+
+### 3.5 Lesion-size ROI analysis
 
 Parentheses give exact 95% Clopper--Pearson confidence intervals.
 
@@ -379,7 +414,7 @@ positive images.
 
 ![Study workflow and assumption boundary](figures/study_workflow.svg)
 
-### 3.5 LoRA ablation
+### 3.6 LoRA ablation
 
 The RTX 3050 6 GB run completed without an out-of-memory error. Training
 binary cross-entropy decreased from 0.6013 to 0.2472 to 0.1222 over three fixed epochs.
@@ -481,9 +516,7 @@ outcomes or to assert clinical advantage.
    annotation sets.
 6. Age, sex, and TB-history strata are absent from the manifest, so Mondrian
    stratification could not be evaluated.
-7. Literature searching was exploratory and limited to PubMed and IEEE
-   Xplore; Scopus was not accessed, and screening was not systematic.
-8. Ethics approval or waiver, dataset terms, and data-use permissions have
+7. Ethics approval or waiver, dataset terms, and data-use permissions have
    not been documented as complete; resolve them before submission. Authority
    to redistribute derived artifacts also remains outstanding, and nothing
    is released by these commands.
@@ -542,8 +575,7 @@ are views of those JSONs and are not independent evidence.
 ## Selected references
 
 This list supports claims in the working draft. Literature searching was
-exploratory in PubMed and IEEE Xplore; Scopus was not accessed, and screening
-was not systematic.
+exploratory in PubMed and IEEE Xplore;
 
 1. Qin, Z. Z. et al. Using artificial intelligence to read chest radiographs
    for tuberculosis detection: a multi-site evaluation of the diagnostic

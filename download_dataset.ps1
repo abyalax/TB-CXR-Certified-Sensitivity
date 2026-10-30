@@ -5,157 +5,157 @@ $Raw = Join-Path $PSScriptRoot "data/raw"
 $GoogleDriveUrl = "https://drive.google.com/file/d/1r-oNYTPiPCOUzSjChjCIYTdkjBTugqxR/view"
 $GoogleDriveZip = Join-Path $Raw "TBX11K.zip"
 
-# $Datasets = @(
-#     @{
-#         Name = "montgomery"
-#         Base = "https://data.lhncbc.nlm.nih.gov/public/Tuberculosis-Chest-X-ray-Datasets/Montgomery-County-CXR-Set/MontgomerySet/"
-#         Folders = @(
-#             ""
-#             "CXR_png/"
-#             "ClinicalReadings/"
-#             "ManualMask/leftMask/"
-#             "ManualMask/rightMask/"
-#         )
-#     },
-#     @{
-#         Name = "shenzhen"
-#         Base = "https://data.lhncbc.nlm.nih.gov/public/Tuberculosis-Chest-X-ray-Datasets/Shenzhen-Hospital-CXR-Set/"
-#         Folders = @(
-#             ""
-#             "CXR_png/"
-#             "ClinicalReadings/"
-#             "Annotations/"
-#             "Annotations/masks/"
-#             "Annotations/Annotations_json/"
-#             "Annotations/Annotations_json/SeparateFiles/"
-#             "Annotations-2/"
-#             "Annotations-2/masks/"
-#             "Annotations-2/Annotations_json/"
-#             "Annotations-2/Annotations_json/SeparateFiles/"
-#         )
-#     }
-# )
+$Datasets = @(
+    @{
+        Name = "montgomery"
+        Base = "https://data.lhncbc.nlm.nih.gov/public/Tuberculosis-Chest-X-ray-Datasets/Montgomery-County-CXR-Set/MontgomerySet/"
+        Folders = @(
+            ""
+            "CXR_png/"
+            "ClinicalReadings/"
+            "ManualMask/leftMask/"
+            "ManualMask/rightMask/"
+        )
+    },
+    @{
+        Name = "shenzhen"
+        Base = "https://data.lhncbc.nlm.nih.gov/public/Tuberculosis-Chest-X-ray-Datasets/Shenzhen-Hospital-CXR-Set/"
+        Folders = @(
+            ""
+            "CXR_png/"
+            "ClinicalReadings/"
+            "Annotations/"
+            "Annotations/masks/"
+            "Annotations/Annotations_json/"
+            "Annotations/Annotations_json/SeparateFiles/"
+            "Annotations-2/"
+            "Annotations-2/masks/"
+            "Annotations-2/Annotations_json/"
+            "Annotations-2/Annotations_json/SeparateFiles/"
+        )
+    }
+)
 
-# $Failed = [System.Collections.Generic.List[string]]::new()
-# $Downloaded = 0
-# $Skipped = 0
+$Failed = [System.Collections.Generic.List[string]]::new()
+$Downloaded = 0
+$Skipped = 0
 
-# foreach ($DS in $Datasets) {
-#     $Dest = Join-Path $Raw $DS.Name
+foreach ($DS in $Datasets) {
+    $Dest = Join-Path $Raw $DS.Name
 
-#     foreach ($Folder in $DS.Folders) {
-#         $FolderUrl = $DS.Base + $Folder
-#         $IndexUrl = $FolderUrl + "index.html"
-#         $LocalDir = Join-Path $Dest ($Folder.Replace("/", "\"))
+    foreach ($Folder in $DS.Folders) {
+        $FolderUrl = $DS.Base + $Folder
+        $IndexUrl = $FolderUrl + "index.html"
+        $LocalDir = Join-Path $Dest ($Folder.Replace("/", "\"))
 
-#         New-Item -ItemType Directory -Path $LocalDir -Force |
-#             Out-Null
+        New-Item -ItemType Directory -Path $LocalDir -Force |
+            Out-Null
 
-#         Write-Host "`n[$($DS.Name)] $Folder" -ForegroundColor Cyan
+        Write-Host "`n[$($DS.Name)] $Folder" -ForegroundColor Cyan
 
-#         try {
-#             $R = Invoke-WebRequest `
-#                 -Uri $IndexUrl `
-#                 -Headers @{ "User-Agent" = "Mozilla/5.0" } `
-#                 -UseBasicParsing `
-#                 -TimeoutSec 60
+        try {
+            $R = Invoke-WebRequest `
+                -Uri $IndexUrl `
+                -Headers @{ "User-Agent" = "Mozilla/5.0" } `
+                -UseBasicParsing `
+                -TimeoutSec 60
 
-#             $Html = $R.Content
-#         }
-#         catch {
-#             Write-Host "GAGAL MEMBACA INDEX: $IndexUrl" -ForegroundColor Red
-#             $Failed.Add($IndexUrl)
-#             continue
-#         }
+            $Html = $R.Content
+        }
+        catch {
+            Write-Host "GAGAL MEMBACA INDEX: $IndexUrl" -ForegroundColor Red
+            $Failed.Add($IndexUrl)
+            continue
+        }
 
-#         $Links = [regex]::Matches(
-#             $Html,
-#             '(?is)href\s*=\s*["'']([^"'']+)["'']'
-#         )
+        $Links = [regex]::Matches(
+            $Html,
+            '(?is)href\s*=\s*["'']([^"'']+)["'']'
+        )
 
-#         foreach ($M in $Links) {
-#             $Href = [System.Net.WebUtility]::HtmlDecode(
-#                 $M.Groups[1].Value.Trim()
-#             )
+        foreach ($M in $Links) {
+            $Href = [System.Net.WebUtility]::HtmlDecode(
+                $M.Groups[1].Value.Trim()
+            )
 
-#             if (
-#                 !$Href -or
-#                 $Href.StartsWith("#") -or
-#                 $Href.StartsWith("?") -or
-#                 $Href -match '^(?i)(https?:|mailto:|javascript:)'
-#             ) {
-#                 continue
-#             }
+            if (
+                !$Href -or
+                $Href.StartsWith("#") -or
+                $Href.StartsWith("?") -or
+                $Href -match '^(?i)(https?:|mailto:|javascript:)'
+            ) {
+                continue
+            }
 
-#             try {
-#                 $Uri = [uri]::new([uri]$IndexUrl, $Href)
-#             }
-#             catch {
-#                 continue
-#             }
+            try {
+                $Uri = [uri]::new([uri]$IndexUrl, $Href)
+            }
+            catch {
+                continue
+            }
 
-#             if (
-#                 $Uri.Host -ne "data.lhncbc.nlm.nih.gov" -or
-#                 !$Uri.AbsolutePath.StartsWith(
-#                     ([uri]$DS.Base).AbsolutePath,
-#                     [StringComparison]::OrdinalIgnoreCase
-#                 )
-#             ) {
-#                 continue
-#             }
+            if (
+                $Uri.Host -ne "data.lhncbc.nlm.nih.gov" -or
+                !$Uri.AbsolutePath.StartsWith(
+                    ([uri]$DS.Base).AbsolutePath,
+                    [StringComparison]::OrdinalIgnoreCase
+                )
+            ) {
+                continue
+            }
 
-#             # Folder links are handled by the explicit folder list.
-#             if ($Uri.AbsolutePath.EndsWith("/")) {
-#                 continue
-#             }
+            # Folder links are handled by the explicit folder list.
+            if ($Uri.AbsolutePath.EndsWith("/")) {
+                continue
+            }
 
-#             $FileName = [uri]::UnescapeDataString(
-#                 [IO.Path]::GetFileName($Uri.AbsolutePath)
-#             )
+            $FileName = [uri]::UnescapeDataString(
+                [IO.Path]::GetFileName($Uri.AbsolutePath)
+            )
 
-#             if (!$FileName -or $FileName -eq "index.html") {
-#                 continue
-#             }
+            if (!$FileName -or $FileName -eq "index.html") {
+                continue
+            }
 
-#             $Path = Join-Path $LocalDir $FileName
+            $Path = Join-Path $LocalDir $FileName
 
-#             if (
-#                 (Test-Path -LiteralPath $Path) -and
-#                 (Get-Item -LiteralPath $Path).Length -gt 0
-#             ) {
-#                 $Skipped++
-#                 continue
-#             }
+            if (
+                (Test-Path -LiteralPath $Path) -and
+                (Get-Item -LiteralPath $Path).Length -gt 0
+            ) {
+                $Skipped++
+                continue
+            }
 
-#             $Part = "$Path.part"
-#             Write-Host "GET $FileName"
+            $Part = "$Path.part"
+            Write-Host "GET $FileName"
 
-#             & curl.exe -fLsS -L `
-#                 --retry 3 `
-#                 --retry-delay 2 `
-#                 --connect-timeout 30 `
-#                 -A "Mozilla/5.0" `
-#                 $Uri.AbsoluteUri `
-#                 -o $Part
+            & curl.exe -fLsS -L `
+                --retry 3 `
+                --retry-delay 2 `
+                --connect-timeout 30 `
+                -A "Mozilla/5.0" `
+                $Uri.AbsoluteUri `
+                -o $Part
 
-#             if (
-#                 $LASTEXITCODE -eq 0 -and
-#                 (Test-Path -LiteralPath $Part) -and
-#                 (Get-Item -LiteralPath $Part).Length -gt 0
-#             ) {
-#                 Move-Item -LiteralPath $Part -Destination $Path -Force
-#                 $Downloaded++
-#             }
-#             else {
-#                 Remove-Item -LiteralPath $Part -Force `
-#                     -ErrorAction SilentlyContinue
+            if (
+                $LASTEXITCODE -eq 0 -and
+                (Test-Path -LiteralPath $Part) -and
+                (Get-Item -LiteralPath $Part).Length -gt 0
+            ) {
+                Move-Item -LiteralPath $Part -Destination $Path -Force
+                $Downloaded++
+            }
+            else {
+                Remove-Item -LiteralPath $Part -Force `
+                    -ErrorAction SilentlyContinue
 
-#                 Write-Host "GAGAL: $Uri" -ForegroundColor Red
-#                 $Failed.Add($Uri.AbsoluteUri)
-#             }
-#         }
-#     }
-# }
+                Write-Host "GAGAL: $Uri" -ForegroundColor Red
+                $Failed.Add($Uri.AbsoluteUri)
+            }
+        }
+    }
+}
 
 
 Write-Host "`n[Google Drive] TBX11K.zip" -ForegroundColor Cyan

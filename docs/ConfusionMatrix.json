@@ -1,0 +1,398 @@
+{
+    "experiments > runs > primary_tbx11k_loso > chest_xray-110cbc18d513 > results.json": {
+        "heads": {
+            "logistic": {
+                "negative_controls": {
+                    "healthy_only": {
+                        "b0_metrics": {
+                            "false_negatives": 14,
+                            "false_positives": 115,
+                            "true_negatives": 685,
+                            "true_positives": 150
+                        }
+                    },
+                    "healthy_plus_non_tb": {
+                        "b0_metrics": {
+                            "false_negatives": 14,
+                            "false_positives": 571,
+                            "true_negatives": 1029,
+                            "true_positives": 150
+                        }
+                    }
+                },
+                "source_validation_metrics": {
+                    "false_negatives": 7,
+                    "false_positives": 5,
+                    "true_negatives": 76,
+                    "true_positives": 73
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 14,
+                    "false_positives": 571,
+                    "true_negatives": 1029,
+                    "true_positives": 150
+                }
+            },
+            "mlp": {
+                "negative_controls": {
+                    "healthy_only": {
+                        "b0_metrics": {
+                            "false_negatives": 7,
+                            "false_positives": 186,
+                            "true_negatives": 614,
+                            "true_positives": 157
+                        }
+                    },
+                    "healthy_plus_non_tb": {
+                        "b0_metrics": {
+                            "false_negatives": 7,
+                            "false_positives": 680,
+                            "true_negatives": 920,
+                            "true_positives": 157
+                        }
+                    },
+                    "source_validation_metrics": {
+                        "false_negatives": 7,
+                        "false_positives": 12,
+                        "true_negatives": 69,
+                        "true_positives": 73
+                    }
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 7,
+                    "false_positives": 680,
+                    "true_negatives": 920,
+                    "true_positives": 157
+                }
+            }
+        }
+    },
+    "experiments > runs > primary_tbx11k_loso > chest_xray-110cbc18d513 > p0_8_p1_linear_selective > results.json": {
+        "heads": {
+            "logistic": {
+                "negative_controls": {
+                    "healthy_only": {
+                        "b0_metrics": {
+                            "false_negatives": 14,
+                            "false_positives": 115,
+                            "true_negatives": 685,
+                            "true_positives": 150
+                        }
+                    },
+                    "healthy_plus_non_tb": {
+                        "b0_metrics": {
+                            "false_negatives": 14,
+                            "false_positives": 571,
+                            "true_negatives": 1029,
+                            "true_positives": 150
+                        }
+                    }
+                },
+                "source_validation_metrics": {
+                    "false_negatives": 7,
+                    "false_positives": 5,
+                    "true_negatives": 76,
+                    "true_positives": 73
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 14,
+                    "false_positives": 571,
+                    "true_negatives": 1029,
+                    "true_positives": 150
+                }
+            },
+            "mlp": {
+                "negative_controls": {
+                    "healthy_only": {
+                        "b0_metrics": {
+                            "false_negatives": 7,
+                            "false_positives": 186,
+                            "true_negatives": 614,
+                            "true_positives": 157
+                        }
+                    },
+                    "healthy_plus_non_tb": {
+                        "b0_metrics": {
+                            "false_negatives": 7,
+                            "false_positives": 680,
+                            "true_negatives": 920,
+                            "true_positives": 157
+                        }
+                    },
+                    "source_validation_metrics": {
+                        "false_negatives": 7,
+                        "false_positives": 12,
+                        "true_negatives": 69,
+                        "true_positives": 73
+                    }
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 7,
+                    "false_positives": 680,
+                    "true_negatives": 920,
+                    "true_positives": 157
+                }
+            }
+        }
+    },
+    "experiments > runs > primary_tbx11k_loso > chest_xray-110cbc18d513 > p0_8_selective > results.json": {
+        "heads": {
+            "logistic": {
+                "negative_controls": {
+                    "healthy_only": {
+                        "b0_metrics": {
+                            "false_negatives": 14,
+                            "false_positives": 115,
+                            "true_negatives": 685,
+                            "true_positives": 150
+                        }
+                    },
+                    "healthy_plus_non_tb": {
+                        "b0_metrics": {
+                            "false_negatives": 14,
+                            "false_positives": 571,
+                            "true_negatives": 1029,
+                            "true_positives": 150
+                        }
+                    }
+                },
+                "source_validation_metrics": {
+                    "false_negatives": 7,
+                    "false_positives": 5,
+                    "true_negatives": 76,
+                    "true_positives": 73
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 14,
+                    "false_positives": 571,
+                    "true_negatives": 1029,
+                    "true_positives": 150
+                }
+            },
+            "mlp": {
+                "negative_controls": {
+                    "healthy_only": {
+                        "b0_metrics": {
+                            "false_negatives": 7,
+                            "false_positives": 186,
+                            "true_negatives": 614,
+                            "true_positives": 157
+                        }
+                    },
+                    "healthy_plus_non_tb": {
+                        "b0_metrics": {
+                            "false_negatives": 7,
+                            "false_positives": 680,
+                            "true_negatives": 920,
+                            "true_positives": 157
+                        }
+                    },
+                    "source_validation_metrics": {
+                        "false_negatives": 7,
+                        "false_positives": 12,
+                        "true_negatives": 69,
+                        "true_positives": 73
+                    }
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 7,
+                    "false_positives": 680,
+                    "true_negatives": 920,
+                    "true_positives": 157
+                }
+            }
+        }
+    },
+    "experiments > runs > primary_tbx11k_loso > chest_xray-110cbc18d513 > p1_2_lora > results.json": {
+        "source_validation_metrices": {
+            "false_negatives": 7,
+            "false_positives": 1,
+            "true_negatives": 80,
+            "true_positives": 73
+        },
+        "target_b0_metrics": {
+            "false_negatives": 7,
+            "false_positives": 180,
+            "true_negatives": 1420,
+            "true_positives": 157
+        }
+    },
+    "experiments > runs > primary_tbx11k_loso > chest_xray-110cbc18d513 > p1_2_lora_final > results.json": {
+        "source_validation_metrices": {
+            "false_negatives": 7,
+            "false_positives": 1,
+            "true_negatives": 80,
+            "true_positives": 73
+        },
+        "target_b0_metrics": {
+            "false_negatives": 7,
+            "false_positives": 180,
+            "true_negatives": 1420,
+            "true_positives": 157
+        }
+    },
+    "experiments > runs > primary_tbx11k_loso > general-767268603ca0 > results.json": {
+        "heads": {
+            "logistic": {
+                "negative_controls": {
+                    "healthy_only": {
+                        "b0_metrics": {
+                            "false_negatives": 26,
+                            "false_positives": 380,
+                            "true_negatives": 420,
+                            "true_positives": 138
+                        }
+                    },
+                    "healthy_plus_non_tb": {
+                        "b0_metrics": {
+                            "false_negatives": 26,
+                            "false_positives": 1068,
+                            "true_negatives": 532,
+                            "true_positives": 138
+                        }
+                    }
+                },
+                "source_validation_metrics": {
+                    "false_negatives": 7,
+                    "false_positives": 33,
+                    "true_negatives": 48,
+                    "true_positives": 73
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 26,
+                    "false_positives": 1068,
+                    "true_negatives": 532,
+                    "true_positives": 138
+                }
+            },
+            "mlp": {
+                "negative_controls": {
+                    "healthy_only": {
+                        "b0_metrics": {
+                            "false_negatives": 19,
+                            "false_positives": 432,
+                            "true_negatives": 368,
+                            "true_positives": 145
+                        }
+                    },
+                    "healthy_plus_non_tb": {
+                        "b0_metrics": {
+                            "false_negatives": 19,
+                            "false_positives": 1104,
+                            "true_negatives": 496,
+                            "true_positives": 145
+                        }
+                    },
+                    "source_validation_metrics": {
+                        "false_negatives": 7,
+                        "false_positives": 30,
+                        "true_negatives": 51,
+                        "true_positives": 73
+                    }
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 19,
+                    "false_positives": 1104,
+                    "true_negatives": 496,
+                    "true_positives": 145
+                }
+            }
+        }
+    },
+    "experiments > runs > random_image_control > chest_xray-110cbc18d513 > results.json": {
+        "heads": {
+            "logistic": {
+                "evaluation_b0_metrics": {
+                    "false_negatives": 39,
+                    "false_positives": 11,
+                    "true_negatives": 1590,
+                    "true_positives": 172
+                },
+                "source_validation_metrics": {
+                    "false_negatives": 12,
+                    "false_positives": 8,
+                    "true_negatives": 954,
+                    "true_positives": 114
+                }
+            },
+            "mlp": {
+                "evaluation_b0_metrics": {
+                    "false_negatives": 30,
+                    "false_positives": 13,
+                    "true_negatives": 1588,
+                    "true_positives": 181
+                },
+                "source_validation_metrices": {
+                    "false_negatives": 12,
+                    "false_positives": 6,
+                    "true_negatives": 956,
+                    "true_positives": 114
+                }
+            }
+        }
+    },
+    "experiments > runs > secondary_shenzen_loso > chest_xray-110cbc18d513 > results.json": {
+        "heads": {
+            "logistic": {
+                "source_validation_metrics": {
+                    "false_negatives": 17,
+                    "false_positives": 10,
+                    "true_negatives": 1606,
+                    "true_positives": 159
+                },
+                "target_b0_metrices": {
+                    "false_negatives": 35,
+                    "false_positives": 26,
+                    "true_negatives": 137,
+                    "true_positives": 133
+                }
+            },
+            "mlp": {
+                "source_validation_metrices": {
+                    "false_negatives": 17,
+                    "false_positives": 14,
+                    "true_negatives": 1602,
+                    "true_positives": 159
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 38,
+                    "false_positives": 17,
+                    "true_negatives": 146,
+                    "true_positives": 130
+                }
+            }
+        }
+    },
+    "experiments > runs > secondary_shenzen_loso > general-767268603ca0 > results.json": {
+        "heads": {
+            "logistic": {
+                "source_validation_metrics": {
+                    "false_negatives": 17,
+                    "false_positives": 117,
+                    "true_negatives": 1499,
+                    "true_positives": 159
+                },
+                "target_b0_metrices": {
+                    "false_negatives": 42,
+                    "false_positives": 109,
+                    "true_negatives": 54,
+                    "true_positives": 126
+                }
+            },
+            "mlp": {
+                "source_validation_metrices": {
+                    "false_negatives": 17,
+                    "false_positives": 65,
+                    "true_negatives": 1551,
+                    "true_positives": 159
+                },
+                "target_b0_metrics": {
+                    "false_negatives": 53,
+                    "false_positives": 89,
+                    "true_negatives": 74,
+                    "true_positives": 115
+                }
+            }
+        }
+    }
+}

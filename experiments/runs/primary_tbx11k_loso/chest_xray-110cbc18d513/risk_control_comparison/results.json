@@ -1,0 +1,1169 @@
+{
+  "encoder": {
+    "batch_size": 8,
+    "cache_metadata_sha256": "c26efaf356c748f1601bb5974d5ea564a739b2e39d736cb73b5c83cbc6e4abfa",
+    "cache_root": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\processed\\rad_dino_518",
+    "checkpoint_sha256": "dbfb9f54459c38773505de64a6ab7807bdcb392610fe1e697166342e43fb91ae",
+    "checkpoint_source": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\checkpoints\\rad-dino-110cbc18",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "embedding_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\embeddings\\chest_xray-110cbc18d513\\embeddings.npy",
+    "embedding_sha256": "59106d7c98777663fea84e94619a6a637e4cf99c69dbc853ab9a8b5231c0b62e",
+    "encoder_key": "chest_xray",
+    "feature_dimension": 768,
+    "feature_pooling": "cls_token",
+    "image_count": 9060,
+    "inference_precision": "float16_autocast",
+    "input_normalization": {
+      "crop_size": {
+        "height": 518,
+        "width": 518
+      },
+      "do_center_crop": true,
+      "do_convert_rgb": true,
+      "do_normalize": true,
+      "do_rescale": true,
+      "do_resize": true,
+      "mean": [
+        0.5307,
+        0.5307,
+        0.5307
+      ],
+      "resample": "3",
+      "rescale_factor": 0.00392156862745098,
+      "size": {
+        "shortest_edge": 518
+      },
+      "std": [
+        0.2583,
+        0.2583,
+        0.2583
+      ],
+      "use_fast": false
+    },
+    "input_resolution": 518,
+    "license_name": "MIT",
+    "manifest_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\embeddings\\chest_xray-110cbc18d513\\manifest.csv",
+    "model_name": "microsoft/rad-dino",
+    "pretraining_sites": [
+      "MIMIC-CXR",
+      "CheXpert",
+      "NIH-CXR",
+      "PadChest",
+      "BRAX"
+    ],
+    "revision": "110cbc18d5133582e320b43d53bf5c44e410c936",
+    "software_versions": {
+      "cuda_runtime": "13.0",
+      "encoder_library": "4.57.6",
+      "python": "3.12.13",
+      "torch": "2.14.1+cu130"
+    },
+    "source_manifest_sha256": "b755b078ccdd61a3df8da664afb4ad1b249caa607d4c32e99ecdbfe522c0c850"
+  },
+  "heads": {
+    "logistic": {
+      "negative_controls": {
+        "healthy_only": {
+          "b0_metrics": {
+            "false_negatives": 14,
+            "false_positives": 115,
+            "sensitivity": 0.9146341463414634,
+            "specificity": 0.85625,
+            "threshold": -0.2226403461527784,
+            "true_negatives": 685,
+            "true_positives": 150
+          },
+          "evaluation_count": 964,
+          "evaluation_negative_count": 800,
+          "evaluation_positive_count": 164,
+          "tier_a_exploratory": {
+            "failure_probability": 0.05,
+            "resampling": "independent simple random samples without replacement",
+            "seed": 42,
+            "summaries": [
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9596524390243902,
+                "mean_evaluation_specificity": 0.63016625,
+                "probability_specificity_at_least_target": 0.4,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 29,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.054,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.0408233511256307,
+                  "successes": 54,
+                  "trials": 1000,
+                  "upper": 0.06987400557706731
+                },
+                "violations": 54
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9519268292682928,
+                "mean_evaluation_specificity": 0.70517125,
+                "probability_specificity_at_least_target": 0.566,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 46,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.033,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.02282238334945957,
+                  "successes": 33,
+                  "trials": 1000,
+                  "upper": 0.046033981817023194
+                },
+                "violations": 33
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9459024390243901,
+                "mean_evaluation_specificity": 0.7413487500000001,
+                "probability_specificity_at_least_target": 0.697,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 61,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.035,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.02449752789475872,
+                  "successes": 35,
+                  "trials": 1000,
+                  "upper": 0.04834238161422171
+                },
+                "violations": 35
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9450487804878048,
+                "mean_evaluation_specificity": 0.75683375,
+                "probability_specificity_at_least_target": 0.78,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 100,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.015,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.00841904975003438,
+                  "successes": 15,
+                  "trials": 1000,
+                  "upper": 0.024619700097041154
+                },
+                "violations": 15
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.932048780487805,
+                "mean_evaluation_specificity": 0.8149437500000002,
+                "probability_specificity_at_least_target": 1.0,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 200,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.009,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.004123395660342474,
+                  "successes": 9,
+                  "trials": 1000,
+                  "upper": 0.017015783069894586
+                },
+                "violations": 9
+              }
+            ],
+            "target_fnr": 0.1
+          }
+        },
+        "healthy_plus_non_tb": {
+          "b0_metrics": {
+            "false_negatives": 14,
+            "false_positives": 571,
+            "sensitivity": 0.9146341463414634,
+            "specificity": 0.643125,
+            "threshold": -0.2226403461527784,
+            "true_negatives": 1029,
+            "true_positives": 150
+          },
+          "evaluation_count": 1764,
+          "evaluation_negative_count": 1600,
+          "evaluation_positive_count": 164,
+          "tier_a_exploratory": {
+            "failure_probability": 0.05,
+            "resampling": "independent simple random samples without replacement",
+            "seed": 42,
+            "summaries": [
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9596524390243902,
+                "mean_evaluation_specificity": 0.41779062499999997,
+                "probability_specificity_at_least_target": 0.061,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 29,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.054,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.0408233511256307,
+                  "successes": 54,
+                  "trials": 1000,
+                  "upper": 0.06987400557706731
+                },
+                "violations": 54
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9519268292682928,
+                "mean_evaluation_specificity": 0.477631875,
+                "probability_specificity_at_least_target": 0.04,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 46,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.033,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.02282238334945957,
+                  "successes": 33,
+                  "trials": 1000,
+                  "upper": 0.046033981817023194
+                },
+                "violations": 33
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9459024390243901,
+                "mean_evaluation_specificity": 0.5128531250000001,
+                "probability_specificity_at_least_target": 0.051,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 61,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.035,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.02449752789475872,
+                  "successes": 35,
+                  "trials": 1000,
+                  "upper": 0.04834238161422171
+                },
+                "violations": 35
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9450487804878048,
+                "mean_evaluation_specificity": 0.524289375,
+                "probability_specificity_at_least_target": 0.027,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 100,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.015,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.00841904975003438,
+                  "successes": 15,
+                  "trials": 1000,
+                  "upper": 0.024619700097041154
+                },
+                "violations": 15
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.932048780487805,
+                "mean_evaluation_specificity": 0.5879618750000001,
+                "probability_specificity_at_least_target": 0.023,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 200,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.009,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.004123395660342474,
+                  "successes": 9,
+                  "trials": 1000,
+                  "upper": 0.017015783069894586
+                },
+                "violations": 9
+              }
+            ],
+            "target_fnr": 0.1
+          }
+        }
+      },
+      "risk_control_comparison": {
+        "ltt_threshold_grid": "25 source-validation score quantiles from 0.01 to 0.99",
+        "ltt_thresholds": [
+          -15.010291952488073,
+          -11.495181389026467,
+          -10.552444303462902,
+          -9.233405164243008,
+          -8.2081503243135,
+          -7.556175751310093,
+          -6.5478531932081285,
+          -5.917479851260421,
+          -5.322532376426951,
+          -3.8696052235626213,
+          -3.0924234961683843,
+          -2.2471309909635364,
+          -0.8604381920908004,
+          1.1663372213451908,
+          2.6325643475897995,
+          3.9597945688108336,
+          5.391327199520854,
+          7.7873517116777835,
+          8.827943297065861,
+          9.53895525299128,
+          10.763897738586875,
+          12.56144114725538,
+          14.29481333349282,
+          15.899149657021553,
+          18.95519621355531
+        ],
+        "methods": {
+          "crc": {
+            "corrected_empirical_risk": 0.09859154929577464,
+            "evaluation_metrics": {
+              "false_negatives": 15,
+              "false_positives": 477,
+              "sensitivity": 0.9085365853658537,
+              "specificity": 0.701875,
+              "threshold": 0.7419274264369125,
+              "true_negatives": 1123,
+              "true_positives": 149
+            },
+            "n_calibration": 496,
+            "reason": null,
+            "status": "accepted",
+            "target_fnr": 0.1,
+            "threshold": 0.7419274264369125
+          },
+          "iw_ltt_unit_weights": {
+            "evaluation_metrics": {
+              "false_negatives": 9,
+              "false_positives": 772,
+              "sensitivity": 0.9451219512195121,
+              "specificity": 0.5175,
+              "threshold": -2.2471309909635364,
+              "true_negatives": 828,
+              "true_positives": 155
+            },
+            "failure_probability": 0.05,
+            "p_value": 5.766063500082678e-06,
+            "permutations": 100,
+            "reason": null,
+            "status": "accepted",
+            "target_fnr": 0.1,
+            "tested_thresholds": 13,
+            "threshold": -2.2471309909635364,
+            "weight_upper_bound": 1.0
+          },
+          "w_crc_unit_weights": {
+            "calibration_weight_sum": 496.0,
+            "corrected_empirical_risk": 0.09859154929577464,
+            "evaluation_metrics": {
+              "false_negatives": 15,
+              "false_positives": 477,
+              "sensitivity": 0.9085365853658537,
+              "specificity": 0.701875,
+              "threshold": 0.7419274264369125,
+              "true_negatives": 1123,
+              "true_positives": 149
+            },
+            "reason": null,
+            "status": "accepted",
+            "target_fnr": 0.1,
+            "test_weight": 1.0,
+            "threshold": 0.7419274264369125
+          }
+        },
+        "shift_adjusted": false,
+        "weight_assumption": "unit density ratios; exchangeable positive examples"
+      },
+      "selective_verification_exploratory": null,
+      "source_threshold_target_sensitivity": 0.9,
+      "source_validation_metrics": {
+        "false_negatives": 7,
+        "false_positives": 5,
+        "sensitivity": 0.9125,
+        "specificity": 0.9382716049382716,
+        "threshold": -0.2226403461527784,
+        "true_negatives": 76,
+        "true_positives": 73
+      },
+      "source_validation_threshold": -0.2226403461527784,
+      "target_b0_metrics": {
+        "false_negatives": 14,
+        "false_positives": 571,
+        "sensitivity": 0.9146341463414634,
+        "specificity": 0.643125,
+        "threshold": -0.2226403461527784,
+        "true_negatives": 1029,
+        "true_positives": 150
+      },
+      "tier_a_exploratory": {
+        "failure_probability": 0.05,
+        "resampling": "independent simple random samples without replacement",
+        "seed": 42,
+        "summaries": [
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.9596524390243902,
+            "mean_evaluation_specificity": 0.41779062499999997,
+            "probability_specificity_at_least_target": 0.061,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 29,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.054,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.0408233511256307,
+              "successes": 54,
+              "trials": 1000,
+              "upper": 0.06987400557706731
+            },
+            "violations": 54
+          },
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.9519268292682928,
+            "mean_evaluation_specificity": 0.477631875,
+            "probability_specificity_at_least_target": 0.04,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 46,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.033,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.02282238334945957,
+              "successes": 33,
+              "trials": 1000,
+              "upper": 0.046033981817023194
+            },
+            "violations": 33
+          },
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.9459024390243901,
+            "mean_evaluation_specificity": 0.5128531250000001,
+            "probability_specificity_at_least_target": 0.051,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 61,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.035,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.02449752789475872,
+              "successes": 35,
+              "trials": 1000,
+              "upper": 0.04834238161422171
+            },
+            "violations": 35
+          },
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.9450487804878048,
+            "mean_evaluation_specificity": 0.524289375,
+            "probability_specificity_at_least_target": 0.027,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 100,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.015,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.00841904975003438,
+              "successes": 15,
+              "trials": 1000,
+              "upper": 0.024619700097041154
+            },
+            "violations": 15
+          },
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.932048780487805,
+            "mean_evaluation_specificity": 0.5879618750000001,
+            "probability_specificity_at_least_target": 0.023,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 200,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.009,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.004123395660342474,
+              "successes": 9,
+              "trials": 1000,
+              "upper": 0.017015783069894586
+            },
+            "violations": 9
+          }
+        ],
+        "target_fnr": 0.1
+      }
+    },
+    "mlp": {
+      "negative_controls": {
+        "healthy_only": {
+          "b0_metrics": {
+            "false_negatives": 7,
+            "false_positives": 186,
+            "sensitivity": 0.9573170731707317,
+            "specificity": 0.7675,
+            "threshold": 0.17526088654994965,
+            "true_negatives": 614,
+            "true_positives": 157
+          },
+          "evaluation_count": 964,
+          "evaluation_negative_count": 800,
+          "evaluation_positive_count": 164,
+          "tier_a_exploratory": {
+            "failure_probability": 0.05,
+            "resampling": "independent simple random samples without replacement",
+            "seed": 42,
+            "summaries": [
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9700426829268295,
+                "mean_evaluation_specificity": 0.5394612500000001,
+                "probability_specificity_at_least_target": 0.345,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 29,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.046,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.033871498547677924,
+                  "successes": 46,
+                  "trials": 1000,
+                  "upper": 0.060883552713742635
+                },
+                "violations": 46
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9652317073170732,
+                "mean_evaluation_specificity": 0.65693875,
+                "probability_specificity_at_least_target": 0.501,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 46,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.024,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.015436383233508481,
+                  "successes": 24,
+                  "trials": 1000,
+                  "upper": 0.03550063853135918
+                },
+                "violations": 24
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.960170731707317,
+                "mean_evaluation_specificity": 0.71320875,
+                "probability_specificity_at_least_target": 0.603,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 61,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.031,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.021158171970208632,
+                  "successes": 31,
+                  "trials": 1000,
+                  "upper": 0.043715085006238906
+                },
+                "violations": 31
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9605975609756098,
+                "mean_evaluation_specificity": 0.7424375,
+                "probability_specificity_at_least_target": 0.734,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 100,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.006,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.0022049824851513777,
+                  "successes": 6,
+                  "trials": 1000,
+                  "upper": 0.013013423270974496
+                },
+                "violations": 6
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 800,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.94475,
+                "mean_evaluation_specificity": 0.8337849999999999,
+                "probability_specificity_at_least_target": 0.997,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 200,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.003,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.0006190999316495715,
+                  "successes": 3,
+                  "trials": 1000,
+                  "upper": 0.008742023238478303
+                },
+                "violations": 3
+              }
+            ],
+            "target_fnr": 0.1
+          }
+        },
+        "healthy_plus_non_tb": {
+          "b0_metrics": {
+            "false_negatives": 7,
+            "false_positives": 680,
+            "sensitivity": 0.9573170731707317,
+            "specificity": 0.575,
+            "threshold": 0.17526088654994965,
+            "true_negatives": 920,
+            "true_positives": 157
+          },
+          "evaluation_count": 1764,
+          "evaluation_negative_count": 1600,
+          "evaluation_positive_count": 164,
+          "tier_a_exploratory": {
+            "failure_probability": 0.05,
+            "resampling": "independent simple random samples without replacement",
+            "seed": 42,
+            "summaries": [
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9700426829268295,
+                "mean_evaluation_specificity": 0.39321000000000006,
+                "probability_specificity_at_least_target": 0.117,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 29,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.046,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.033871498547677924,
+                  "successes": 46,
+                  "trials": 1000,
+                  "upper": 0.060883552713742635
+                },
+                "violations": 46
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9652317073170732,
+                "mean_evaluation_specificity": 0.48690125,
+                "probability_specificity_at_least_target": 0.157,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 46,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.024,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.015436383233508481,
+                  "successes": 24,
+                  "trials": 1000,
+                  "upper": 0.03550063853135918
+                },
+                "violations": 24
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.960170731707317,
+                "mean_evaluation_specificity": 0.53730125,
+                "probability_specificity_at_least_target": 0.194,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 61,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.031,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.021158171970208632,
+                  "successes": 31,
+                  "trials": 1000,
+                  "upper": 0.043715085006238906
+                },
+                "violations": 31
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.9605975609756098,
+                "mean_evaluation_specificity": 0.5580731250000001,
+                "probability_specificity_at_least_target": 0.149,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 100,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.006,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.0022049824851513777,
+                  "successes": 6,
+                  "trials": 1000,
+                  "upper": 0.013013423270974496
+                },
+                "violations": 6
+              },
+              {
+                "available_calibration_positive_count": 496,
+                "certified_repetitions": 1000,
+                "evaluation_negative_count": 1600,
+                "evaluation_positive_count": 164,
+                "mean_evaluation_sensitivity": 0.94475,
+                "mean_evaluation_specificity": 0.6571131250000001,
+                "probability_specificity_at_least_target": 0.332,
+                "refusal_rate": 0.0,
+                "refusal_reason": null,
+                "refused_repetitions": 0,
+                "repetitions": 1000,
+                "requested_positive_count": 200,
+                "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+                "target_specificity": 0.7,
+                "violation_rate": 0.003,
+                "violation_rate_interval": {
+                  "confidence": 0.95,
+                  "lower": 0.0006190999316495715,
+                  "successes": 3,
+                  "trials": 1000,
+                  "upper": 0.008742023238478303
+                },
+                "violations": 3
+              }
+            ],
+            "target_fnr": 0.1
+          }
+        }
+      },
+      "risk_control_comparison": {
+        "ltt_threshold_grid": "25 source-validation score quantiles from 0.01 to 0.99",
+        "ltt_thresholds": [
+          0.00023024044930934908,
+          0.002253771278386314,
+          0.0047582027812798815,
+          0.007829896174371243,
+          0.011324922926723957,
+          0.015227655259271462,
+          0.021199935302138324,
+          0.027139481777946155,
+          0.03327307825287183,
+          0.04621035456657409,
+          0.08032038211822509,
+          0.12241756518681847,
+          0.3093143105506897,
+          0.6157471219698587,
+          0.7487216194470723,
+          0.901626706123352,
+          0.947216824690501,
+          0.9770283301671346,
+          0.9882735848426819,
+          0.9968793829282124,
+          0.9995213031768799,
+          0.999689245223999,
+          0.9998658895492554,
+          0.9999557574590047,
+          0.9999947309494018
+        ],
+        "methods": {
+          "crc": {
+            "corrected_empirical_risk": 0.09859154929577464,
+            "evaluation_metrics": {
+              "false_negatives": 14,
+              "false_positives": 296,
+              "sensitivity": 0.9146341463414634,
+              "specificity": 0.815,
+              "threshold": 0.5761027336120605,
+              "true_negatives": 1304,
+              "true_positives": 150
+            },
+            "n_calibration": 496,
+            "reason": null,
+            "status": "accepted",
+            "target_fnr": 0.1,
+            "threshold": 0.5761027336120605
+          },
+          "iw_ltt_unit_weights": {
+            "evaluation_metrics": {
+              "false_negatives": 11,
+              "false_positives": 512,
+              "sensitivity": 0.9329268292682927,
+              "specificity": 0.68,
+              "threshold": 0.3093143105506897,
+              "true_negatives": 1088,
+              "true_positives": 153
+            },
+            "failure_probability": 0.05,
+            "p_value": 0.009175016904472392,
+            "permutations": 100,
+            "reason": null,
+            "status": "accepted",
+            "target_fnr": 0.1,
+            "tested_thresholds": 14,
+            "threshold": 0.3093143105506897,
+            "weight_upper_bound": 1.0
+          },
+          "w_crc_unit_weights": {
+            "calibration_weight_sum": 496.0,
+            "corrected_empirical_risk": 0.09859154929577464,
+            "evaluation_metrics": {
+              "false_negatives": 14,
+              "false_positives": 296,
+              "sensitivity": 0.9146341463414634,
+              "specificity": 0.815,
+              "threshold": 0.5761027336120605,
+              "true_negatives": 1304,
+              "true_positives": 150
+            },
+            "reason": null,
+            "status": "accepted",
+            "target_fnr": 0.1,
+            "test_weight": 1.0,
+            "threshold": 0.5761027336120605
+          }
+        },
+        "shift_adjusted": false,
+        "weight_assumption": "unit density ratios; exchangeable positive examples"
+      },
+      "selective_verification_exploratory": null,
+      "source_threshold_target_sensitivity": 0.9,
+      "source_validation_metrics": {
+        "false_negatives": 7,
+        "false_positives": 12,
+        "sensitivity": 0.9125,
+        "specificity": 0.8518518518518519,
+        "threshold": 0.17526088654994965,
+        "true_negatives": 69,
+        "true_positives": 73
+      },
+      "source_validation_threshold": 0.17526088654994965,
+      "target_b0_metrics": {
+        "false_negatives": 7,
+        "false_positives": 680,
+        "sensitivity": 0.9573170731707317,
+        "specificity": 0.575,
+        "threshold": 0.17526088654994965,
+        "true_negatives": 920,
+        "true_positives": 157
+      },
+      "tier_a_exploratory": {
+        "failure_probability": 0.05,
+        "resampling": "independent simple random samples without replacement",
+        "seed": 42,
+        "summaries": [
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.9700426829268295,
+            "mean_evaluation_specificity": 0.39321000000000006,
+            "probability_specificity_at_least_target": 0.117,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 29,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.046,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.033871498547677924,
+              "successes": 46,
+              "trials": 1000,
+              "upper": 0.060883552713742635
+            },
+            "violations": 46
+          },
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.9652317073170732,
+            "mean_evaluation_specificity": 0.48690125,
+            "probability_specificity_at_least_target": 0.157,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 46,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.024,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.015436383233508481,
+              "successes": 24,
+              "trials": 1000,
+              "upper": 0.03550063853135918
+            },
+            "violations": 24
+          },
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.960170731707317,
+            "mean_evaluation_specificity": 0.53730125,
+            "probability_specificity_at_least_target": 0.194,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 61,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.031,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.021158171970208632,
+              "successes": 31,
+              "trials": 1000,
+              "upper": 0.043715085006238906
+            },
+            "violations": 31
+          },
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.9605975609756098,
+            "mean_evaluation_specificity": 0.5580731250000001,
+            "probability_specificity_at_least_target": 0.149,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 100,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.006,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.0022049824851513777,
+              "successes": 6,
+              "trials": 1000,
+              "upper": 0.013013423270974496
+            },
+            "violations": 6
+          },
+          {
+            "available_calibration_positive_count": 496,
+            "certified_repetitions": 1000,
+            "evaluation_negative_count": 1600,
+            "evaluation_positive_count": 164,
+            "mean_evaluation_sensitivity": 0.94475,
+            "mean_evaluation_specificity": 0.6571131250000001,
+            "probability_specificity_at_least_target": 0.332,
+            "refusal_rate": 0.0,
+            "refusal_reason": null,
+            "refused_repetitions": 0,
+            "repetitions": 1000,
+            "requested_positive_count": 200,
+            "split_unit": "official TBX11K patient-level train/validation split (one image per patient); one image per patient (confirmed)",
+            "target_specificity": 0.7,
+            "violation_rate": 0.003,
+            "violation_rate_interval": {
+              "confidence": 0.95,
+              "lower": 0.0006190999316495715,
+              "successes": 3,
+              "trials": 1000,
+              "upper": 0.008742023238478303
+            },
+            "violations": 3
+          }
+        ],
+        "target_fnr": 0.1
+      }
+    }
+  },
+  "interpretation_limit": "Tier A outputs are exploratory patient-level estimates; representativeness, i.i.d. sampling, label accuracy, and stationarity remain assumptions.",
+  "pac_claim": false,
+  "patient_level_claim": true,
+  "repetitions": 1000,
+  "seed": 42,
+  "source_sites": [
+    "Montgomery",
+    "Shenzhen"
+  ],
+  "source_train_count": 639,
+  "source_validation_count": 161,
+  "split_manifest": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\splits\\primary_tbx11k_loso_image_split_seed42.csv",
+  "split_unit": "patient-level; one image represents one patient",
+  "study": "primary_tbx11k_loso exploratory patient-level evaluation (one image per patient)",
+  "target_calibration_pool_count": 496,
+  "target_calibration_positive_count": 496,
+  "target_calibration_split_count": 6496,
+  "target_evaluation_count": 1764,
+  "target_evaluation_negative_count": 1600,
+  "target_evaluation_positive_count": 164,
+  "target_site": "TBX11K"
+}

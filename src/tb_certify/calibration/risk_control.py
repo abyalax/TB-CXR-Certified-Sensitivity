@@ -102,6 +102,18 @@ def _threshold_grid(scores: np.ndarray) -> np.ndarray:
     return np.unique(scores)
 
 
+def _fixed_threshold_grid(values: Iterable[float]) -> np.ndarray:
+    """Validate a candidate sequence fixed independently of LTT calibration data."""
+    thresholds = np.asarray(tuple(values), dtype=float)
+    if thresholds.ndim != 1 or thresholds.size == 0:
+        raise ValueError("thresholds must be a non-empty one-dimensional sequence.")
+    if not np.all(np.isfinite(thresholds)):
+        raise ValueError("thresholds must contain only finite values.")
+    if np.any(np.diff(thresholds) <= 0):
+        raise ValueError("thresholds must be strictly increasing and unique.")
+    return thresholds
+
+
 class MarginalCRCCalibrator:
     """CRC for expected target FNR under positive-class exchangeability.
 
@@ -239,9 +251,11 @@ class ImportanceWeightedLTTCalibrator:
         calibration_scores: Iterable[float],
         calibration_weights: Iterable[float],
         weight_upper_bound: float,
+        thresholds: Iterable[float],
     ) -> WeightedLTTCertificate:
         scores = _scores(calibration_scores, "calibration_scores")
         weights = _weights(calibration_weights, scores.size)
+        candidate_thresholds = _fixed_threshold_grid(thresholds)
         if not np.isfinite(weight_upper_bound) or weight_upper_bound < 1:
             raise ValueError("weight_upper_bound must be finite and at least one.")
         if np.any(weights > weight_upper_bound):
@@ -254,7 +268,7 @@ class ImportanceWeightedLTTCalibrator:
         selected_threshold: float | None = None
         selected_p_value: float | None = None
         tested = 0
-        for threshold in _threshold_grid(scores):
+        for threshold in candidate_thresholds:
             losses = weights * (scores < threshold) / weight_upper_bound
             p_value = self._wsr_p_value(
                 losses,

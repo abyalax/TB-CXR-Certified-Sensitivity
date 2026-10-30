@@ -198,12 +198,13 @@ For each evaluation threshold, `src/tb_certify/evaluation/metrics.py` menghitung
 
 ### 6.7 Skrip orkestrasi (`scripts/`)
 
-| Script                              | Fungsi                                                                                                                                 |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `scripts/run_primary_real_study.py` | Menjalankan studi leave-site-out: melatih head dari source site, mengthreshold calibration, mengevaluasi sertifikasi pada target site. |  | `scripts/run_random_split_control.py` | Menjalankan kontrol dengan split gambar acak yang mencampur site, untuk membandingkan hasil saat distribution shift tidak dijaga. |
-| `scripts/run_lora_ablation.py`      | Fine-tune RAD-DINO dengan LoRA pada data sumber, mengaudit performa head hasilnya pada TBX11K.                                         |
-| `scripts/analyze_lesion_size.py`    | Menganalisis sensitivitas threshold menurut strata ukuran lesi pada subset positive images beranotasi ROI.                             |
-| `scripts/probe_dataset_origin.py`   | Menguji seberapa akurat site origin dapat diprediksi dari embedding frozen via cross-validation.                                       |
+| Script                                | Fungsi                                                                                                                                 |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `scripts/run_primary_real_study.py`   | Menjalankan studi leave-site-out: melatih head dari source site, mengthreshold calibration, mengevaluasi sertifikasi pada target site. |
+| `scripts/run_random_split_control.py` | Menjalankan kontrol dengan split gambar acak yang mencampur site, untuk membandingkan hasil saat distribution shift tidak dijaga.      |
+| `scripts/run_lora_ablation.py`        | Fine-tune RAD-DINO dengan LoRA pada data sumber, mengaudit performa head hasilnya pada TBX11K.                                         |
+| `scripts/analyze_lesion_size.py`      | Menganalisis sensitivitas threshold menurut strata ukuran lesi pada subset positive images beranotasi ROI.                             |
+| `scripts/probe_dataset_origin.py`     | Menguji seberapa akurat site origin dapat diprediksi dari embedding frozen via cross-validation.                                       |
 
 ---
 

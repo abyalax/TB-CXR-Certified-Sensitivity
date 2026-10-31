@@ -1,0 +1,3247 @@
+{
+  "calibration_sampling": "Stratified empirical bootstrap with replacement from TBX11K official training-split positive and negative score pools; prevalence is set by the grid.",
+  "candidate_thresholds": [
+    -15.010291952488073,
+    -11.495181389026467,
+    -10.552444303462902,
+    -9.233405164243008,
+    -8.2081503243135,
+    -7.556175751310093,
+    -6.5478531932081285,
+    -5.917479851260421,
+    -5.322532376426951,
+    -3.8696052235626213,
+    -3.0924234961683843,
+    -2.2471309909635364,
+    -0.8604381920908004,
+    1.1663372213451908,
+    2.6325643475897995,
+    3.9597945688108336,
+    5.391327199520854,
+    7.7873517116777835,
+    8.827943297065861,
+    9.53895525299128,
+    10.763897738586875,
+    12.56144114725538,
+    14.29481333349282,
+    15.899149657021553,
+    18.95519621355531
+  ],
+  "encoder": "chest_xray-110cbc18d513",
+  "evaluation_count_per_repetition": 2000,
+  "evaluation_sampling": "Independent stratified empirical bootstrap from the same class-conditional score pools; this is a simulation, not an external validation cohort.",
+  "exact_pixel_duplicate_alias_count_excluded": 126,
+  "head": "logistic",
+  "interpretation_limit": "This budget sweep characterizes a specified empirical bootstrap model. It does not establish performance, label quality, patient independence, or a PAC guarantee for a future clinical population.",
+  "low_score_verification_probabilities": [
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "methods": [
+    "naive_tier_a",
+    "four_bound_vb",
+    "linear_ipw"
+  ],
+  "output_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\experiments\\runs\\primary_tbx11k_loso\\chest_xray-110cbc18d513\\p0_8_budget_sweep\\results.json",
+  "pac_claim": false,
+  "patient_level_claim": false,
+  "prevalences": [
+    0.05,
+    0.1,
+    0.2,
+    0.4
+  ],
+  "reference_threshold": -0.2226403461527784,
+  "repetitions_per_cell": 100,
+  "results": {
+    "1000": {
+      "0.05": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.44774,
+            "mean_verified_count": 447.74,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.44774,
+            "mean_verified_count": 447.74,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8876999999999999,
+            "mean_evaluation_specificity": 0.7245473684210526,
+            "mean_verification_rate": 0.44774,
+            "mean_verified_count": 447.74,
+            "refused": 0,
+            "violation_rate": 0.57,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.4671337383248463,
+              "successes": 57,
+              "trials": 100,
+              "upper": 0.6686089833686168
+            },
+            "violations": 57
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.54042,
+            "mean_verified_count": 540.42,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.54042,
+            "mean_verified_count": 540.42,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9003999999999999,
+            "mean_evaluation_specificity": 0.6716894736842106,
+            "mean_verification_rate": 0.54042,
+            "mean_verified_count": 540.42,
+            "refused": 0,
+            "violation_rate": 0.47,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.36940516419439456,
+              "successes": 47,
+              "trials": 100,
+              "upper": 0.5724185151099548
+            },
+            "violations": 47
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.69108,
+            "mean_verified_count": 691.08,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.69108,
+            "mean_verified_count": 691.08,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9262,
+            "mean_evaluation_specificity": 0.5890421052631579,
+            "mean_verification_rate": 0.69108,
+            "mean_verified_count": 691.08,
+            "refused": 0,
+            "violation_rate": 0.29,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.20357418925073192,
+              "successes": 29,
+              "trials": 100,
+              "upper": 0.3892659589074483
+            },
+            "violations": 29
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9564999999999999,
+            "mean_evaluation_specificity": 0.47392105263157897,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 0,
+            "violation_rate": 0.07,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.028605288907438704,
+              "successes": 7,
+              "trials": 100,
+              "upper": 0.13891972845585732
+            },
+            "violations": 7
+          }
+        }
+      },
+      "0.1": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.47094,
+            "mean_verified_count": 470.94,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.47094,
+            "mean_verified_count": 470.94,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8783,
+            "mean_evaluation_specificity": 0.7524722222222223,
+            "mean_verification_rate": 0.47094,
+            "mean_verified_count": 470.94,
+            "refused": 0,
+            "violation_rate": 0.81,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.7193020420263876,
+              "successes": 81,
+              "trials": 100,
+              "upper": 0.8815568038674564
+            },
+            "violations": 81
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.56117,
+            "mean_verified_count": 561.17,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.56117,
+            "mean_verified_count": 561.17,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8903,
+            "mean_evaluation_specificity": 0.7277666666666667,
+            "mean_verification_rate": 0.56117,
+            "mean_verified_count": 561.17,
+            "refused": 0,
+            "violation_rate": 0.59,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.4871442037667708,
+              "successes": 59,
+              "trials": 100,
+              "upper": 0.6873800234324292
+            },
+            "violations": 59
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.70692,
+            "mean_verified_count": 706.92,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.70692,
+            "mean_verified_count": 706.92,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9098,
+            "mean_evaluation_specificity": 0.6659444444444444,
+            "mean_verification_rate": 0.70692,
+            "mean_verified_count": 706.92,
+            "refused": 0,
+            "violation_rate": 0.43,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.3313910166313832,
+              "successes": 43,
+              "trials": 100,
+              "upper": 0.5328662616751537
+            },
+            "violations": 43
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9834500000000002,
+            "mean_evaluation_specificity": 0.31743333333333335,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9474499999999999,
+            "mean_evaluation_specificity": 0.5255888888888889,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 0,
+            "violation_rate": 0.08,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.03517156251816281,
+              "successes": 8,
+              "trials": 100,
+              "upper": 0.15155763586442095
+            },
+            "violations": 8
+          }
+        }
+      },
+      "0.2": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.52367,
+            "mean_verified_count": 523.67,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.52367,
+            "mean_verified_count": 523.67,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8690250000000002,
+            "mean_evaluation_specificity": 0.7728125,
+            "mean_verification_rate": 0.52367,
+            "mean_verified_count": 523.67,
+            "refused": 0,
+            "violation_rate": 0.94,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.8739700654191771,
+              "successes": 94,
+              "trials": 100,
+              "upper": 0.9776651139286836
+            },
+            "violations": 94
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.60457,
+            "mean_verified_count": 604.57,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.60457,
+            "mean_verified_count": 604.57,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.881425,
+            "mean_evaluation_specificity": 0.7550812499999999,
+            "mean_verification_rate": 0.60457,
+            "mean_verified_count": 604.57,
+            "refused": 0,
+            "violation_rate": 0.73,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.6319837270910251,
+              "successes": 73,
+              "trials": 100,
+              "upper": 0.8139335777092593
+            },
+            "violations": 73
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.981,
+            "mean_evaluation_specificity": 0.3419125000000001,
+            "mean_verification_rate": 0.7343,
+            "mean_verified_count": 734.3,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.7343,
+            "mean_verified_count": 734.3,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.901425,
+            "mean_evaluation_specificity": 0.7139187499999998,
+            "mean_verification_rate": 0.7343,
+            "mean_verified_count": 734.3,
+            "refused": 0,
+            "violation_rate": 0.44,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.3408360237234582,
+              "successes": 44,
+              "trials": 100,
+              "upper": 0.5428125029366824
+            },
+            "violations": 44
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9694750000000001,
+            "mean_evaluation_specificity": 0.42351875000000005,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9408,
+            "mean_evaluation_specificity": 0.57685,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 0,
+            "violation_rate": 0.02,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0024313368239425436,
+              "successes": 2,
+              "trials": 100,
+              "upper": 0.07038393247107011
+            },
+            "violations": 2
+          }
+        }
+      },
+      "0.4": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.62342,
+            "mean_verified_count": 623.42,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.62342,
+            "mean_verified_count": 623.42,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8574375000000001,
+            "mean_evaluation_specificity": 0.7867583333333336,
+            "mean_verification_rate": 0.62342,
+            "mean_verified_count": 623.42,
+            "refused": 0,
+            "violation_rate": 0.98,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9296160675289299,
+              "successes": 98,
+              "trials": 100,
+              "upper": 0.9975686631760574
+            },
+            "violations": 98
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9755499999999999,
+            "mean_evaluation_specificity": 0.37174166666666664,
+            "mean_verification_rate": 0.68469,
+            "mean_verified_count": 684.69,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.68469,
+            "mean_verified_count": 684.69,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8685124999999999,
+            "mean_evaluation_specificity": 0.77065,
+            "mean_verification_rate": 0.68469,
+            "mean_verified_count": 684.69,
+            "refused": 0,
+            "violation_rate": 0.96,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9007428432873401,
+              "successes": 96,
+              "trials": 100,
+              "upper": 0.9889955060138118
+            },
+            "violations": 96
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9647500000000001,
+            "mean_evaluation_specificity": 0.45075000000000004,
+            "mean_verification_rate": 0.7902100000000001,
+            "mean_verified_count": 790.21,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.7902100000000001,
+            "mean_verified_count": 790.21,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8863,
+            "mean_evaluation_specificity": 0.7439333333333333,
+            "mean_verification_rate": 0.7902100000000001,
+            "mean_verified_count": 790.21,
+            "refused": 0,
+            "violation_rate": 0.76,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.6642645107290014,
+              "successes": 76,
+              "trials": 100,
+              "upper": 0.8397753868285528
+            },
+            "violations": 76
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9573375,
+            "mean_evaluation_specificity": 0.5011333333333333,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9964625000000001,
+            "mean_evaluation_specificity": 0.20040000000000002,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9255249999999998,
+            "mean_evaluation_specificity": 0.62635,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 1000.0,
+            "refused": 0,
+            "violation_rate": 0.04,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.011004493986188201,
+              "successes": 4,
+              "trials": 100,
+              "upper": 0.09925715671265992
+            },
+            "violations": 4
+          }
+        }
+      }
+    },
+    "2000": {
+      "0.05": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.446375,
+            "mean_verified_count": 892.75,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.446375,
+            "mean_verified_count": 892.75,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8734999999999998,
+            "mean_evaluation_specificity": 0.7607105263157895,
+            "mean_verification_rate": 0.446375,
+            "mean_verified_count": 892.75,
+            "refused": 0,
+            "violation_rate": 0.65,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.5481506381760306,
+              "successes": 65,
+              "trials": 100,
+              "upper": 0.7427062214685488
+            },
+            "violations": 65
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.54004,
+            "mean_verified_count": 1080.08,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.54004,
+            "mean_verified_count": 1080.08,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8874999999999998,
+            "mean_evaluation_specificity": 0.7296684210526316,
+            "mean_verification_rate": 0.54004,
+            "mean_verified_count": 1080.08,
+            "refused": 0,
+            "violation_rate": 0.53,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.42758148489004516,
+              "successes": 53,
+              "trials": 100,
+              "upper": 0.6305948358056055
+            },
+            "violations": 53
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.69317,
+            "mean_verified_count": 1386.34,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.69317,
+            "mean_verified_count": 1386.34,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9143000000000001,
+            "mean_evaluation_specificity": 0.6533368421052631,
+            "mean_verification_rate": 0.69317,
+            "mean_verified_count": 1386.34,
+            "refused": 0,
+            "violation_rate": 0.34,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.24822350154484424,
+              "successes": 34,
+              "trials": 100,
+              "upper": 0.4415332677509589
+            },
+            "violations": 34
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9874,
+            "mean_evaluation_specificity": 0.2891315789473684,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9496000000000001,
+            "mean_evaluation_specificity": 0.5080157894736841,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 0,
+            "violation_rate": 0.09,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.04198359562839225,
+              "successes": 9,
+              "trials": 100,
+              "upper": 0.1639822550296352
+            },
+            "violations": 9
+          }
+        }
+      },
+      "0.1": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.470735,
+            "mean_verified_count": 941.47,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.470735,
+            "mean_verified_count": 941.47,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.86595,
+            "mean_evaluation_specificity": 0.7715000000000002,
+            "mean_verification_rate": 0.470735,
+            "mean_verified_count": 941.47,
+            "refused": 0,
+            "violation_rate": 0.84,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.7532124025891377,
+              "successes": 84,
+              "trials": 100,
+              "upper": 0.9056897100260537
+            },
+            "violations": 84
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.55956,
+            "mean_verified_count": 1119.12,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.55956,
+            "mean_verified_count": 1119.12,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8767500000000001,
+            "mean_evaluation_specificity": 0.7557555555555555,
+            "mean_verification_rate": 0.55956,
+            "mean_verified_count": 1119.12,
+            "refused": 0,
+            "violation_rate": 0.79,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.6970846206494594,
+              "successes": 79,
+              "trials": 100,
+              "upper": 0.8650563042946708
+            },
+            "violations": 79
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9749,
+            "mean_evaluation_specificity": 0.3669777777777777,
+            "mean_verification_rate": 0.706295,
+            "mean_verified_count": 1412.59,
+            "refused": 0,
+            "violation_rate": 0.01,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0002531460329774208,
+              "successes": 1,
+              "trials": 100,
+              "upper": 0.054459385392080645
+            },
+            "violations": 1
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.706295,
+            "mean_verified_count": 1412.59,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8969,
+            "mean_evaluation_specificity": 0.7120055555555557,
+            "mean_verification_rate": 0.706295,
+            "mean_verified_count": 1412.59,
+            "refused": 0,
+            "violation_rate": 0.53,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.42758148489004516,
+              "successes": 53,
+              "trials": 100,
+              "upper": 0.6305948358056055
+            },
+            "violations": 53
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9646499999999999,
+            "mean_evaluation_specificity": 0.4442888888888889,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 0,
+            "violation_rate": 0.01,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0002531460329774208,
+              "successes": 1,
+              "trials": 100,
+              "upper": 0.054459385392080645
+            },
+            "violations": 1
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.93285,
+            "mean_evaluation_specificity": 0.5903277777777778,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 0,
+            "violation_rate": 0.09,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.04198359562839225,
+              "successes": 9,
+              "trials": 100,
+              "upper": 0.1639822550296352
+            },
+            "violations": 9
+          }
+        }
+      },
+      "0.2": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.523685,
+            "mean_verified_count": 1047.37,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.523685,
+            "mean_verified_count": 1047.37,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8610000000000001,
+            "mean_evaluation_specificity": 0.7844250000000001,
+            "mean_verification_rate": 0.523685,
+            "mean_verified_count": 1047.37,
+            "refused": 0,
+            "violation_rate": 0.99,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9455406146079194,
+              "successes": 99,
+              "trials": 100,
+              "upper": 0.9997468539670226
+            },
+            "violations": 99
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.976925,
+            "mean_evaluation_specificity": 0.36426875,
+            "mean_verification_rate": 0.60292,
+            "mean_verified_count": 1205.84,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.60292,
+            "mean_verified_count": 1205.84,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8715750000000001,
+            "mean_evaluation_specificity": 0.7672,
+            "mean_verification_rate": 0.60292,
+            "mean_verified_count": 1205.84,
+            "refused": 0,
+            "violation_rate": 0.94,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.8739700654191771,
+              "successes": 94,
+              "trials": 100,
+              "upper": 0.9776651139286836
+            },
+            "violations": 94
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9643250000000001,
+            "mean_evaluation_specificity": 0.45779374999999994,
+            "mean_verification_rate": 0.7352000000000001,
+            "mean_verified_count": 1470.4,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.7352000000000001,
+            "mean_verified_count": 1470.4,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8917000000000002,
+            "mean_evaluation_specificity": 0.73895,
+            "mean_verification_rate": 0.7352000000000001,
+            "mean_verified_count": 1470.4,
+            "refused": 0,
+            "violation_rate": 0.66,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.5584667322490411,
+              "successes": 66,
+              "trials": 100,
+              "upper": 0.7517764984551558
+            },
+            "violations": 66
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.956625,
+            "mean_evaluation_specificity": 0.5050875,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.92885,
+            "mean_evaluation_specificity": 0.6224375000000001,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 0,
+            "violation_rate": 0.06,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.022334886071316385,
+              "successes": 6,
+              "trials": 100,
+              "upper": 0.12602993458082296
+            },
+            "violations": 6
+          }
+        }
+      },
+      "0.4": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9804999999999999,
+            "mean_evaluation_specificity": 0.338825,
+            "mean_verification_rate": 0.625075,
+            "mean_verified_count": 1250.15,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.625075,
+            "mean_verified_count": 1250.15,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.852175,
+            "mean_evaluation_specificity": 0.7994166666666667,
+            "mean_verification_rate": 0.625075,
+            "mean_verified_count": 1250.15,
+            "refused": 0,
+            "violation_rate": 1.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9637833073548235,
+              "successes": 100,
+              "trials": 100,
+              "upper": 1.0
+            },
+            "violations": 100
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9609499999999999,
+            "mean_evaluation_specificity": 0.47063333333333335,
+            "mean_verification_rate": 0.688095,
+            "mean_verified_count": 1376.19,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.688095,
+            "mean_verified_count": 1376.19,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8620874999999999,
+            "mean_evaluation_specificity": 0.78,
+            "mean_verification_rate": 0.688095,
+            "mean_verified_count": 1376.19,
+            "refused": 0,
+            "violation_rate": 1.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9637833073548235,
+              "successes": 100,
+              "trials": 100,
+              "upper": 1.0
+            },
+            "violations": 100
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9542875000000001,
+            "mean_evaluation_specificity": 0.5118083333333334,
+            "mean_verification_rate": 0.79227,
+            "mean_verified_count": 1584.54,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.03,
+            "issued": 3,
+            "mean_evaluation_sensitivity": 0.9983333333333334,
+            "mean_evaluation_specificity": 0.16,
+            "mean_verification_rate": 0.79227,
+            "mean_verified_count": 1584.54,
+            "refused": 97,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 3,
+              "upper": 0.7075982261787133
+            },
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.881775,
+            "mean_evaluation_specificity": 0.7522500000000001,
+            "mean_verification_rate": 0.79227,
+            "mean_verified_count": 1584.54,
+            "refused": 0,
+            "violation_rate": 0.89,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.8116988678035575,
+              "successes": 89,
+              "trials": 100,
+              "upper": 0.9437929797145125
+            },
+            "violations": 89
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9473625,
+            "mean_evaluation_specificity": 0.5399833333333334,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9720750000000001,
+            "mean_evaluation_specificity": 0.40552499999999997,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9198375,
+            "mean_evaluation_specificity": 0.6558250000000001,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 2000.0,
+            "refused": 0,
+            "violation_rate": 0.1,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.04900468922148596,
+              "successes": 10,
+              "trials": 100,
+              "upper": 0.17622259774002266
+            },
+            "violations": 10
+          }
+        }
+      }
+    },
+    "4000": {
+      "0.05": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.447445,
+            "mean_verified_count": 1789.78,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.447445,
+            "mean_verified_count": 1789.78,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8689,
+            "mean_evaluation_specificity": 0.7730947368421053,
+            "mean_verification_rate": 0.447445,
+            "mean_verified_count": 1789.78,
+            "refused": 0,
+            "violation_rate": 0.81,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.7193020420263876,
+              "successes": 81,
+              "trials": 100,
+              "upper": 0.8815568038674564
+            },
+            "violations": 81
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.5391050000000001,
+            "mean_verified_count": 2156.42,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.5391050000000001,
+            "mean_verified_count": 2156.42,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8793,
+            "mean_evaluation_specificity": 0.7582368421052631,
+            "mean_verification_rate": 0.5391050000000001,
+            "mean_verified_count": 2156.42,
+            "refused": 0,
+            "violation_rate": 0.7,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.600185323820196,
+              "successes": 70,
+              "trials": 100,
+              "upper": 0.7875935795104634
+            },
+            "violations": 70
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9849000000000001,
+            "mean_evaluation_specificity": 0.32644210526315787,
+            "mean_verification_rate": 0.6933825,
+            "mean_verified_count": 2773.53,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.6933825,
+            "mean_verified_count": 2773.53,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8979999999999998,
+            "mean_evaluation_specificity": 0.7244000000000002,
+            "mean_verification_rate": 0.6933825,
+            "mean_verified_count": 2773.53,
+            "refused": 0,
+            "violation_rate": 0.5,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.398321129503301,
+              "successes": 50,
+              "trials": 100,
+              "upper": 0.601678870496699
+            },
+            "violations": 50
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9683000000000002,
+            "mean_evaluation_specificity": 0.44904736842105264,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9359000000000002,
+            "mean_evaluation_specificity": 0.6008052631578946,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.06,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.022334886071316385,
+              "successes": 6,
+              "trials": 100,
+              "upper": 0.12602993458082296
+            },
+            "violations": 6
+          }
+        }
+      },
+      "0.1": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.47264249999999997,
+            "mean_verified_count": 1890.57,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.47264249999999997,
+            "mean_verified_count": 1890.57,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8613,
+            "mean_evaluation_specificity": 0.7875555555555558,
+            "mean_verification_rate": 0.47264249999999997,
+            "mean_verified_count": 1890.57,
+            "refused": 0,
+            "violation_rate": 0.94,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.8739700654191771,
+              "successes": 94,
+              "trials": 100,
+              "upper": 0.9776651139286836
+            },
+            "violations": 94
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9799500000000001,
+            "mean_evaluation_specificity": 0.36077222222222227,
+            "mean_verification_rate": 0.56024,
+            "mean_verified_count": 2240.96,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.56024,
+            "mean_verified_count": 2240.96,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8740000000000001,
+            "mean_evaluation_specificity": 0.7677388888888887,
+            "mean_verification_rate": 0.56024,
+            "mean_verified_count": 2240.96,
+            "refused": 0,
+            "violation_rate": 0.82,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.7305229140331881,
+              "successes": 82,
+              "trials": 100,
+              "upper": 0.8896887708467395
+            },
+            "violations": 82
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9703,
+            "mean_evaluation_specificity": 0.43774444444444444,
+            "mean_verification_rate": 0.70737,
+            "mean_verified_count": 2829.48,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.70737,
+            "mean_verified_count": 2829.48,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8926500000000003,
+            "mean_evaluation_specificity": 0.7398666666666665,
+            "mean_verification_rate": 0.70737,
+            "mean_verified_count": 2829.48,
+            "refused": 0,
+            "violation_rate": 0.51,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.40803632915545374,
+              "successes": 51,
+              "trials": 100,
+              "upper": 0.6113558348383623
+            },
+            "violations": 51
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9614999999999998,
+            "mean_evaluation_specificity": 0.49543888888888893,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9329499999999998,
+            "mean_evaluation_specificity": 0.6141777777777778,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.03,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.006229971538306397,
+              "successes": 3,
+              "trials": 100,
+              "upper": 0.08517605297428002
+            },
+            "violations": 3
+          }
+        }
+      },
+      "0.2": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9806999999999999,
+            "mean_evaluation_specificity": 0.3273625,
+            "mean_verification_rate": 0.5248200000000001,
+            "mean_verified_count": 2099.28,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.5248200000000001,
+            "mean_verified_count": 2099.28,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8497999999999999,
+            "mean_evaluation_specificity": 0.7975625,
+            "mean_verification_rate": 0.5248200000000001,
+            "mean_verified_count": 2099.28,
+            "refused": 0,
+            "violation_rate": 1.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9637833073548235,
+              "successes": 100,
+              "trials": 100,
+              "upper": 1.0
+            },
+            "violations": 100
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.961075,
+            "mean_evaluation_specificity": 0.467525,
+            "mean_verification_rate": 0.60409,
+            "mean_verified_count": 2416.36,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.60409,
+            "mean_verified_count": 2416.36,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8606749999999999,
+            "mean_evaluation_specificity": 0.7766999999999998,
+            "mean_verification_rate": 0.60409,
+            "mean_verified_count": 2416.36,
+            "refused": 0,
+            "violation_rate": 0.99,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9455406146079194,
+              "successes": 99,
+              "trials": 100,
+              "upper": 0.9997468539670226
+            },
+            "violations": 99
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.95515,
+            "mean_evaluation_specificity": 0.50519375,
+            "mean_verification_rate": 0.7358925000000001,
+            "mean_verified_count": 2943.57,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.7358925000000001,
+            "mean_verified_count": 2943.57,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.878725,
+            "mean_evaluation_specificity": 0.7517875,
+            "mean_verification_rate": 0.7358925000000001,
+            "mean_verified_count": 2943.57,
+            "refused": 0,
+            "violation_rate": 0.86,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.7762720186294323,
+              "successes": 86,
+              "trials": 100,
+              "upper": 0.9212945950730342
+            },
+            "violations": 86
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9446999999999999,
+            "mean_evaluation_specificity": 0.54230625,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9969499999999999,
+            "mean_evaluation_specificity": 0.17287499999999997,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9177999999999998,
+            "mean_evaluation_specificity": 0.6606375000000001,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.1,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.04900468922148596,
+              "successes": 10,
+              "trials": 100,
+              "upper": 0.17622259774002266
+            },
+            "violations": 10
+          }
+        }
+      },
+      "0.4": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9651875000000001,
+            "mean_evaluation_specificity": 0.44879166666666664,
+            "mean_verification_rate": 0.624575,
+            "mean_verified_count": 2498.3,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.624575,
+            "mean_verified_count": 2498.3,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.848075,
+            "mean_evaluation_specificity": 0.8062916666666666,
+            "mean_verification_rate": 0.624575,
+            "mean_verified_count": 2498.3,
+            "refused": 0,
+            "violation_rate": 1.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9637833073548235,
+              "successes": 100,
+              "trials": 100,
+              "upper": 1.0
+            },
+            "violations": 100
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9540125,
+            "mean_evaluation_specificity": 0.5173916666666666,
+            "mean_verification_rate": 0.6871275,
+            "mean_verified_count": 2748.51,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.6871275,
+            "mean_verified_count": 2748.51,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8587,
+            "mean_evaluation_specificity": 0.7858416666666668,
+            "mean_verification_rate": 0.6871275,
+            "mean_verified_count": 2748.51,
+            "refused": 0,
+            "violation_rate": 1.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9637833073548235,
+              "successes": 100,
+              "trials": 100,
+              "upper": 1.0
+            },
+            "violations": 100
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.945175,
+            "mean_evaluation_specificity": 0.5501499999999999,
+            "mean_verification_rate": 0.7909299999999999,
+            "mean_verified_count": 3163.72,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9761874999999999,
+            "mean_evaluation_specificity": 0.37424166666666664,
+            "mean_verification_rate": 0.7909299999999999,
+            "mean_verified_count": 3163.72,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8767250000000001,
+            "mean_evaluation_specificity": 0.7572666666666664,
+            "mean_verification_rate": 0.7909299999999999,
+            "mean_verified_count": 3163.72,
+            "refused": 0,
+            "violation_rate": 0.95,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.8871650888945373,
+              "successes": 95,
+              "trials": 100,
+              "upper": 0.9835681208179479
+            },
+            "violations": 95
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9361375,
+            "mean_evaluation_specificity": 0.5808083333333333,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9601375,
+            "mean_evaluation_specificity": 0.49500833333333316,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9147624999999999,
+            "mean_evaluation_specificity": 0.6760166666666667,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 4000.0,
+            "refused": 0,
+            "violation_rate": 0.1,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.04900468922148596,
+              "successes": 10,
+              "trials": 100,
+              "upper": 0.17622259774002266
+            },
+            "violations": 10
+          }
+        }
+      }
+    },
+    "6496": {
+      "0.05": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.44777709359605916,
+            "mean_verified_count": 2908.76,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.44777709359605916,
+            "mean_verified_count": 2908.76,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8605000000000002,
+            "mean_evaluation_specificity": 0.7834526315789475,
+            "mean_verification_rate": 0.44777709359605916,
+            "mean_verified_count": 2908.76,
+            "refused": 0,
+            "violation_rate": 0.77,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.6751412672248969,
+              "successes": 77,
+              "trials": 100,
+              "upper": 0.8482683886989525
+            },
+            "violations": 77
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9794999999999999,
+            "mean_evaluation_specificity": 0.3263368421052632,
+            "mean_verification_rate": 0.5403048029556651,
+            "mean_verified_count": 3509.82,
+            "refused": 0,
+            "violation_rate": 0.01,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0002531460329774208,
+              "successes": 1,
+              "trials": 100,
+              "upper": 0.054459385392080645
+            },
+            "violations": 1
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.5403048029556651,
+            "mean_verified_count": 3509.82,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8724000000000001,
+            "mean_evaluation_specificity": 0.766205263157895,
+            "mean_verification_rate": 0.5403048029556651,
+            "mean_verified_count": 3509.82,
+            "refused": 0,
+            "violation_rate": 0.64,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.5378781066725767,
+              "successes": 64,
+              "trials": 100,
+              "upper": 0.7335915772667654
+            },
+            "violations": 64
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9686000000000001,
+            "mean_evaluation_specificity": 0.41112631578947373,
+            "mean_verification_rate": 0.6936330049261084,
+            "mean_verified_count": 4505.84,
+            "refused": 0,
+            "violation_rate": 0.01,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0002531460329774208,
+              "successes": 1,
+              "trials": 100,
+              "upper": 0.054459385392080645
+            },
+            "violations": 1
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.6936330049261084,
+            "mean_verified_count": 4505.84,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8944000000000001,
+            "mean_evaluation_specificity": 0.7337052631578946,
+            "mean_verification_rate": 0.6936330049261084,
+            "mean_verified_count": 4505.84,
+            "refused": 0,
+            "violation_rate": 0.5,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.398321129503301,
+              "successes": 50,
+              "trials": 100,
+              "upper": 0.601678870496699
+            },
+            "violations": 50
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9586999999999999,
+            "mean_evaluation_specificity": 0.48665263157894734,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.01,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0002531460329774208,
+              "successes": 1,
+              "trials": 100,
+              "upper": 0.054459385392080645
+            },
+            "violations": 1
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9298000000000001,
+            "mean_evaluation_specificity": 0.6154894736842105,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.14,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.07870540492696577,
+              "successes": 14,
+              "trials": 100,
+              "upper": 0.22372798137056774
+            },
+            "violations": 14
+          }
+        }
+      },
+      "0.1": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9904,
+            "mean_evaluation_specificity": 0.26594444444444443,
+            "mean_verification_rate": 0.4732204433497537,
+            "mean_verified_count": 3074.04,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.4732204433497537,
+            "mean_verified_count": 3074.04,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8545,
+            "mean_evaluation_specificity": 0.7958222222222221,
+            "mean_verification_rate": 0.4732204433497537,
+            "mean_verified_count": 3074.04,
+            "refused": 0,
+            "violation_rate": 0.96,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9007428432873401,
+              "successes": 96,
+              "trials": 100,
+              "upper": 0.9889955060138118
+            },
+            "violations": 96
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.96855,
+            "mean_evaluation_specificity": 0.43099444444444435,
+            "mean_verification_rate": 0.5609698275862068,
+            "mean_verified_count": 3644.06,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.5609698275862068,
+            "mean_verified_count": 3644.06,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8644999999999999,
+            "mean_evaluation_specificity": 0.7757222222222224,
+            "mean_verification_rate": 0.5609698275862068,
+            "mean_verified_count": 3644.06,
+            "refused": 0,
+            "violation_rate": 0.92,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.848442364135579,
+              "successes": 92,
+              "trials": 100,
+              "upper": 0.9648284374818372
+            },
+            "violations": 92
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9579999999999999,
+            "mean_evaluation_specificity": 0.5023,
+            "mean_verification_rate": 0.7071798029556651,
+            "mean_verified_count": 4593.84,
+            "refused": 0,
+            "violation_rate": 0.01,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0002531460329774208,
+              "successes": 1,
+              "trials": 100,
+              "upper": 0.054459385392080645
+            },
+            "violations": 1
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.7071798029556651,
+            "mean_verified_count": 4593.84,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.88205,
+            "mean_evaluation_specificity": 0.7504055555555557,
+            "mean_verification_rate": 0.7071798029556651,
+            "mean_verified_count": 4593.84,
+            "refused": 0,
+            "violation_rate": 0.75,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.6534475042411918,
+              "successes": 75,
+              "trials": 100,
+              "upper": 0.8312202619006581
+            },
+            "violations": 75
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9542,
+            "mean_evaluation_specificity": 0.5188722222222223,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.02,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0024313368239425436,
+              "successes": 2,
+              "trials": 100,
+              "upper": 0.07038393247107011
+            },
+            "violations": 2
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.91995,
+            "mean_evaluation_specificity": 0.6522722222222223,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.16,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.09431028997394625,
+              "successes": 16,
+              "trials": 100,
+              "upper": 0.24678759741086234
+            },
+            "violations": 16
+          }
+        }
+      },
+      "0.2": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.96635,
+            "mean_evaluation_specificity": 0.43809374999999995,
+            "mean_verification_rate": 0.5232974137931035,
+            "mean_verified_count": 3399.34,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.5232974137931035,
+            "mean_verified_count": 3399.34,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8470000000000002,
+            "mean_evaluation_specificity": 0.8056687500000002,
+            "mean_verification_rate": 0.5232974137931035,
+            "mean_verified_count": 3399.34,
+            "refused": 0,
+            "violation_rate": 1.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9637833073548235,
+              "successes": 100,
+              "trials": 100,
+              "upper": 1.0
+            },
+            "violations": 100
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9561999999999999,
+            "mean_evaluation_specificity": 0.5082687499999999,
+            "mean_verification_rate": 0.6017503078817734,
+            "mean_verified_count": 3908.97,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.6017503078817734,
+            "mean_verified_count": 3908.97,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.858275,
+            "mean_evaluation_specificity": 0.7841000000000001,
+            "mean_verification_rate": 0.6017503078817734,
+            "mean_verified_count": 3908.97,
+            "refused": 0,
+            "violation_rate": 0.97,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.91482394702572,
+              "successes": 97,
+              "trials": 100,
+              "upper": 0.9937700284616936
+            },
+            "violations": 97
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9510000000000001,
+            "mean_evaluation_specificity": 0.5263125,
+            "mean_verification_rate": 0.7356557881773399,
+            "mean_verified_count": 4778.82,
+            "refused": 0,
+            "violation_rate": 0.01,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0002531460329774208,
+              "successes": 1,
+              "trials": 100,
+              "upper": 0.054459385392080645
+            },
+            "violations": 1
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.7356557881773399,
+            "mean_verified_count": 4778.82,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.878,
+            "mean_evaluation_specificity": 0.7560999999999999,
+            "mean_verification_rate": 0.7356557881773399,
+            "mean_verified_count": 4778.82,
+            "refused": 0,
+            "violation_rate": 0.86,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.7762720186294323,
+              "successes": 86,
+              "trials": 100,
+              "upper": 0.9212945950730342
+            },
+            "violations": 86
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.93905,
+            "mean_evaluation_specificity": 0.5701,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.02,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0024313368239425436,
+              "successes": 2,
+              "trials": 100,
+              "upper": 0.07038393247107011
+            },
+            "violations": 2
+          },
+          "linear_ipw": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9798749999999999,
+            "mean_evaluation_specificity": 0.34265625,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9152500000000002,
+            "mean_evaluation_specificity": 0.6727374999999998,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.12,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.06356890256115931,
+              "successes": 12,
+              "trials": 100,
+              "upper": 0.20023568361996882
+            },
+            "violations": 12
+          }
+        }
+      },
+      "0.4": {
+        "0.1": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.956475,
+            "mean_evaluation_specificity": 0.503375,
+            "mean_verification_rate": 0.624364224137931,
+            "mean_verified_count": 4055.87,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.624364224137931,
+            "mean_verified_count": 4055.87,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8455625000000002,
+            "mean_evaluation_specificity": 0.8125749999999999,
+            "mean_verification_rate": 0.624364224137931,
+            "mean_verified_count": 4055.87,
+            "refused": 0,
+            "violation_rate": 1.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9637833073548235,
+              "successes": 100,
+              "trials": 100,
+              "upper": 1.0
+            },
+            "violations": 100
+          }
+        },
+        "0.25": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9447875,
+            "mean_evaluation_specificity": 0.550125,
+            "mean_verification_rate": 0.6860437192118226,
+            "mean_verified_count": 4456.54,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 0.0,
+            "issued": 0,
+            "mean_evaluation_sensitivity": null,
+            "mean_evaluation_specificity": null,
+            "mean_verification_rate": 0.6860437192118226,
+            "mean_verified_count": 4456.54,
+            "refused": 100,
+            "violation_rate": null,
+            "violation_rate_cp95": null,
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.85655,
+            "mean_evaluation_specificity": 0.7915666666666666,
+            "mean_verification_rate": 0.6860437192118226,
+            "mean_verified_count": 4456.54,
+            "refused": 0,
+            "violation_rate": 1.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.9637833073548235,
+              "successes": 100,
+              "trials": 100,
+              "upper": 1.0
+            },
+            "violations": 100
+          }
+        },
+        "0.5": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9363125000000001,
+            "mean_evaluation_specificity": 0.5777666666666665,
+            "mean_verification_rate": 0.7911453201970443,
+            "mean_verified_count": 5139.28,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9621625,
+            "mean_evaluation_specificity": 0.4776416666666667,
+            "mean_verification_rate": 0.7911453201970443,
+            "mean_verified_count": 5139.28,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.8745999999999999,
+            "mean_evaluation_specificity": 0.7593999999999999,
+            "mean_verification_rate": 0.7911453201970443,
+            "mean_verified_count": 5139.28,
+            "refused": 0,
+            "violation_rate": 0.95,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.8871650888945373,
+              "successes": 95,
+              "trials": 100,
+              "upper": 0.9835681208179479
+            },
+            "violations": 95
+          }
+        },
+        "1.0": {
+          "four_bound_vb": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9300000000000002,
+            "mean_evaluation_specificity": 0.6013249999999999,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "linear_ipw": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.95855,
+            "mean_evaluation_specificity": 0.5011083333333334,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.0,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.0,
+              "successes": 0,
+              "trials": 100,
+              "upper": 0.03621669264517641
+            },
+            "violations": 0
+          },
+          "naive_tier_a": {
+            "issue_rate": 1.0,
+            "issued": 100,
+            "mean_evaluation_sensitivity": 0.9103625,
+            "mean_evaluation_specificity": 0.6914500000000001,
+            "mean_verification_rate": 1.0,
+            "mean_verified_count": 6496.0,
+            "refused": 0,
+            "violation_rate": 0.19,
+            "violation_rate_cp95": {
+              "confidence": 0.95,
+              "lower": 0.11844319613254362,
+              "successes": 19,
+              "trials": 100,
+              "upper": 0.28069795797361247
+            },
+            "violations": 19
+          }
+        }
+      }
+    }
+  },
+  "screening_budgets": [
+    1000,
+    2000,
+    4000,
+    6496
+  ],
+  "seed": 42,
+  "split_unit": "image-level empirical score bootstrap; patient linkage not verified",
+  "study": "selective verification budget and prevalence bootstrap sweep",
+  "target_training_negative_count": 5899,
+  "target_training_pool_after_exact_pixel_alias_exclusion": 6395,
+  "target_training_positive_count": 496,
+  "verification_policy": "All scores at or above the source reference threshold are verified; lower-scoring cases are independently verified at the specified q."
+}

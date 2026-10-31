@@ -331,8 +331,7 @@ class ImportanceWeightedLTTCalibrator:
                     1.0,
                     float(
                         np.sqrt(
-                            (2 * np.log(1 / betting_delta))
-                            / (n * previous_variance)
+                            (2 * np.log(1 / betting_delta)) / (n * previous_variance)
                         )
                     ),
                 )

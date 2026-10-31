@@ -3,11 +3,11 @@ active/
 .uv-cache/
 __pycache__/
 *.py[cod]
+*.safetensors
+*.pt
+*.pth
 .pytest_cache/
 .ruff_cache/
-AGENTS.md
-CONTEXT.md
-TODO.md
 
 # Public source images, expanded datasets, and derived caches are large.
 data/raw/

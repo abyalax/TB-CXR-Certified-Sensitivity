@@ -110,7 +110,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 29,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.041,
             "violation_rate_interval": {
@@ -135,7 +135,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 46,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.045,
             "violation_rate_interval": {
@@ -160,7 +160,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 61,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.05,
             "violation_rate_interval": {
@@ -185,7 +185,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 100,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.014,
             "violation_rate_interval": {
@@ -210,7 +210,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 200,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.0,
             "violation_rate_interval": {
@@ -265,7 +265,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 29,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.042,
             "violation_rate_interval": {
@@ -290,7 +290,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 46,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.038,
             "violation_rate_interval": {
@@ -315,7 +315,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 61,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.028,
             "violation_rate_interval": {
@@ -340,7 +340,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 100,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.01,
             "violation_rate_interval": {
@@ -365,7 +365,7 @@
             "refused_repetitions": 0,
             "repetitions": 1000,
             "requested_positive_count": 200,
-            "split_unit": "stratified patient-level; site-mixed; one image per patient",
+            "split_unit": "stratified image-level; site-mixed; patient linkage not verified",
             "target_specificity": 0.7,
             "violation_rate": 0.0,
             "violation_rate_interval": {
@@ -383,11 +383,13 @@
     }
   },
   "pac_claim": false,
-  "patient_level_claim": true,
+  "patient_level_claim": false,
   "purpose": "Contrast an image-randomized, site-mixed split with leave-site-out; not a transportability or patient-level study.",
   "repetitions": 1000,
   "seed": 42,
   "split_manifest": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\splits\\random_image_control_seed42.csv",
-  "split_unit": "patient-level; one image represents one patient",
-  "study": "random_image_split_negative_control exploratory evaluation"
+  "split_unit": "image-level; patient linkage not verified",
+  "status": "superseded_due_to_exact_pixel_duplicates_crossing_split_roles",
+  "study": "random_image_split_negative_control exploratory evaluation",
+  "superseded_by": "experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_6_random_split_deduped/results.json"
 }

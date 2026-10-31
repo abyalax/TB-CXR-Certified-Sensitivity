@@ -168,9 +168,7 @@ class SelectiveVerificationStudy:
                     assert metrics.sensitivity is not None
                     assert metrics.specificity is not None
                     linear_rows.append((metrics.sensitivity, metrics.specificity))
-                    linear_violations += int(
-                        1 - metrics.sensitivity > self.target_fnr
-                    )
+                    linear_violations += int(1 - metrics.sensitivity > self.target_fnr)
 
             summaries.append(
                 SelectiveStudySummary(

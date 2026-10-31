@@ -1,0 +1,29 @@
+{
+  "classes": [
+    "Montgomery",
+    "Shenzhen",
+    "TBX11K"
+  ],
+  "cross_validated_accuracy": 1.0,
+  "cross_validated_balanced_accuracy": 1.0,
+  "cross_validated_macro_ovr_auc": 1.0,
+  "exact_pixel_duplicate_aliases_excluded": 126,
+  "feature_groups": [
+    "native width, height, and area",
+    "aspect ratio",
+    "grayscale mean, standard deviation, quantiles, and tail fractions"
+  ],
+  "folds": 5,
+  "image_count": 8934,
+  "input_manifest": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\processed\\primary\\manifest.csv",
+  "input_manifest_sha256": "a15b667cf6fb2f787b994380e1e700055854fc9ff4fe268d3c3d238df25988ee",
+  "interpretation_limit": "The probe measures site information in a small, hand-designed feature set. It neither establishes causal shortcut use nor explains the encoder probe's performance.",
+  "purpose": "diagnostic comparison for the embedding site-origin probe",
+  "seed": 42,
+  "site_counts": {
+    "Montgomery": 138,
+    "Shenzhen": 662,
+    "TBX11K": 8134
+  },
+  "split_unit": "image-level; patient linkage not verified"
+}

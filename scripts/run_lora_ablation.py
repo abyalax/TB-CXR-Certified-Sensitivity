@@ -19,6 +19,7 @@ from torch.utils.data import DataLoader, Dataset
 from transformers import AutoImageProcessor, AutoModel
 
 from tb_certify.calibration.source_threshold import EmpiricalSensitivityThreshold
+from tb_certify.data.identity_audit import patient_level_supported
 from tb_certify.evaluation.metrics import evaluate_threshold
 from tb_certify.evaluation.tier_a_study import TierAStudy
 
@@ -93,7 +94,7 @@ def _write_source_manifest(
                     "role": (
                         "source_train" if index in train_set else "source_validation"
                     ),
-                    "split_unit": "patient-level; one image represents one patient",
+                    "split_unit": "image-level; patient linkage not verified",
                     "seed": str(seed),
                 }
             )
@@ -300,7 +301,8 @@ def run(
         repetitions=repetitions,
         seed=seed,
         split_unit=(
-            "official TBX11K patient-level train/validation (one image per patient)"
+            "official TBX11K train/validation; image-level, patient linkage "
+            "not verified"
         ),
     )
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -308,7 +310,10 @@ def run(
     classifier_head_path = output_dir / "classifier_head.pt"
     torch.save(model.classifier.state_dict(), classifier_head_path)
     results: dict[str, Any] = {
-        "study": "source-only RAD-DINO LoRA ablation; exploratory patient-level (one image per patient)",
+        "study": (
+            "source-only RAD-DINO LoRA ablation; exploratory image-level "
+            "(patient linkage not verified)"
+        ),
         "target_site": "TBX11K",
         "source_sites": ["Montgomery", "Shenzhen"],
         "seed": seed,
@@ -349,7 +354,7 @@ def run(
         "adapter_path": str(output_dir / "adapter"),
         "classifier_head_path": str(classifier_head_path),
         "source_split_manifest": str(source_manifest_path),
-        "patient_level_claim": True,
+        "patient_level_claim": patient_level_supported(project_root),
     }
     (output_dir / "results.json").write_text(
         json.dumps(results, indent=2, sort_keys=True, allow_nan=False), encoding="utf-8"

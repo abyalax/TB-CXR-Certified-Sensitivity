@@ -56,7 +56,7 @@ def render_results(output: Path) -> None:
         "experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/results.json"
     )
     random = _json(
-        "experiments/runs/random_image_control/chest_xray-110cbc18d513/results.json"
+        "experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_6_random_split_deduped/results.json"
     )
     lora = _json(
         "experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/results.json"
@@ -182,10 +182,10 @@ def render_results(output: Path) -> None:
             '<rect width="1080" height="1050" fill="#f4f6fa"/>',
             '<text x="24" y="36" font-family="Arial, sans-serif"',
             ' font-size="23" font-weight="bold" fill="#17233c">',
-            "Latest aggregate audit results - patient-level (one image per patient)</text>",  # noqa: E501
+            "Latest aggregate audit results - image-level; patient linkage unverified</text>",  # noqa: E501
             '<text x="24" y="58" font-family="Arial, sans-serif"',
             ' font-size="13" fill="#65718a">Generated from experiment JSON;',
-            " descriptive patient-level results (one image per patient).</text>",
+            " descriptive image-level results; patient linkage unverified.</text>",
             '<g font-family="Arial, sans-serif">',
             panel_a,
             panel_b,
@@ -255,8 +255,10 @@ def render_workflow(output: Path) -> None:
         'fill="#65718a"/></marker></defs>'
     )
     parts.append(
-        '<text x="30" y="430" font-family="Arial" font-size="13" '
-        'fill="#8a3b3b">All current splits are patient-level (one image per patient); PAC assumptions still require validation.</text>'
+        '<text x="30" y="430" font-family="Arial" font-size="13" '(
+            'fill="#8a3b3b">Current splits are image-level; patient linkage is '
+            "unverified and PAC assumptions require validation.</text>"
+        )
     )
     parts.append("</svg>")
     output.parent.mkdir(parents=True, exist_ok=True)

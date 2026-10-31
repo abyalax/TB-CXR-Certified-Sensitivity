@@ -2,7 +2,8 @@
 
 This is the conservative four-bound construction in the research notes. The
 fixed threshold grid must be chosen before confirmation labels are inspected.
-The tighter linear-functional certificate is a later P1 investigation.
+The separate linear-functional Hoeffding alternative is implemented as an
+exploratory comparator; it is not known to be tighter than this construction.
 """
 
 from __future__ import annotations
@@ -84,14 +85,23 @@ class SelectiveVerificationPolicy:
         rng = np.random.default_rng(seed)
         high_score = score_array >= reference_threshold
         verified = high_score.copy()
-        verified[~high_score] = (
-            rng.random(np.sum(~high_score)) < low_score_probability
-        )
+        verified[~high_score] = rng.random(np.sum(~high_score)) < low_score_probability
         return verified
 
 
 class SelectiveVerificationCalibrator:
-    """Certify FNR from known-probability verification of low-scoring cases."""
+    """Certify FNR from known-probability verification of low-scoring cases.
+
+    The candidate grid must be fixed before confirmation labels are inspected
+    and strictly increasing. Population FNR is nondecreasing in the threshold;
+    issuing only the longest passing prefix therefore controls false issuance
+    at the first unsafe candidate. If any unsafe threshold is issued, that first
+    unsafe candidate must also have passed its pointwise four-component CP
+    bound, whose failure probability is at most ``failure_probability``. This
+    monotone fixed-sequence argument does not require dividing delta by the
+    number of thresholds, but it does require the prespecified grid and risk
+    monotonicity.
+    """
 
     def __init__(
         self,
@@ -136,9 +146,8 @@ class SelectiveVerificationCalibrator:
             raise ValueError("scores must be a non-empty vector.")
         if not np.all(np.isfinite(score_array)):
             raise ValueError("scores must be finite.")
-        if (
-            verified_array.shape != score_array.shape
-            or len(label_values) != len(score_array)
+        if verified_array.shape != score_array.shape or len(label_values) != len(
+            score_array
         ):
             raise ValueError(
                 "scores, verified flags, and labels must have equal length."
@@ -170,19 +179,11 @@ class SelectiveVerificationCalibrator:
 
         for threshold in self.thresholds:
             high_missed = int(
-                np.sum(
-                    is_positive
-                    & high_score
-                    & (score_array < threshold)
-                )
+                np.sum(is_positive & high_score & (score_array < threshold))
             )
             low_limit = min(threshold, self.reference_threshold)
             low_missed = int(
-                np.sum(
-                    is_positive
-                    & ~high_score
-                    & (score_array < low_limit)
-                )
+                np.sum(is_positive & ~high_score & (score_array < low_limit))
             )
             high_upper = (
                 0.0
@@ -192,12 +193,11 @@ class SelectiveVerificationCalibrator:
             low_upper = self._upper(low_missed, n_screened, eta) / (
                 self.low_score_probability
             )
-            high_total_lower = self._lower(
-                observed_high_positive, n_screened, eta
+            high_total_lower = self._lower(observed_high_positive, n_screened, eta)
+            low_total_lower = (
+                self._lower(observed_low_positive, n_screened, eta)
+                / self.low_score_probability
             )
-            low_total_lower = self._lower(
-                observed_low_positive, n_screened, eta
-            ) / self.low_score_probability
             denominator_lower = high_total_lower + low_total_lower
             numerator_upper = high_upper + low_upper
             fnr_upper = (
@@ -257,7 +257,7 @@ class SelectiveVerificationCalibrator:
 
 
 class LinearSelectiveVerificationCalibrator:
-    """A tighter one-functional alternative to the four-CP VB construction.
+    """A one-functional IPW-Hoeffding comparator to the four-CP VB construction.
 
     For fixed threshold ``t``, the inverse-probability weighted quantity
     ``V Y (1{score < t} - alpha) / pi(score)`` has non-positive expectation
@@ -265,6 +265,11 @@ class LinearSelectiveVerificationCalibrator:
     prevalence).  A heterogeneous-range Hoeffding UCB tests this directly,
     avoiding a separately bounded numerator and denominator.  As with the
     original construction, thresholds are a fixed, increasing sequence.
+
+    Its confidence bonus depends on the sum of squared inverse verification
+    probabilities, so a small low-score verification rate can make the bound
+    uninformative at the available screening count. Persistent refusal is an
+    expected conservative outcome of this comparator.
     """
 
     def __init__(

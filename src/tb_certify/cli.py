@@ -56,13 +56,21 @@ def _inspect_data(project_root: Path) -> int:
 
 
 def _preprocess_data(
-    project_root: Path, output_dir: Path | None, image_size: int
+    project_root: Path,
+    output_dir: Path | None,
+    image_size: int,
+    resize_policy: str,
+    window_all_grayscale: bool,
 ) -> int:
     raw_dir = project_root / "data" / "raw"
     destination = output_dir or project_root / "data" / "processed" / "primary"
     if not destination.is_absolute():
         destination = project_root / destination
-    config = CXRPreprocessingConfig(image_size=image_size)
+    config = CXRPreprocessingConfig(
+        image_size=image_size,
+        resize_policy=resize_policy,
+        window_all_grayscale=window_all_grayscale,
+    )
     summary = PrimaryCohortPreprocessor(raw_dir, destination, config).run()
     print(json.dumps(summary.to_dict(), indent=2, sort_keys=True))
     return 0
@@ -106,6 +114,17 @@ def build_parser() -> argparse.ArgumentParser:
         default=224,
         help="square output size in pixels (default: 224)",
     )
+    preprocess_parser.add_argument(
+        "--resize-policy",
+        choices=("square_lanczos", "letterbox_lanczos"),
+        default="square_lanczos",
+        help="resize by square warp or aspect-preserving letterbox",
+    )
+    preprocess_parser.add_argument(
+        "--window-all-grayscale",
+        action="store_true",
+        help="apply configured percentile windowing to 8-bit grayscale inputs too",
+    )
     embedding_parser = subparsers.add_parser(
         "extract-embeddings",
         help="extract frozen encoder features into a revision-tagged NumPy cache",
@@ -140,6 +159,12 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="output directory (default: artifacts/embeddings/<encoder>-<revision>)",
     )
+    embedding_parser.add_argument(
+        "--cache-root",
+        type=Path,
+        default=None,
+        help="preprocessed cache directory (default: encoder's standard cache)",
+    )
     return parser
 
 
@@ -152,7 +177,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             return _inspect_data(project_root)
         if arguments.command == "preprocess-data":
             return _preprocess_data(
-                project_root, arguments.output_dir, arguments.image_size
+                project_root,
+                arguments.output_dir,
+                arguments.image_size,
+                arguments.resize_policy,
+                arguments.window_all_grayscale,
             )
         if arguments.command == "extract-embeddings":
             from tb_certify.models.embeddings import extract_from_project
@@ -163,6 +192,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 batch_size=arguments.batch_size,
                 device_name=arguments.device,
                 output_dir=arguments.output_dir,
+                cache_root=arguments.cache_root,
             )
             print(json.dumps(summary, indent=2, sort_keys=True))
             return 0

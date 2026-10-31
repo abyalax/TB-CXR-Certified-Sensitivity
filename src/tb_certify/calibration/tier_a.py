@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import Enum
-from typing import Iterable
 
 import numpy as np
 from scipy.stats import binom
@@ -34,13 +34,15 @@ class TierACalibrator:
     """Certify population sensitivity using target-site positive scores only.
 
     Scores must increase with evidence for active TB, with one score per
-    independent patient. For ``n`` i.i.d., representative target-site
-    TB-positive calibration patients, the method
+    independent sampling unit. For ``n`` i.i.d., representative target-site
+    TB-positive calibration units, the method
     selects the ``(k* + 1)``-st score in ascending order, where ``k*`` is the
     largest miss count whose Binomial(n, alpha) lower tail is at most delta.
     No threshold is issued below the exact finite-sample certification floor.
     Validity also requires a fixed model/score rule, accurate reference labels,
-    and a stationary target population between calibration and use.
+    and a stationary target population between calibration and use. Tied
+    scores at the selected order statistic are all included by the ``>=``
+    prediction rule, which can only reduce the realized calibration misses.
     """
 
     def __init__(self, target_fnr: float = 0.10, failure_probability: float = 0.05):
@@ -62,8 +64,7 @@ class TierACalibrator:
         feasible = [
             k
             for k in range(n_positive)
-            if binom.cdf(k, n_positive, self.target_fnr)
-            <= self.failure_probability
+            if binom.cdf(k, n_positive, self.target_fnr) <= self.failure_probability
         ]
         return max(feasible) if feasible else None
 

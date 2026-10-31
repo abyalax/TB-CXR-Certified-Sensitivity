@@ -85,9 +85,7 @@ def audit_training_overlap(training_list: Path, manifest_path: Path) -> dict[str
             "image_id_matches": len(training_ids & local_ids),
             "image_id_vs_source_stem_matches": len(training_ids & local_stems),
             "path_stem_matches": len(training_stems & (local_stems | local_ids)),
-            "basename_matches": len(
-                training_basenames & local_basenames
-            ),
+            "basename_matches": len(training_basenames & local_basenames),
             "pixel_level_duplicate_check": "not_performed",
         },
         "limitations": [

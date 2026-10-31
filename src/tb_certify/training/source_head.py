@@ -19,7 +19,8 @@ from tb_certify.calibration.source_threshold import (
 class SourceOnlyLogisticHead:
     """Fit a standardized logistic head without target-site labels or features.
 
-    The caller must create patient-level source train/validation partitions
+    The caller must create source train/validation partitions at the verified
+    sampling-unit level. Image-level splits do not establish patient separation.
     before fitting. Threshold selection is a separate source-validation step
     and is explicitly an empirical B0 baseline, not a certificate.
     """
@@ -74,8 +75,7 @@ class SourceOnlyLogisticHead:
         unexpected_sites = observed_sites.difference(source_set)
         if unexpected_sites:
             raise ValueError(
-                "Training data contains non-source sites: "
-                f"{sorted(unexpected_sites)}"
+                f"Training data contains non-source sites: {sorted(unexpected_sites)}"
             )
         missing_sources = source_set.difference(observed_sites)
         if missing_sources:
@@ -128,7 +128,9 @@ class SourceOnlyLogisticHead:
         if labels.shape[0] != len(validation_site_ids):
             raise ValueError("Validation labels and site IDs must have equal length.")
         if not sites or not sites.issubset(self.source_sites):
-            raise ValueError("Threshold validation must use declared source sites only.")  # noqa: E501
+            raise ValueError(
+                "Threshold validation must use declared source sites only."
+            )  # noqa: E501
         if labels.size == 0 or not np.isin(labels, [0, 1]).all():
             raise ValueError("Validation data must have binary labels.")
         validation_scores = self.score(validation_features)

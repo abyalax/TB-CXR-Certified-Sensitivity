@@ -22,5 +22,5 @@ verification_bias:
   delta_allocation: four_equal_parts
 
 reproducibility:
-  calibration_evaluation_split_unit: patient
+  calibration_evaluation_split_unit: image
   resampling_without_replacement: true

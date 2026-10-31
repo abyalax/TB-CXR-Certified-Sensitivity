@@ -1,7 +1,7 @@
 # Dataset Source
 
-| Dataset    | Berkas utama                    | Keterangan                                                                                   |
-| ---------- | ------------------------------- | -------------------------------------------------------------------------------------------- |
+| Dataset    | Berkas utama                  | Keterangan                                                                                   |
+| ---------- | ----------------------------- | -------------------------------------------------------------------------------------------- |
 | Montgomery | `data/raw/montgomery/`        | 138 CXR, ClinicalReadings, lung masks, dan ROI                                               |
 | Shenzhen   | `data/raw/shenzhen/`          | 662 CXR, ClinicalReadings, anotasi, dan ROI                                                  |
 | TBX11K     | `data/raw/TBX11K.zip` (~3 GB) | 8.400 citra pada split resmi train+validation; 8.260 dipakai setelah filter label penelitian |
@@ -16,13 +16,13 @@ Run Download Dataset From Source with
 
 ## [Montgomery County CXR Set](https://f10409.github.io/RadHarmony/datasets/montgomery_cxr.html)
 
-_138 citra: 80 normal dan 58 abnormal dengan manifestasi yang konsisten dengan TB_
+_138 radiograf: 80 normal dan 58 abnormal dengan manifestasi yang konsisten dengan TB menurut dokumentasi NLM. Label ini bersifat radiologis, bukan hasil konfirmasi mikrobiologis._
 
 > Format citra: PNG. Label 0/1 pada nama file menunjukkan normal/abnormal, bukan pengganti pemeriksaan label klinis.
 
 ## [Shenzen Hospital CXR Set](https://f10409.github.io/RadHarmony/datasets/shenzhen_cxr.html)
 
-_662 citra: 326 normal dan 336 abnormal dengan manifestasi yang konsisten dengan TB_
+_662 radiograf: 326 normal dan 336 abnormal dengan manifestasi yang konsisten dengan TB menurut dokumentasi NLM. Label ini bersifat radiologis, bukan hasil konfirmasi mikrobiologis._
 
 > Format citra: PNG. Gunakan clinical readings untuk membentuk label evaluasi.
 
@@ -38,7 +38,7 @@ _Split resmi train+validation berisi tepat 8.400 citra: 6.600 train + 1.800 vali
 
 - Characteristics: This dataset was collected from a tuberculosis screening program in Montgomery County, Maryland, USA.
 - Data Structure: Consists of 138 frontal CXR images (80 normal and 58 cases with TB manifestations).
-- Representation: Each image has an accompanying text file containing anonymized clinical records of the corresponding patient (such as age and sex). Thus, 1 image = 1 patient.
+- Representation: The public collection includes image files and radiology readings. The project has not verified a patient crosswalk or a one-image-per-patient mapping from those files.
 - References :
   - [https://pmc.ncbi.nlm.nih.gov/articles/PMC4256233/](https://pmc.ncbi.nlm.nih.gov/articles/PMC4256233/)
   - [https://www.mdpi.com/2075-4418/16/13/1947](https://www.mdpi.com/2075-4418/16/13/1947)
@@ -48,7 +48,7 @@ _Split resmi train+validation berisi tepat 8.400 citra: 6.600 train + 1.800 vali
 
 - Characteristics: Collected from Shenzhen No. 3 People's Hospital in China.
 - Data Structure: Consists of 662 frontal CXR images (326 normal and 336 TB cases).
-- Representation: As with the Montgomery dataset, each image is specifically paired with one demographic clinical report (age & sex) representing one unique patient. Thus, 1 image = 1 patient.&#x20;
+- Representation: The public collection includes image files and clinical readings. The project has not verified a patient crosswalk or a one-image-per-patient mapping from those files.&#x20;
 - References :
   - [https://pmc.ncbi.nlm.nih.gov/articles/PMC9645800/](https://pmc.ncbi.nlm.nih.gov/articles/PMC9645800/)
   - [https://www.mdpi.com/2075-4418/16/13/1947](https://www.mdpi.com/2075-4418/16/13/1947)
@@ -60,7 +60,7 @@ _Split resmi train+validation berisi tepat 8.400 citra: 6.600 train + 1.800 vali
     [https://www.researchgate.net/publication/343466325_Rethinking_Computer-Aided_Tuberculosis_Diagnosis](https://www.researchgate.net/publication/343466325_Rethinking_Computer-Aided_Tuberculosis_Diagnosis)
 - Data Structure: Consists of 11,200 CXR images divided into several categories (healthy, non-TB disease, active TB, latent TB).
     [https://pmc.ncbi.nlm.nih.gov/articles/PMC13065592/](https://pmc.ncbi.nlm.nih.gov/articles/PMC13065592/)
-- Representation: This dataset uses separate image samples for each hospital subject to maintain classification independence for individual health cases. Popular medical data processing libraries such as TorchXRayVision handle this dataset using the standard parameter unique_patients=True, which ensures that one image represents one unique patient to prevent data leakage between training dataset splits.
+- Representation: The project assets do not include a verified patient crosswalk for TBX11K. Dataset-level statements about unique individuals do not identify those individuals in the local image manifests.
     [https://mlmed.org/torchxrayvision/datasets.html](https://mlmed.org/torchxrayvision/datasets.html)
     [https://www.sid.ir/fileserver/je/1-344462-x-1516120.pdf](https://www.sid.ir/fileserver/je/1-344462-x-1516120.pdf)
 

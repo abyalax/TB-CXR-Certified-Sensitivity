@@ -92,11 +92,15 @@ class TierAStudy:
         if test_scores.ndim != 1 or test_labels.ndim != 1:
             raise ValueError("Evaluation scores and labels must be vectors.")
         if test_scores.size != test_labels.size or test_scores.size == 0:
-            raise ValueError("Evaluation scores and labels must have equal non-zero size.")  # noqa: E501
+            raise ValueError(
+                "Evaluation scores and labels must have equal non-zero size."
+            )  # noqa: E501
         if not np.all(np.isfinite(test_scores)):
             raise ValueError("Evaluation scores must be finite.")
         if not np.isin(test_labels, [0, 1]).all():
-            raise ValueError("Evaluation labels must use 1 for active TB and 0 for non-TB.")  # noqa: E501
+            raise ValueError(
+                "Evaluation labels must use 1 for active TB and 0 for non-TB."
+            )  # noqa: E501
         if repetitions < 1:
             raise ValueError("repetitions must be at least one.")
         if len(calibration_sizes) == 0 or any(

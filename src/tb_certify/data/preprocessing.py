@@ -16,6 +16,7 @@ class CXRPreprocessingConfig:
     low_percentile_16bit: float = 0.5
     high_percentile_16bit: float = 99.5
     resize_policy: str = "square_lanczos"
+    window_all_grayscale: bool = False
     output_channels: int = 3
 
     def __post_init__(self) -> None:
@@ -25,9 +26,9 @@ class CXRPreprocessingConfig:
             raise ValueError(
                 "16-bit window percentiles must satisfy 0 <= low < high <= 100."
             )
-        if self.resize_policy != "square_lanczos":
+        if self.resize_policy not in {"square_lanczos", "letterbox_lanczos"}:
             raise ValueError(
-                "Only the prespecified square_lanczos resize is supported."
+                "resize_policy must be square_lanczos or letterbox_lanczos."
             )
         if self.output_channels != 3:
             raise ValueError(
@@ -62,22 +63,32 @@ class CXRImagePreprocessor:
     def process_image(self, image: Image.Image) -> np.ndarray:
         image = ImageOps.exif_transpose(image)
         if image.mode in self.HIGH_BIT_MODES:
-            gray = self._window_high_bit_grayscale(image)
+            gray = self._window_grayscale(image)
         else:
             gray = image.convert("L")
-        resized = gray.resize(
-            (self.config.image_size, self.config.image_size),
-            resample=Image.Resampling.LANCZOS,
-        )
+            if self.config.window_all_grayscale:
+                gray = self._window_grayscale(gray)
+        if self.config.resize_policy == "square_lanczos":
+            resized = gray.resize(
+                (self.config.image_size, self.config.image_size),
+                resample=Image.Resampling.LANCZOS,
+            )
+        else:
+            resized = self._letterbox(gray)
         gray_array = np.asarray(resized, dtype=np.uint8)
         return np.repeat(gray_array[..., np.newaxis], 3, axis=2)
 
-    def _window_high_bit_grayscale(self, image: Image.Image) -> Image.Image:
+    def _window_grayscale(self, image: Image.Image) -> Image.Image:
         values = np.asarray(image)
         if values.ndim != 2:
             raise ValueError(
                 "Higher-bit input must be a single-channel grayscale image."
             )
+        if values.dtype == np.uint8:
+            low = self._uint8_percentile(values, self.config.low_percentile_16bit)
+            high = self._uint8_percentile(values, self.config.high_percentile_16bit)
+            float_values = values.astype(np.float64, copy=False)
+            return self._scale_window(float_values, low, high)
         values = values.astype(np.float64, copy=False)
         finite_values = values[np.isfinite(values)]
         if finite_values.size == 0:
@@ -89,10 +100,38 @@ class CXRImagePreprocessor:
                 self.config.high_percentile_16bit,
             ],
         )
+        finite_values = np.where(np.isfinite(values), values, low)
+        return self._scale_window(finite_values, low, high)
+
+    @staticmethod
+    def _uint8_percentile(values: np.ndarray, percentile: float) -> float:
+        """Match NumPy's linear percentile using the exact 8-bit histogram."""
+        counts = np.bincount(values.reshape(-1), minlength=256)
+        cumulative = np.cumsum(counts)
+        position = (values.size - 1) * percentile / 100
+        lower_rank = int(np.floor(position))
+        upper_rank = int(np.ceil(position))
+        lower_value = int(np.searchsorted(cumulative, lower_rank + 1))
+        upper_value = int(np.searchsorted(cumulative, upper_rank + 1))
+        fraction = position - lower_rank
+        return float(lower_value + (upper_value - lower_value) * fraction)
+
+    @staticmethod
+    def _scale_window(values: np.ndarray, low: float, high: float) -> Image.Image:
         if high <= low:
             scaled = np.zeros(values.shape, dtype=np.uint8)
         else:
-            finite_values = np.where(np.isfinite(values), values, low)
-            normalized = np.clip((finite_values - low) / (high - low), 0, 1)
+            normalized = np.clip((values - low) / (high - low), 0, 1)
             scaled = np.rint(normalized * 255).astype(np.uint8)
         return Image.fromarray(scaled)
+
+    def _letterbox(self, image: Image.Image) -> Image.Image:
+        """Resize to fit the square canvas while preserving the source aspect ratio."""
+        size = self.config.image_size
+        scale = min(size / image.width, size / image.height)
+        width = min(size, max(1, round(image.width * scale)))
+        height = min(size, max(1, round(image.height * scale)))
+        resized = image.resize((width, height), resample=Image.Resampling.LANCZOS)
+        canvas = Image.new("L", (size, size), color=0)
+        canvas.paste(resized, ((size - width) // 2, (size - height) // 2))
+        return canvas

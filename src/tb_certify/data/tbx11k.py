@@ -132,8 +132,7 @@ class TBX11KArchiveCatalog:
         )
         if missing_categories:
             raise TBX11KSchemaError(
-                "TBX11K lesion taxonomy is incomplete: "
-                f"{sorted(missing_categories)}"
+                f"TBX11K lesion taxonomy is incomplete: {sorted(missing_categories)}"
             )
         category_ids = {
             category_id: cls.TB_ANNOTATION_CATEGORIES[name]
@@ -243,7 +242,9 @@ class TBX11KArchiveCatalog:
                 )
 
             allowed_public_classes = set(self.CATEGORY_LABELS) | {"tb"}
-            unknown_public_classes = set(split_counts["trainval"]) - allowed_public_classes
+            unknown_public_classes = (
+                set(split_counts["trainval"]) - allowed_public_classes
+            )
             if unknown_public_classes:
                 raise TBX11KSchemaError(
                     f"Unknown public classes: {sorted(unknown_public_classes)}"
@@ -311,7 +312,9 @@ class TBX11KArchiveCatalog:
 
         return TBX11KImageReader(self.archive_path)
 
-    def primary_analysis_records(self, split: str = "trainval") -> tuple[ImageRecord, ...]:  # noqa: E501
+    def primary_analysis_records(
+        self, split: str = "trainval"
+    ) -> tuple[ImageRecord, ...]:  # noqa: E501
         """Filter out obsolete or unresolved TB findings from the binary study."""
 
         return tuple(
@@ -321,7 +324,7 @@ class TBX11KArchiveCatalog:
         )
 
     def write_manifest(self, destination: str | Path, split: str = "trainval") -> Path:
-        """Write a public-label manifest; image_id identifies one patient in this cohort."""  # noqa: E501
+        """Write image-level labels; no verified patient crosswalk is available."""
 
         target = Path(destination)
         target.parent.mkdir(parents=True, exist_ok=True)

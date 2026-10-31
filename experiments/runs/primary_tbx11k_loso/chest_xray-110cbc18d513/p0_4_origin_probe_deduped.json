@@ -1,0 +1,23 @@
+{
+  "classes": [
+    "Montgomery",
+    "Shenzhen",
+    "TBX11K"
+  ],
+  "cross_validated_accuracy": 0.9933960152227446,
+  "cross_validated_balanced_accuracy": 0.9859567982028362,
+  "cross_validated_macro_ovr_auc": 0.9992040210553714,
+  "embedding_dir": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\embeddings\\chest_xray-110cbc18d513",
+  "exact_pixel_duplicate_aliases_excluded": 126,
+  "folds": 5,
+  "identity_audit_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\audits\\image_identity.json",
+  "interpretation_limit": "A high score means the frozen embedding retains site information; it does not identify its cause or prove TB-label shortcutting.",
+  "purpose": "exploratory site-origin shortcut probe",
+  "seed": 42,
+  "site_counts": {
+    "Montgomery": 138,
+    "Shenzhen": 662,
+    "TBX11K": 8134
+  },
+  "split_unit": "image-level; patient linkage not verified"
+}

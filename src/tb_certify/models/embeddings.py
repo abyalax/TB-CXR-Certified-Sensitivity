@@ -334,6 +334,7 @@ def extract_from_project(
     batch_size: int | None,
     device_name: str,
     output_dir: Path | None,
+    cache_root: Path | None = None,
 ) -> dict[str, Any]:
     """Resolve project configuration and launch the selected encoder run."""
 
@@ -381,8 +382,12 @@ def extract_from_project(
                         "Checkpoint SHA-256 does not match the pinned config."
                     )
 
-    cache_name = "rad_dino_518" if encoder_key == "chest_xray" else "primary"
-    cache_root = root / "data" / "processed" / cache_name
+    if cache_root is None:
+        cache_name = "rad_dino_518" if encoder_key == "chest_xray" else "primary"
+        cache_root = root / "data" / "processed" / cache_name
+    elif not cache_root.is_absolute():
+        cache_root = root / cache_root
+    cache_root = cache_root.resolve()
     manifest_path = cache_root / "manifest.csv"
     destination = output_dir or (
         root

@@ -20,12 +20,17 @@ class EncoderProvenance:
 
     def validate_for_target(self, target_site: str) -> None:
         if not self.model_name.strip() or not self.revision.strip():
-            raise EncoderEligibilityError("Model name and immutable revision are required.")
+            raise EncoderEligibilityError(
+                "Model name and immutable revision are required."
+            )
         if not self.license_name or not self.license_verified:
-            raise EncoderEligibilityError("Encoder license must be documented and verified.")
+            raise EncoderEligibilityError(
+                "Encoder license must be documented and verified."
+            )
         if self.pretraining_sites is None or not self.pretraining_data_reviewed:
             raise EncoderEligibilityError(
-                "Encoder pretraining data must be reviewed before cross-site evaluation."
+                "Encoder pretraining data must be reviewed before cross-site "
+                "evaluation."
             )
         if not self.pretraining_sites:
             raise EncoderEligibilityError(
@@ -40,4 +45,6 @@ class EncoderProvenance:
 
     @staticmethod
     def _normalize_site(site: str) -> str:
-        return "".join(character for character in site.casefold() if character.isalnum())
+        return "".join(
+            character for character in site.casefold() if character.isalnum()
+        )

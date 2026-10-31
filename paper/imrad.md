@@ -2,8 +2,7 @@
 
 **Working research manuscript (IMRAD).** This is the active manuscript file.
 The JUTI Typst draft is not updated by this workflow. All real-data estimates
-below are exploratory patient-level results, with one image representing one
-patient in each dataset. Clinical validity is not claimed.
+below are exploratory image-level results; patient linkage has not been verified. Clinical validity is not claimed.
 
 ## Abstract
 
@@ -18,34 +17,15 @@ features with source-only logistic and multilayer perceptron (MLP) heads were
 evaluated on official TBX11K train and validation pools. We also audited a
 site-mixed image-random negative control, simulated selective verification
 with Clopper--Pearson (CP) bounds and an inverse-probability-weighted (IPW)
-Hoeffding comparator, and lesion-size (region-of-interest, ROI) strata among
-68 annotated positives.
+Hoeffding comparator, and multi-seed and nested-resampling audits.
 
-**Results:** At the source threshold, TBX11K validation sensitivity and
-specificity were 91.5%/64.3% for logistic regression and 95.7%/57.5% for the
-MLP with RAD-DINO. As comparator, ResNet50-A1 reached 84.1%/33.3% and
-88.4%/31.0%, respectively. At $n^+=100$ in Shenzhen, RAD-DINO MLP Tier A
-averaged 92.1%/62.9% sensitivity/specificity. The MLP violation rate and
-the probability of specificity at least 70% were both 4.9%, compared with a
-28.8% logistic violation rate. On Shenzhen, source-threshold
-sensitivity was below 90% for both heads (79.2% logistic; 77.4% MLP). A source-only RAD-DINO
-low-rank adaptation (LoRA) ablation reached 95.7%/88.8% at its source
-threshold. At $n^+=200$, its Tier A mean was 93.8%/94.0%, with a violation
-rate of 1.2% (12/1,000; 0.6–2.1%). The random-split
-control had 99.3%/99.2% specificity at the source threshold
-(logistic/MLP). Under simulated low-score verification probability $q=0.10$,
-naive calibration violated the empirical sensitivity target in 100% of 100
-audit repetitions; the four-bound certificate issued in 4%/7% of repetitions
-with no observed violations among issued thresholds. The linear IPW--Hoeffding
-arm always refused. At $q=1$, the pre-specified specificity-gap utility gate
-failed (11.8 and 22.6 percentage-point gaps for logistic regression and MLP).
-ROI-stratum sensitivities were imprecise, with no clear monotone lesion-size
-trend.
+**Results:** At the source threshold, TBX11K validation sensitivity and specificity were 91.5%/64.3% for logistic regression and 95.7%/57.5% for the MLP with RAD-DINO. As comparator, ResNet50-A1 reached 84.1%/33.3% and 88.4%/31.0%, respectively. At $n^+=100$ in Shenzhen, RAD-DINO MLP Tier A averaged 92.1%/62.9% sensitivity/specificity. The MLP violation rate and the probability of specificity at least 70% were both 4.9%, compared with a 28.8% logistic violation rate. On Shenzhen, source-threshold sensitivity was below 90% for both heads (79.2% logistic; 77.4% MLP). A source-only RAD-DINO low-rank adaptation (LoRA) ablation at seed 42 reached 95.7%/88.8% at its source threshold. At $n^+=200$, its Tier A mean was 93.8%/94.0%, with 1.2% violation (12/1,000; CP95 0.6–2.1%). Independent seed 43 reached B0 95.1%/89.9%, but its $n^+=200$ finite-pool violation rate was 17.7% (177/1,000; CP95 15.4–20.2%). This difference is an image-level audit result and neither validates nor disproves population PAC coverage. The random-split deduplicated site-mixed control had 99.1%/98.9% specificity at the source threshold (logistic/MLP). Under simulated low-score verification probability $q=0.10$, naive calibration violated the empirical sensitivity target in 100% of 100 audit repetitions; the four-bound certificate issued in 4%/7% of repetitions with no observed violations among issued thresholds. The linear IPW--Hoeffding arm always refused. At $q=1$, the pre-specified specificity-gap utility gate failed (11.8 and 22.6 percentage-point gaps for logistic regression and MLP).
+
 
 **Conclusion:** The implementation makes the exact sample-size refusal rule
 explicit and demonstrates the utility cost of conservative selective-label
-certification. All conclusions remain exploratory patient-level analyses (one image per
-patient). External database screening, ethics review, and data-use review
+certification. All conclusions remain exploratory image-level analyses;
+patient linkage is unverified. External database screening, ethics review, and data-use review
 remain outstanding before submission or artifact release.
 
 ## 1. Introduction
@@ -58,29 +38,9 @@ In field screening, microbiological verification may also depend on symptoms,
 score, or clinician judgment. If lower-scoring people are less likely to be
 verified, the observed TB-positive sample is selected rather than representative.
 
-Prior multi-site CXR evaluation has documented performance across distinct
-populations, and an individual-participant diagnostic-accuracy meta-analysis
-has examined threshold behavior across studies ([Qin et al., 2019](https://pubmed.ncbi.nlm.nih.gov/31628424/);
-[Tavaziva et al., 2022](https://pubmed.ncbi.nlm.nih.gov/34286831/)). These
-records motivate local evaluation. Our exploratory searches did not identify
-a study that evaluates a patient-level certify-or-refuse sensitivity rule under
-selectively verified TB labels while reporting its target-site specificity
-tradeoff. This is a scoped research gap, not a systematic novelty claim.
-Exploratory searches were recorded in PubMed and IEEE Xplore; Scopus was not
-accessed. This is not a systematic review (see
-[`literature_search.md`](literature_search.md)).
+Prior multi-site CXR evaluation and an individual-participant diagnostic-accuracy meta-analysis have examined performance and threshold behavior across populations ([Qin et al., 2019](https://pubmed.ncbi.nlm.nih.gov/31628424/); [Tavaziva et al., 2022](https://pubmed.ncbi.nlm.nih.gov/34286831/)). A 2026 exploratory audit also reports that a TBX11K-selected 95% sensitivity threshold met that point estimate in only 4 of 16 target evaluations ([Akhtar et al., 2026](https://arxiv.org/abs/2609.21763)). Our work studies a different question: finite-sample certify-or-refuse calibration of positive-class sensitivity and selective verification. Literature screening is incomplete, and we make no priority claim (see [`literature_search.md`](literature_search.md)).
 
-Risk-control comparators motivate finite-sample calibration and covariate-shift
-corrections ([Bates et al., 2021](https://doi.org/10.1145/3478535);
-[Zecchin et al., 2025](https://arxiv.org/abs/2501.11413);
-[Almeida et al., 2025](https://proceedings.mlr.press/v266/almeida25a.html)).
-The runner compares marginal conformal risk control (CRC), weighted CRC
-(W-CRC), and importance-weighted learn-then-test (IW-LTT) using unit density
-weights and evaluates issued thresholds on an independent target holdout. This
-is an exchangeable positive-class baseline, not a shift-adjusted comparison. A
-real-site shift analysis still requires a justified positive-conditional density
-ratio and valid upper bound, which are unavailable. RAD-DINO is a
-self-supervised chest-X-ray encoder ([Pérez-García et al., 2024](https://doi.org/10.1038/s42256-024-00965-w)).
+Risk-control comparators motivate finite-sample calibration and covariate-shift corrections ([Bates et al., 2021](https://doi.org/10.1145/3478535); [Zecchin et al., 2025](https://arxiv.org/abs/2501.11413); [Almeida et al., 2025](https://proceedings.mlr.press/v266/almeida25a.html); [Angelopoulos et al., 2025](https://doi.org/10.1214/24-AOAS1998)). The runner compares marginal conformal risk control (CRC) and importance-weighted learn-then-test (IW-LTT) using unit density weights and evaluates issued thresholds on an independent target holdout. Unit-weight W-CRC is algebraically identical to CRC and is not reported as a separate result. These are exchangeable positive-class baselines, not shift-adjusted comparisons. A real-site shift analysis still requires a justified positive-conditional density ratio and valid upper bound, which are unavailable. RAD-DINO is a self-supervised chest-X-ray encoder ([Pérez-García et al., 2025](https://doi.org/10.1038/s42256-024-00965-w)).
 
 This study investigates a certify-or-refuse workflow: calibrate a threshold
 using target-site TB-positive scores and issue it only if an exact
@@ -93,24 +53,22 @@ audit of the assumptions, refusal behavior, and empirical utility trade-offs.
 Research questions are:
 
 1. What sensitivity/specificity trade-off does the target-only exact rule show
-   on a patient-level target holdout?
+   on an image-level target holdout?
 2. How different is a site-mixed random image split from leave-site-out
    evaluation?
 3. How do naive and conservative procedures behave when low-score reference
    verification is selective with known probability?
-4. Do source-threshold sensitivities differ descriptively across the
-   available positive-only lesion-size annotations?
 
 ## 2. Methods
 
 ### 2.1 Data sources, label policy, and units
 
 The processed cohort contains 9,060 images: 138 Montgomery, 662 Shenzhen,
-and 8,260 binary TBX11K records. The official TBX11K train-validation lists
+and 8,260 binary TBX11K records. Montgomery and Shenzhen positives are abnormal radiographs with TB-consistent manifestations under the documented clinical-reading and filename-suffix rule; these are radiological labels, not microbiological confirmation. The official TBX11K train-validation lists
 contain 8,400 images; 139 obsolete-only and one unresolved TB image were
 excluded, leaving 8,260 records. Montgomery and Shenzhen image-level labels
 follow their documented filename suffix convention. For TBX11K, active TB is
-positive only when at least one `ActiveTuberculosis` annotation is present.
+positive only when at least one `ActiveTuberculosis` annotation is present; 139 obsolete-only and one unresolved image were excluded.
 The official training and validation lists are used; the unlabeled test
 partition and mixed-site `all_*` lists are excluded.
 
@@ -127,9 +85,7 @@ resized to 224 × 224 with Lanczos interpolation and replicated to three
 channels. This cache resolution was used by ResNet50; RAD-DINO inputs were
 processed at 518 × 518.
 Montgomery/Shenzhen region-of-interest (ROI) CSVs annotate positive lesions only; they are not
-complete label inventories. Each image represents one patient according to `data/README.md` and the
-confirmed dataset structure. The sampling unit throughout is therefore one
-patient per image; the explicit `patient_id` column may remain blank.
+complete label inventories. Patient linkage has not been verified from source records; `patient_id` remains blank. The recorded sampling unit is one image. Patient linkage is unverified and the explicit `patient_id` column remains blank.
 
 ### 2.2 Encoders and source-only decision rules
 
@@ -141,7 +97,11 @@ Logistic regression and a one-hidden-layer MLP (128 units) were fitted only
 to source training images. A source validation set selected the empirical
 threshold whose observed source-positive sensitivity reached 90%. This
 source threshold is an empirical baseline, not a target-site certificate; we
-call the source-threshold baseline B0.
+call the source-threshold baseline B0. For the primary run, the source head
+was trained on 639 images (Montgomery and Shenzhen) and selected its threshold
+on 161 source-validation images. This small source cohort limits the precision
+of the site-shift interpretation and precludes a broad claim about a general
+site effect.
 
 An origin probe used five-fold stratified cross-validation to predict site
 from RAD-DINO embeddings. It diagnoses whether embeddings contain site
@@ -149,14 +109,15 @@ information; it cannot establish causal shortcut learning.
 
 ### 2.3 CRC-family baseline comparison
 
-For each fitted head, the primary and secondary runners calibrate marginal CRC,
-W-CRC, and IW-LTT on the full target-positive calibration pool, then evaluate
+For each fitted head, the primary and secondary runners calibrate marginal CRC
+and IW-LTT on the full target-positive calibration pool, then evaluate
 issued thresholds on the independent target holdout. The comparison uses unit
 density ratios and upper bound one, representing the exchangeable positive-class
-baseline. CRC and W-CRC use target FNR tolerance $alpha=0.10$; IW-LTT also uses
+baseline. CRC uses target FNR tolerance $alpha=0.10$; IW-LTT also uses
 failure probability $delta=0.05$. W-CRC uses unit test weights, so deployment
 points share the same certificate. These results do not adjust for covariate
-shift. A valid shift-adjusted analysis requires a justified target/source
+shift. W-CRC at unit calibration and test weights is algebraically identical
+to CRC, so it is not presented as a separate result. A valid shift-adjusted analysis requires a justified target/source
 density ratio conditional on TB positivity and a valid bound; neither is
 available here. The runner records certificate status, threshold, diagnostics,
 and holdout sensitivity/specificity under `risk_control_comparison` in each
@@ -208,6 +169,8 @@ $$
 n^+_{\min}=\left\lceil\frac{\log\delta}{\log(1-\alpha)}\right\rceil=29.
 $$
 
+This order-statistic tolerance-limit calculation follows the distribution-free finite-sample framework of [Wilks (1941)](https://doi.org/10.1214/aoms/1177731788). At a tied boundary score, the `>=` decision includes all tied cases, making the realized calibration miss count no larger than the allowed order-statistic count.
+
 The guarantee concerns population sensitivity conditional on the assumptions;
 it is not a per-patient guarantee. This is a probably approximately correct
 (PAC) statement. Because verified patient linkage is absent, our real-data
@@ -234,10 +197,10 @@ contains unique source-validation score quantiles at 25 probability points
 from 0.01 through 0.99, fixed before simulated verification labels are
 examined and tested in increasing score-threshold order (from more sensitive
 to less sensitive). The single failure probability $\delta=0.05$ applies to
-the complete pre-specified fixed sequence. The audited low-score verification probabilities are
+the complete pre-specified fixed sequence. The risk is nondecreasing on this grid, and the rule issues only its passing prefix. If an issued threshold were unsafe, the first unsafe grid point would also have passed its pointwise four-component bound; this monotone step-up argument controls false issuance without dividing $\delta$ by the number of candidates. The audited low-score verification probabilities are
 $q\in\{0.10,0.25,0.50,1.00\}$.
 
-We refer to the four-bound verification-bias certificate as VB. It splits
+We refer to the four-bound verification-bias certificate as VB. The exact binomial interval construction follows [Clopper and Pearson (1934)](https://doi.org/10.1093/biomet/26.4.404). It splits
 $\delta$ into four tails
 $\eta=\delta/4$. At candidate threshold $t$, bound high-score and low-score
 miss counts above with CP upper bounds $U_H(t)$ and $U_L(t)$; scale the
@@ -264,26 +227,17 @@ $$
 \sqrt{\frac{\log(1/\delta)\sum_{i=1}^N\pi_i^{-2}}{2N^2}},
 $$
 
-and passes if this upper bound is at most zero. The implementation stops at
-the first failing threshold. This is the evaluated Hoeffding arm, not a
-claim that it is uniformly tighter or empirically useful.
+and passes if this upper bound is at most zero. The implementation stops at the first failing threshold. This is the evaluated Hoeffding arm, not a claim that it is uniformly tighter or empirically useful. When low-score verification probability $q$ is small, the confidence bonus includes terms proportional to $q^{-2}$; at finite screening counts this can exceed the negative empirical margin, explaining the observed refusal as a conservative negative result rather than a failed validity check.
 
 ### 2.6 Controls, secondary analysis, and uncertainty summaries
 
 N1 denotes healthy-only negatives, and N2 denotes healthy plus non-TB disease
 negatives in the negative-spectrum control. The random-split negative control uses a
-stratified patient-level random split (one image per patient) that allows each site to occur in model
+stratified image-level random split (patient linkage unverified) that allows each site to occur in model
 training, calibration, validation, and evaluation; it is intentionally not
-a transportability estimate, although each image represents a distinct patient.
+a transportability estimate or a patient-level validation.
 
-For lesion size, we used the 250 boxes in the Shenzhen consensus ROI table;
-the available public documentation did not establish whether this table
-combines both upstream annotation sets. We grouped boxes by image across the
-68 active-TB manifest images. When an image had multiple boxes, we used the largest single annotated box (not the
-geometric union of boxes); size is its area divided by the original full-image
-area. Images are split into three approximately equal tertiles. This proxy is
-not clinical severity and annotations do not cover all positives. We report
-exact 95% CP binomial intervals for the number detected within each stratum.
+For lesion size, we used the 250 boxes in the project’s Shenzhen ROI CSV and grouped them by image across the 68 matched active-TB images. The public Shenzhen archive contains separate annotation collections for two radiologists, each covering 336 TB-positive images; available documentation does not establish how the project CSV’s boxes were derived from those collections. When an image had multiple boxes, we used the largest single annotated box (not the geometric union of boxes); size is its area divided by the original full-image area. Images are split into three approximately equal tertiles. This proxy is not clinical severity and annotations do not cover all positives. We report exact 95% CP binomial intervals for the number detected within each stratum.
 
 Tier A studies repeatedly sample distinct positives without replacement from
 the finite calibration pool, with 1,000 repetitions for the main and random
@@ -294,17 +248,15 @@ from sampling an infinite patient population.
 
 ### 2.7 LoRA ablation protocol
 
-The RAD-DINO LoRA arm is an optional source-only fine-tuning ablation. It
-targets the query and value attention projections with rank 8, alpha 16,
-dropout 0.05, FP16 CUDA autocast, and a source-trained classification head.
-Training uses Montgomery/Shenzhen source-train images only; source validation
-sets the baseline threshold. Official TBX11K train positives are reserved for
-Tier A calibration and TBX11K validation for evaluation. The run configuration
-uses three epochs, AdamW (learning rate $10^{-4}$, weight decay 0.01), batch
-size 1 with gradient accumulation 4, and seed 42. There are 639 source-train
-images and 161 source-validation images; 295,681 parameters are trainable
-(adapter plus classifier head). The adapter and head are saved separately,
-alongside the source split manifest and full JSON result.
+The RAD-DINO LoRA arm is an optional source-only fine-tuning ablation. It targets the query and value attention projections with rank 8, alpha 16, dropout 0.05, FP16 CUDA autocast, and a source-trained classification head. Training uses Montgomery/Shenzhen source-train images only; source validation sets the baseline threshold. Official TBX11K train positives are reserved for Tier A calibration and TBX11K validation for evaluation. Both runs use three epochs, AdamW (learning rate $10^{-4}$, weight decay 0.01), batch size 1 with gradient accumulation 4, and independent seeds 42 and 43. Each uses 639 source-train images and 161 source-validation images; 295,681 parameters are trainable (adapter plus classifier head). Each run directory contains the adapter, classifier head, and full JSON result; source split manifests are stored separately under `data/splits/`.
+
+### 2.8 Multi-seed and nested target-pool audits
+
+For each frozen encoder, source heads and thresholds were refit at seeds 42–51. For each target, all observed positive images were repeatedly divided into disjoint calibration and evaluation halves (660 TBX11K positives or 336 Shenzhen positives before splitting), and 1,000 repetitions evaluated Tier A and CRC over $n^+\in\{10,20,28,29,\ldots,45,46,61,76,100\}$. Exact-pixel aliases were excluded from target negative evaluation. IW-LTT used 20 repetitions and 10 random orderings per cell because of its runtime; those results are preliminary. Cross-fitted domain-classifier odds and ESS are diagnostic summaries only and are not treated as validated density ratios or supplied to a weighted guarantee.
+
+### 2.9 Ambiguous-label and verification-budget sensitivity
+
+The label-sensitivity audit remapped all 140 TBX11K obsolete/unresolved records (139 obsolete and one unresolved; 104 official train and 36 validation) to active TB in one extreme scenario and non-active TB in the other. It excluded 25 exact-pixel aliases from validation evaluation and reran the source threshold and Tier A at $n^+\in\{29,46,61,100,200\}$ for both encoders. The verification-budget sweep independently bootstrapped calibration and evaluation scores from the deduplicated TBX11K training split across $N\in\{1000,2000,4000,6496\}$, prevalence $\{0.05,0.10,0.20,0.40\}$, and low-score verification probability $q\in\{0.10,0.25,0.50,1.00\}$, with 100 repetitions per cell. Both analyses are image-level empirical stress tests, not validation of patient independence or future-population PAC guarantees.
 
 ## 3. Results
 
@@ -326,8 +278,8 @@ renamed pixel duplicates.
 | TBX11K official validation, ResNet50-A1 B0      |         MLP |       88.4% |       31.0% | Source threshold                                                |
 | Shenzhen image holdout, RAD-DINO B0             |    Logistic |       79.2% |       84.0% | Source threshold misses 90% target; 168 positive / 163 negative |
 | Shenzhen image holdout, RAD-DINO B0             |         MLP |       77.4% |       89.6% | Source threshold misses 90% target; 168 positive / 163 negative |
-| Site-mixed random split, RAD-DINO B0            |    Logistic |       81.5% |       99.3% | 211 positive / 1,601 negative images                            |
-| Site-mixed random split, RAD-DINO B0            |         MLP |       85.8% |       99.2% | Not a transportability control                                  |
+| Deduplicated site-mixed random split, RAD-DINO B0 | Logistic | 90.0% | 99.1% | 211 positive / 1,576 negative images |
+| Deduplicated site-mixed random split, RAD-DINO B0 | MLP | 91.5% | 98.9% | Not a transportability control |
 | TBX11K validation, source-only RAD-DINO LoRA B0 | Linear head |       95.7% |       88.8% | 164 positive / 1,600 negative images                            |
 
 In the primary TBX11K Tier A analysis, at $n^+=29$ mean sensitivity was
@@ -349,32 +301,40 @@ violation frequency and the other is the frequency of specificity at least
 
 At Shenzhen $n^+=29,46,61,100$, these probabilities were 10.4%, 10.3%,
 10.3%, and 4.9% for MLP, and 4.0%, 1.6%, 0.9%, and 0.6% for logistic.
-All are estimates from 1,000 patient-level resamples (one image per patient); exact values, violation
+All are estimates from 1,000 image-level resamples (patient linkage unverified); exact values, violation
 intervals, and refusal frequencies are in the linked run JSON files below.
 
-The site-origin probe reached 99.3% accuracy, 98.0% balanced accuracy, and
+The alias-excluded site-origin probe reached 99.3% accuracy, 98.6% balanced accuracy, and
 99.9% macro one-vs-rest area under the receiver-operating-characteristic
-(ROC) curve over RAD-DINO embeddings. This indicates site
-information is present but does not identify its source or causal mechanism.
-At the primary logistic source threshold, specificity was 85.6% against
+(ROC) curve over RAD-DINO embeddings. This indicates site information is present but does not identify its source or causal mechanism. The deduplicated random-split source-threshold metrics were heterogeneous by site:
+
+The four preprocessing-ablation origin probes excluded 126 exact-pixel aliases and retained high site decodability: balanced accuracy was 98.4% for ResNet50-A1 window-all-224, 98.7% for ResNet50-A1 letterbox-224, 98.3% for RAD-DINO window-all-518, and 99.2% for RAD-DINO letterbox-518 ([results](../experiments/runs/preprocessing_ablation/)). These probes measure site information in embeddings and do not identify its cause or prove causal TB-label shortcutting.
+
+| Evaluation site | Positive / negative images | Logistic sensitivity / specificity | MLP sensitivity / specificity |
+| --- | ---: | ---: | ---: |
+| Montgomery | 15 / 11 | 53.3% / 100.0% | 60.0% / 100.0% |
+| Shenzhen | 74 / 58 | 86.5% / 93.1% | 89.2% / 89.7% |
+| TBX11K | 122 / 1,507 | 96.7% / 99.3% | 96.7% / 99.3% |
+
+The split excludes 126 exact-pixel duplicate aliases, all TBX11K non-TB images. Site-specific rates describe this image split; they are not estimates for deployment populations.
+N1 contains 800 healthy negatives; N2 contains 800 healthy and 800 non-TB disease negatives. At the primary logistic source threshold, specificity was 85.6% against
 N1 (healthy-only negatives) compared with 64.3% against N2 (healthy plus
 non-TB disease); for the MLP it was 76.8% versus 57.5%. Sensitivity was
 unchanged within each head because the positive holdout was identical. This
-confirms substantial dependence of specificity on negative spectrum.
+confirms substantial dependence of specificity on negative spectrum; the
+N2 spectrum is a constructed dataset mixture and does not represent a deployment population.
 
 ![Latest aggregate result preview generated from experiment JSON](figures/latest_results.svg)
 
 ### 3.3 Selective-verification results
 
-With 100 policy repetitions, naive Tier A violation was 100% for logistic
-and MLP at $q=0.10$. At $q=0.25$, naive violation was 100% and 77%,
+The naive results illustrate the selection effect induced by this simulated policy; they are not an independent empirical validation. With 100 policy repetitions, naive Tier A violation was 100% for logistic and MLP at $q=0.10$. At $q=0.25$, naive violation was 100% and 77%,
 respectively. The four-bound VB method had zero observed violations among
 issued runs; at $q=0.10$ its issue rates were 4% (logistic) and 7% (MLP),
 with specificity means 23.1% and 10.5% in those few issued runs. At
 $q=0.25$, issue rate was 100% for both heads, with zero observed violations.
 The linear IPW--Hoeffding arm refused every threshold in all audited policy
-runs. Zero observed violations is not proof of the nominal 5% population
-failure bound, especially given finite data.
+runs. At $q=0.10$, zero violations among four issued VB certificates has a two-sided exact 95% CP interval with an upper endpoint near 60.2%; this is uninformative about the nominal 5% population failure bound.
 
 At $q=1$, a pre-specified tightening utility gate required VB mean
 specificity to be no more than 3 percentage points below naive Tier A. It failed: logistic
@@ -384,21 +344,21 @@ in the audits but the tightening/utility gate is not passed.
 
 ### 3.4 CRC-family comparison
 
-On the RAD-DINO TBX11K primary holdout, CRC and unit-weight W-CRC selected the
-same threshold for each head, as expected when every density ratio is one.
-Logistic regression had 90.9% sensitivity and 70.2% specificity; the MLP had
-91.5% sensitivity and 81.5% specificity. Unit-weight IW-LTT selected a lower
+On the RAD-DINO TBX11K primary holdout, CRC selected a threshold with logistic
+regression sensitivity/specificity of 90.9%/70.2% and MLP sensitivity/specificity
+of 91.5%/81.5%. Unit-weight W-CRC is algebraically identical to CRC and is not
+reported as a separate result. Unit-weight IW-LTT selected a lower
 threshold: logistic regression had 94.5% sensitivity and 51.8% specificity,
 and the MLP had 93.3% sensitivity and 68.0% specificity. The IW-LTT p-values
 at the selected thresholds were 0.00000577 and 0.00918, respectively, at nominal
-$delta=0.05$. On the Shenzhen holdout, CRC/W-CRC had sensitivity/specificity
+$delta=0.05$. On the Shenzhen holdout, CRC had sensitivity/specificity
 of 86.3%/68.1% for logistic regression and 85.7%/76.1% for the MLP. IW-LTT
 had 97.0%/31.3% and 94.0%/51.5%, with p-values 0.00784 and 0.000113.
 These are empirical holdout results under unit weights, not evidence of
 correction for site shift. The comparison calibrates on target positives, so it
 does not replace a source-to-target weighted transport analysis.
 
-### 3.5 Lesion-size ROI analysis
+### Supplementary exploratory lesion-size ROI analysis
 
 Parentheses give exact 95% Clopper--Pearson confidence intervals.
 
@@ -438,11 +398,25 @@ At $n^+=46$, the finite-holdout violation estimate is above 5%; these audit
 frequencies neither prove nor disprove the assumed population PAC statement.
 Peak allocated CUDA memory was 502,656,512 bytes.
 
-Compared with the frozen-encoder rows above, this source-only ablation had
-higher observed specificity at similar sensitivity. This single run is
-exploratory and does not establish a statistically significant improvement or
-patient-level transfer. The source split manifest, adapter weights, separate
-classifier head, and complete run JSON are linked below for reproduction.
+The earlier `p1_2_lora` and retained `p1_2_lora_final` folders are same-seed reruns at seed 42. Both produced the same TBX11K B0 counts and rounded sensitivity/specificity (95.7%/88.8%); the final threshold differs by 0.00012. Independent seed 43 produced similar B0 sensitivity/specificity (95.1%/89.9%) but a 17.7% finite-pool Tier A violation frequency at $n^+=200$, compared with 1.2% at seed 42. The audit reuses the same finite image pool and does not verify patient independence, so the difference motivates caution and does not validate or disprove the mathematical population guarantee. Two seeds are not enough for a multi-seed robustness claim.
+
+Across seeds 42 and 43, source-only LoRA reached B0 sensitivity/specificity of 95.7%/88.8% and 95.1%/89.9%, respectively. At $n^+=200$, the image-pool Tier A violation frequencies were 1.2% and 17.7% over 1,000 repetitions. Two seeds are not enough to establish robustness, and these finite-pool results neither validate nor disprove population PAC coverage; patient linkage is unverified. The source split manifests, adapter weights, classifier heads, and complete run JSON files are linked below for reproduction.
+
+### 3.7 Multi-seed and nested target-pool audit
+
+Across 10 source-head seeds, RAD-DINO TBX11K sensitivity averaged 92.6% (SD 2.1%) for logistic regression and 94.6% (SD 1.8%) for the MLP; corresponding Shenzhen means were 82.3% (SD 2.6%) and 85.2% (SD 2.2%). ResNet50-A1 TBX11K means were 87.6% (SD 3.6%) and 87.1% (SD 3.8%), and Shenzhen means were 77.4% (SD 1.9%) and 71.8% (SD 3.8%). These heads used 639 source-training images for TBX11K and 6,505 for Shenzhen.
+
+Across both encoders, targets, and heads, the 1,000-repetition nested image-pool audit produced Tier A violation frequencies of 4.7–6.7% at $n^+=29$ (the binomial floor benchmark is 4.71%) and 2.9–6.9% at $n^+=100$ (benchmark 2.37%). CRC per-repetition holdout violation frequencies ranged from 21.8% to 48.6% over the audited grid; these are not CRC type-I error rates because CRC controls marginal expected risk. The empirical target pools were finite, calibration/evaluation halves reused the same observed positives across repetitions, and patient linkage is unverified; therefore none of these frequencies validates patient-i.i.d. PAC coverage. Full results and intervals are in [`ResNet50-A1`](../experiments/runs/robustness_audits/general-767268603ca0/results.json) and [`RAD-DINO`](../experiments/runs/robustness_audits/chest_xray-110cbc18d513/results.json).
+
+The WSR null simulation rejected 50 of 2,000 null hypotheses (2.5%; 95% CP interval 1.86–3.28%) under iid Bernoulli losses. Cross-fitted density-ratio diagnostics had effective sample sizes of 415/660 (ResNet50-A1) and 447/660 (RAD-DINO) for TBX11K, and 43/336 and 69/336 for Shenzhen. These odds are diagnostics, not verified shift weights or known upper bounds.
+
+### 3.8 Obsolete/unresolved-label sensitivity
+
+The extreme remappings changed RAD-DINO's logistic Tier A violation rate at $n^+=200$ from 0.9% (all ambiguous records non-active) to 8.5% (all active); the MLP rates were 0.3% and 0.6%. For ResNet50-A1, the corresponding ranges were 0.3–0.9% for logistic regression and 0.0–0.1% for the MLP. These are sensitivity analyses of two deliberately extreme label policies, not evidence that ambiguous findings are biologically positive or negative; see the [`ResNet50-A1`](../experiments/runs/label_sensitivity/general-767268603ca0/results.json) and [`RAD-DINO`](../experiments/runs/label_sensitivity/chest_xray-110cbc18d513/results.json) result files.
+
+### 3.9 Selective-verification budget sweep
+
+The 64-cell bootstrap simulation used $N=1{,}000$–6,496, prevalence 0.05–0.40, and $q=0.10$–1.00 with 100 repetitions per cell. Naive Tier A issued in every cell and its observed violation frequency ranged from 2% to 100%. Four-bound VB issued in 44/64 cells, with 0–2% violations among issued certificates; linear IPW-Hoeffding issued in 9/64 cells with no observed violations. These conditional finite-simulation frequencies do not establish future-population coverage; the full grid and Clopper–Pearson intervals are in the [`budget-sweep results`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_8_budget_sweep/results.json).
 
 ## 4. Discussion
 
@@ -463,7 +437,7 @@ specificity 62.9% and a 4.9% empirical violation rate; logistic violation
 was 28.8%. At this calibration size, specificities around 40--63% imply that
 a substantial share of non-TB images in the holdout would be flagged for
 follow-up: about 37--60 per 100 across the reported heads. This could increase
-confirmatory-testing workload; the patient-level holdout does not estimate
+confirmatory-testing workload; the image-level holdout does not estimate
 referral burden or predictive value in a deployment population. The 4.9%
 violation rate and 4.9% frequency of specificity at least 70% are distinct
 resampling measures that happen to be numerically equal.
@@ -484,6 +458,8 @@ differs and identity linkage is unknown, so the contrast is not a causal
 estimate of site shift. The origin probe and negative-spectrum control
 support caution when interpreting a single aggregate metric.
 
+The nested audits add seed variability and target-pool resampling, but they do not repair the identity limitation: the 660/336 image-positive pools cannot be treated as verified patient-i.i.d. samples. The observed Tier A frequencies therefore show finite-pool behavior and motivate careful interpretation of the mathematical certificate's assumptions; they are not a re-estimate of population PAC coverage. The extreme-label audit also shows that decisions can depend on how TBX11K's 140 obsolete/unresolved cases are handled, particularly for RAD-DINO logistic regression.
+
 Naive use of selectively verified positives performed poorly in the
 simulation. The four-bound certificate traded utility for conservatism and
 failed the pre-specified specificity-gap gate; the Hoeffding alternative
@@ -501,22 +477,17 @@ outcomes or to assert clinical advantage.
 
 ### Limitations and open research checkpoints
 
-1. One image per patient is confirmed for all three datasets, so the image-based
-   splits are patient-level. This does not establish i.i.d. sampling or rule out
-   duplicate images across separate source datasets.
-2. The public upstream pretraining list provides no image files or pixel hashes,
-   so we could not test for pixel-level duplicates under different filenames.
-   The metadata audit therefore does not rule out such overlap.
-3. The label reference standard and cohort spectrum are imperfect proxies for
+1. Patient linkage is unverified for all three datasets, so the image-level splits do not establish independent patient sampling.
+2. The image-identity audit found 126 exact decoded-pixel duplicate groups within TBX11K, all in the non-TB class; 38 groups span its official train/validation lists. No exact cross-site duplicates were found. The perceptual-hash screen found 18 cross-site candidates, which require manual review and are not confirmed duplicates. Embedding-neighbor candidates are reported in the audit JSON.
+3. Exact duplicates make the original site-mixed random split unsuitable as an unqualified control; the revised run excludes exact duplicate aliases before splitting.
+4. The label reference standard and cohort spectrum are imperfect proxies for
    clinical confirmation and deployment populations.
-4. Selective verification is simulated, not prospectively observed; the VB
-   and linear arms are patient-level audits (one image per patient).
-5. The Shenzhen consensus ROI table contains 250 rows, but public
-   documentation does not establish whether these combine both upstream
-   annotation sets.
-6. Age, sex, and TB-history strata are absent from the manifest, so Mondrian
+5. Selective verification is simulated, not prospectively observed; the VB
+   and linear arms are image-level audits.
+6. The project Shenzhen ROI CSV contains 250 boxes across 68 images. The public archive has two reader-specific annotation collections, each covering 336 TB-positive images, but documentation does not explain the derivation of the project CSV from them.
+7. Age, sex, and TB-history strata are absent from the manifest, so Mondrian
    stratification could not be evaluated.
-7. Ethics approval or waiver, dataset terms, and data-use permissions have
+8. Ethics approval or waiver, dataset terms, and data-use permissions have
    not been documented as complete; resolve them before submission. Authority
    to redistribute derived artifacts also remains outstanding, and nothing
    is released by these commands.
@@ -524,7 +495,7 @@ outcomes or to assert clinical advantage.
 ### Conclusion
 
 This work implements an exact target-positive certify-or-refuse threshold,
-audits its patient-level trade-off, and compares it with selective-verification
+audits its image-level trade-off, and compares it with selective-verification
 procedures. The 29-positive floor is exact for the selected error and
 confidence levels, but the empirical studies do not establish all distributional and labeling
 assumptions. Future claims require prospective cohorts,
@@ -543,7 +514,7 @@ uv run tb-certify preprocess-data --project-root . --image-size 224
 uv run tb-certify preprocess-data --project-root . --output-dir data/processed/rad_dino_518 --image-size 518
 uv run --extra vision tb-certify extract-embeddings --project-root . --encoder general --output-dir artifacts/embeddings/general-767268603ca0
 uv run --extra vision tb-certify extract-embeddings --project-root . --encoder chest_xray --output-dir artifacts/embeddings/chest_xray-110cbc18d513
-uv run python scripts/probe_dataset_origin.py --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_4_origin_probe.json --seed 42 --folds 5
+uv run python scripts/probe_dataset_origin.py --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --identity-audit artifacts/audits/image_identity.json --output experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_4_origin_probe_deduped.json --seed 42 --folds 5
 uv run python scripts/run_primary_real_study.py --project-root . --embedding-dir artifacts/embeddings/general-767268603ca0 --output-dir experiments/runs/primary_tbx11k_loso/general-767268603ca0 --target-site TBX11K --repetitions 1000 --seed 42
 uv run --extra vision python scripts/run_primary_real_study.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output-dir experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513 --target-site TBX11K --repetitions 1000 --seed 42
 uv run --extra vision python scripts/run_primary_real_study.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output-dir experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_8_selective --target-site TBX11K --repetitions 1000 --selective-repetitions 100 --seed 42
@@ -551,6 +522,7 @@ uv run --extra vision python scripts/run_primary_real_study.py --project-root . 
 uv run --extra vision python scripts/run_random_split_control.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output-dir experiments/runs/random_image_control/chest_xray-110cbc18d513 --repetitions 1000 --seed 42
 uv run --extra vision python scripts/analyze_lesion_size.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513/p0_9_lesion_size/results.json
 uv run --extra vision python scripts/run_lora_ablation.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output-dir experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final --epochs 3 --batch-size 1 --gradient-accumulation 4 --repetitions 1000 --seed 42
+uv run --extra vision python scripts/run_lora_ablation.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output-dir experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_seed43 --epochs 3 --batch-size 1 --gradient-accumulation 4 --repetitions 1000 --seed 43
 uv run --extra vision python scripts/render_result_thumbnails.py --output-dir paper/figures
 ```
 
@@ -558,13 +530,14 @@ uv run --extra vision python scripts/render_result_thumbnails.py --output-dir pa
 
 - Primary B0/Tier A: [`results.json`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/results.json)
 - ResNet50-A1 baseline: [`results.json`](../experiments/runs/primary_tbx11k_loso/general-767268603ca0/results.json)
-- Site-origin probe: [`p0_4_origin_probe.json`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_4_origin_probe.json)
+- Site-origin probe: [`p0_4_origin_probe_deduped.json`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_4_origin_probe_deduped.json)
 - Selective verification: [`results.json`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_8_selective/results.json)
 - Linear IPW--Hoeffding gate: [`results.json`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_8_p1_linear_selective/results.json)
 - Shenzhen target: [`results.json`](../experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513/results.json)
 - Random split: [`results.json`](../experiments/runs/random_image_control/chest_xray-110cbc18d513/results.json)
 - ROI tertiles: [`results.json`](../experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513/p0_9_lesion_size/results.json)
-- LoRA ablation: [`results.json`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/results.json), [`adapter`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/adapter/), [`classifier head`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/classifier_head.pt), [`source split`](../data/splits/lora_source_seed42.csv)
+- LoRA seed 42: [`results.json`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/results.json), [`adapter`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/adapter/), [`classifier head`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/classifier_head.pt), [`source split`](../data/splits/lora_source_seed42.csv)
+- LoRA seed 43: [`results.json`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_seed43/results.json), [`adapter`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_seed43/adapter/), [`classifier head`](../experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_seed43/classifier_head.pt), [`source split`](../data/splits/lora_source_seed43.csv)
 - Encoder overlap: [`audit JSON`](../artifacts/audits/rad_dino_training_overlap_110cbc18.json)
 - Split manifests: [`TBX11K primary`](../data/splits/), [`random control`](../data/splits/random_image_control_seed42.csv)
 
@@ -626,16 +599,18 @@ readmes cite the following papers:
   volume={46},
   number={4},
   pages={2316--2332},
-  year={2023},
-  publisher={IEEE}
+  year={2024},
+  publisher={IEEE},
+  doi={10.1109/TPAMI.2023.3330825}
 }
 
 @inproceedings{liu2020rethinking,
-  title={Rethinking Computer-aided Tuberculosis Diagnosis},
+  title={Rethinking Computer-Aided Tuberculosis Diagnosis},
   author={Liu, Yun and Wu, Yu-Huan and Ban, Yunfeng and Wang, Huifang and Cheng, Ming-Ming},
-  booktitle={IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
   pages={2646--2655},
-  year={2020}
+  year={2020},
+  doi={10.1109/CVPR42600.2020.00272}
 }
 ```
 

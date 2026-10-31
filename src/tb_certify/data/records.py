@@ -41,7 +41,8 @@ class LesionBox:
     height: float
 
     def __post_init__(self) -> None:
-        if not all(isfinite(value) for value in (self.x, self.y, self.width, self.height)):
+        coordinates = (self.x, self.y, self.width, self.height)
+        if not all(isfinite(value) for value in coordinates):
             raise ValueError("Lesion box coordinates must be finite.")
         if self.x < 0 or self.y < 0:
             raise ValueError("Lesion box coordinates must be non-negative.")
@@ -77,4 +78,3 @@ class ImageRecord:
             raise ValueError("image_id must not be empty.")
         if self.patient_id is not None and not self.patient_id.strip():
             raise ValueError("patient_id must be non-empty when provided.")
-

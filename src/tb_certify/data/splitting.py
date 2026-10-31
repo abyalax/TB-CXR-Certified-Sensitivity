@@ -76,7 +76,9 @@ class PatientLevelSplitter:
         )
         train_set, test_set = set(train_ids), set(test_ids)
         train_records = tuple(
-            record for record in records if (record.site, record.patient_id) in train_set
+            record
+            for record in records
+            if (record.site, record.patient_id) in train_set
         )
         test_records = tuple(
             record for record in records if (record.site, record.patient_id) in test_set

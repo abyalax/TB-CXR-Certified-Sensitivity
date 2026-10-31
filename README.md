@@ -10,7 +10,7 @@ AI-based tuberculosis (TB) triage using chest X-rays (CXR) can fail when deploye
 
 This project investigates a **certify-or-refuse** framework for sensitivity calibration at new sites. The proposed approach focuses on three key components:
 
-- **Class-conditional PAC guarantees:** Calibrate decision thresholds to provide Probably Approximately Correct (PAC) guarantees for minimum sensitivity on the target site, subject to specified statistical assumptions and confidence levels.
+- **Class-conditional sensitivity calibration:** Implement a target-positive order-statistic procedure whose PAC guarantee holds only under its sampling assumptions. Current real-data runs set `pac_claim: false` and are exploratory image-level audits.
 - **Certify-or-refuse decisions:** Refuse to issue a certificate when the available evidence is insufficient to establish the required sensitivity guarantee. Cases requiring further assessment can be referred for human review or additional diagnostic testing.
 - **Selective verification and verification bias:** Study the implications of observing reference labels for only a selected subset of cases and develop calibration procedures for selective verification.
 
@@ -56,7 +56,7 @@ Run this script on powershell for download it from source
 - Montgomery and Shenzhen ROI CSV files contain positive-lesion annotations rather than complete image-level label inventories.
 - Montgomery and Shenzhen labels are derived from the filename suffixes documented in the NLM README: `_0` indicates normal, while `_1` indicates abnormal/TB.
 - Each image has a corresponding `ClinicalReading` with a matching filename stem.
-- Each dataset image represents one unique patient, as documented in `data/README.md` and confirmed for all study datasets; image-based splits therefore preserve patient-level separation.
+- Patient linkage is unverified for this project. Image-based splits prevent duplicate image IDs from crossing partitions, but they do not establish patient-level separation.
 - For TBX11K, the primary positive-label definition requires at least one `ActiveTuberculosis` bounding box. Obsolete or ambiguous findings, as well as TB images without such boxes, are recorded separately rather than automatically classified as negative.
 
 ## Repository Structure
@@ -112,9 +112,7 @@ uv run pytest
 uv run ruff check scripts/run_lora_ablation.py scripts/render_result_thumbnails.py scripts/run_random_split_control.py scripts/analyze_lesion_size.py
 ```
 
-Last recorded test snapshot: 8 passed on the existing suite (before this
-reproducibility update; not rerun in this turn). Last focused Ruff run after
-the new runners were added: all checks passed.
+Final verification on 31 October 2026: `uv run pytest` passed all 15 tests and `uv run ruff check src scripts` passed.
 
 ## Usage
 
@@ -265,7 +263,7 @@ Result files are respectively
 [`primary results`](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/results.json)
 and
 [`Shenzhen results`](experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513/results.json).
-All estimates are image-level observations with one image per patient, so the sample unit is patient-level; the results remain exploratory.
+All estimates are image-level observations. Patient linkage has not been verified, so patient-level sampling assumptions remain unsupported; the results are exploratory.
 
 ### Selective-verification audit
 
@@ -287,12 +285,10 @@ uv run --extra vision python scripts/run_random_split_control.py --project-root 
 uv run --extra vision python scripts/analyze_lesion_size.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513/p0_9_lesion_size/results.json
 ```
 
-Last recorded random-split control: source-threshold specificity was 99.3%
-(logistic) and 99.2% (MLP), versus 64.3% and 57.5% in the primary
-leave-site-out evaluation. Last ROI run: 68 annotated Shenzhen positive
+The revised site-mixed random control excludes 126 exact TBX11K duplicate aliases before splitting; aggregate source-threshold specificity is 99.1% (logistic) and 98.9% (MLP). The run also records metrics by site. This remains a site-mixed image-level control, not a transportability estimate. Last ROI run: 68 annotated Shenzhen positive
 images; logistic sensitivity was 86.4–87.0% across size tertiles and MLP
-sensitivity 90.9–95.7%. These are descriptive patient-level controls, not clinical severity claims. See
-[`random split results`](experiments/runs/random_image_control/chest_xray-110cbc18d513/results.json)
+sensitivity 90.9–95.7%. These are descriptive image-level controls, not clinical severity claims. See
+[`deduplicated random split results`](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_6_random_split_deduped/results.json)
 and
 [`ROI results`](experiments/runs/secondary_shenzhen_loso/chest_xray-110cbc18d513/p0_9_lesion_size/results.json).
 
@@ -312,57 +308,47 @@ LoRA, selective verification, and the positive-only ROI subset.
 
 ```powershell
 uv run --extra vision hf download microsoft/rad-dino training_images.csv --revision 110cbc18d5133582e320b43d53bf5c44e410c936 --local-dir artifacts/audits/rad-dino-110cbc18
-uv run --extra vision python scripts/probe_dataset_origin.py --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_4_origin_probe.json --seed 42 --folds 5
+uv run python scripts/probe_dataset_origin.py --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --identity-audit artifacts/audits/image_identity.json --output experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_4_origin_probe_deduped.json --seed 42 --folds 5
 uv run --extra vision python scripts/audit_rad_dino_training_overlap.py artifacts/audits/rad-dino-110cbc18/training_images.csv artifacts/embeddings/chest_xray-110cbc18d513/manifest.csv --output artifacts/audits/rad_dino_training_overlap_110cbc18.json
 ```
 
-Last recorded origin probe: 98.0% balanced accuracy (site information is
-present; this does not establish causal shortcutting). Metadata overlap audit:
+Latest alias-excluded RAD-DINO origin probe: 99.3% accuracy, 98.6% balanced accuracy, and 99.9% macro OVR AUC (site information is present; this does not establish causal shortcutting). Metadata overlap audit:
 0 filename/ID matches across 882,775 upstream rows and 9,060 local images;
 pixel-level duplicate checking remains unavailable. Keep the upstream
 training-list and embedding manifest pinned to the revisions shown in the
 command; changing either invalidates the recorded audit.
 
+Four alias-excluded preprocessing-ablation origin probes also retain high site decodability: balanced accuracy is 98.4% and 98.7% for ResNet50-A1 window-all-224 and letterbox-224, and 98.3% and 99.2% for RAD-DINO window-all-518 and letterbox-518. These probes show site information in frozen embeddings, not causal shortcut use; commands and JSON outputs are documented in `docs/REPRODUCE.md`.
+
 ### LoRA ablation (optional, GPU required)
 
 ```powershell
 uv run --extra vision python scripts/run_lora_ablation.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output-dir experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final --epochs 3 --batch-size 1 --gradient-accumulation 4 --repetitions 1000 --seed 42
+uv run --extra vision python scripts/run_lora_ablation.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output-dir experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_seed43 --epochs 3 --batch-size 1 --gradient-accumulation 4 --repetitions 1000 --seed 43
 ```
 
-This fits rank-8 LoRA adapters on RAD-DINO query/value projections using only
-Montgomery and Shenzhen source training images, then audits against official
-TBX11K train/validation pools. Last completed run: 3-epoch BCE
-0.6013/0.2472/0.1222; B0 sensitivity/specificity 95.7%/88.8%; Tier A at 200
-positives 93.8%/94.0%, empirical violation 1.2% (12/1,000; 95% CP interval
-0.62–2.09%). The 6 GB RTX 3050 run completed without OOM. The output bundle
-contains `results.json`, the LoRA adapter, `classifier_head.pt`, and source
-split manifest `data/splits/lora_source_seed42.csv`.
+This fits rank-8 LoRA adapters on RAD-DINO query/value projections using only Montgomery and Shenzhen source training images, then audits against official TBX11K train/validation pools. Seed 42 had 3-epoch BCE 0.6013/0.2472/0.1222; B0 sensitivity/specificity 95.7%/88.8%; and Tier A at 200 positives 93.8%/94.0% with 1.2% empirical violation (12/1,000; 95% CP interval 0.62–2.09%). Independent seed 43 had BCE 0.6170/0.2331/0.1130; B0 95.1%/89.9%; and Tier A at 200 positives 91.1%/94.5% with 17.7% violation (177/1,000; CP95 15.4–20.2%). This large difference is a finite-pool image-level audit, not validation or disproof of population PAC coverage. Both RTX 3050 6 GB runs completed without OOM. Each run directory contains `results.json`, the LoRA adapter, and `classifier_head.pt`; source split manifests are stored separately under `data/splits/`.
 
-Last-run evidence:
-[`LoRA results`](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/results.json),
-[`adapter and head`](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/),
-[`split manifest`](data/splits/lora_source_seed42.csv).
+Last-run evidence: [`LoRA results`](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/results.json), [`adapter and head`](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_final/), [`seed-42 split`](data/splits/lora_source_seed42.csv), [`seed-43 results`](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p1_2_lora_seed43/results.json), [`seed-43 split`](data/splits/lora_source_seed43.csv).
 
 ### Code checks
 
 ```powershell
 uv run pytest
-uv run ruff check scripts/run_lora_ablation.py scripts/render_result_thumbnails.py scripts/run_random_split_control.py scripts/analyze_lesion_size.py
+uv run ruff check src scripts
 ```
 
-Last targeted lint check passed for the newly added random-split, lesion-size,
-and LoRA scripts. The full historical suite previously passed 8 tests; rerun
-these commands after a code change. No claim is made here about a new test run.
+Final verification on 31 October 2026: **15 tests passed** and **Ruff passed** for `src` and `scripts`.
+
+Additional exploratory outputs: [10-seed/nested robustness audits](experiments/runs/robustness_audits/), [ambiguous-label sensitivity](experiments/runs/label_sensitivity/), and [selective-verification budget sweep](experiments/runs/primary_tbx11k_loso/chest_xray-110cbc18d513/p0_8_budget_sweep/results.json). Their image-level and bootstrap-simulation limits are documented in [`TODO.md`](TODO.md) and [`docs/REPRODUCE.md`](docs/REPRODUCE.md).
 
 ## Methodological Assumptions and Limitations
 
 ### Patient Identity and Data Leakage
 
-One image per patient is confirmed for Montgomery, Shenzhen, and TBX11K (see `data/README.md`).
+Patient linkage is unverified across the datasets. The identity audit checks image files and pixel similarity; it does not establish that images represent distinct patients. `patient_id` remains blank where no verified crosswalk is available.
 
-- Each of the three datasets contains one image per patient. The source manifest may leave the explicit `patient_id` column blank, but the one-to-one image-to-patient relationship is confirmed.
-
-Consequently, splits based on image IDs are patient-level splits under the confirmed one-image-per-patient relationship.
+Consequently, splits based on image IDs are image-level splits; patient-level separation is not established.
 
 ### RAD-DINO Pretraining Audit
 
@@ -372,14 +358,14 @@ However, the audit cannot rule out renamed copies of the same images because the
 
 ### Statistical Assumptions
 
-The PAC interpretation assumes:
+The mathematical PAC statement assumes:
 
-1. One score per patient, with observations independently and identically distributed (i.i.d.).
+1. One score per independent sampling unit, with observations independently and identically distributed (i.i.d.).
 2. Accurate reference labels.
 3. A fixed model during calibration and evaluation.
 4. A stationary target population.
 
-These assumptions are important to the interpretation of the statistical guarantees. The one-image-per-patient mapping establishes distinct patient units; representativeness, i.i.d. sampling, accurate labels, and stationarity remain assumptions.
+These assumptions are important to the interpretation of the statistical guarantee. Because patient linkage has not been verified, the real-data runs are image-level audits and do not validate the patient-level PAC interpretation.
 
 Results should therefore be interpreted as methodological evidence under the stated assumptions, not as proof of clinical safety or validated performance at arbitrary deployment sites.
 
@@ -426,4 +412,4 @@ This repository does not include the source datasets.
 
 Before using or redistributing any dataset, checkpoint, embedding, or derived artifact, review the applicable licenses, data-use conditions, and attribution requirements.
 
-_Last Updated 22 October 2026_
+_Last Updated 31 October 2026_

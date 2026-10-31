@@ -25,12 +25,34 @@ def _read_rows(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(stream))
 
 
-def run_probe(embedding_dir: Path, seed: int = 42, folds: int = 5) -> dict[str, Any]:
+def run_probe(
+    embedding_dir: Path,
+    seed: int = 42,
+    folds: int = 5,
+    identity_audit_path: Path | None = None,
+) -> dict[str, Any]:
     embedding_dir = embedding_dir.resolve()
     features = np.load(embedding_dir / "embeddings.npy", mmap_mode="r")
     rows = _read_rows(embedding_dir / "manifest.csv")
     if features.ndim != 2 or features.shape[0] != len(rows):
         raise ValueError("Embedding rows must align one-to-one with manifest rows.")
+    alias_keys: set[tuple[str, str]] = set()
+    if identity_audit_path is not None:
+        identity_audit = json.loads(identity_audit_path.read_text(encoding="utf-8"))
+        alias_keys = {
+            (site, image_id)
+            for site, site_audit in identity_audit[
+                "exact_decoded_rgb_pixel_duplicates"
+            ].items()
+            for group in site_audit["duplicate_groups"]
+            for image_id in group[1:]
+        }
+    keep = np.asarray(
+        [(row["site"], row.get("image_id", "")) not in alias_keys for row in rows],
+        dtype=bool,
+    )
+    rows = [row for row, include in zip(rows, keep, strict=True) if include]
+    features = features[keep]
     sites = np.asarray([row["site"] for row in rows])
     if len(set(sites)) < 2:
         raise ValueError("At least two sites are required for a site-origin probe.")
@@ -71,7 +93,13 @@ def run_probe(embedding_dir: Path, seed: int = 42, folds: int = 5) -> dict[str, 
             "A high score means the frozen embedding retains site information; it "
             "does not identify its cause or prove TB-label shortcutting."
         ),
-        "split_unit": "patient-level; one image represents one patient",
+        "split_unit": "image-level; patient linkage not verified",
+        "exact_pixel_duplicate_aliases_excluded": int(np.sum(~keep)),
+        "identity_audit_path": (
+            str(identity_audit_path.resolve())
+            if identity_audit_path is not None
+            else None
+        ),
         "seed": seed,
         "folds": folds,
         "embedding_dir": str(embedding_dir),
@@ -89,12 +117,25 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--embedding-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--identity-audit",
+        type=Path,
+        default=Path("artifacts/audits/image_identity.json"),
+    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--folds", type=int, default=5)
     arguments = parser.parse_args()
     if arguments.folds < 2:
         parser.error("--folds must be at least two")
-    result = run_probe(arguments.embedding_dir, arguments.seed, arguments.folds)
+    identity_audit = arguments.identity_audit
+    if not identity_audit.is_absolute():
+        identity_audit = Path.cwd() / identity_audit
+    result = run_probe(
+        arguments.embedding_dir,
+        arguments.seed,
+        arguments.folds,
+        identity_audit if identity_audit.is_file() else None,
+    )
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text(
         json.dumps(result, indent=2, sort_keys=True), encoding="utf-8"

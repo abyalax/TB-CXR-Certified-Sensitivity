@@ -3,7 +3,7 @@
 The Montgomery and Shenzhen ROI files annotate only positive lesions. This
 script therefore reports a descriptive analysis on their matched, annotated
 positive-image subsets; it does not infer severity for unannotated images or
-patient-level effects.
+image-level descriptions; patient linkage is not verified.
 """
 
 from __future__ import annotations
@@ -17,6 +17,7 @@ import numpy as np
 from PIL import Image
 from scripts.run_primary_real_study import _fit_head, _read_csv, _scores, _source_split
 
+from tb_certify.data.identity_audit import patient_level_supported
 from tb_certify.data.roi import ROIAnnotationCsvReader
 from tb_certify.evaluation.binomial import clopper_pearson_interval
 
@@ -95,11 +96,12 @@ def run_analysis(
         "source_sites": list(source_sites),
         "encoder": metadata,
         "seed": 42,
-        "analysis_unit": "annotated positive patient (one image per patient)",
-        "patient_level_claim": True,
+        "analysis_unit": "annotated positive image; patient linkage not verified",
+        "patient_level_claim": patient_level_supported(project_root),
         "interpretation_limit": (
             "ROI tables contain only lesion-positive annotations. Results describe the "
-            "68 matched Shenzhen patients (one image per patient), not all target "
+            "68 matched Shenzhen images; patient linkage is not verified, and this "
+            "is not all target "
             "positives or a clinical severity effect."
         ),
         "lesion_area_definition": (

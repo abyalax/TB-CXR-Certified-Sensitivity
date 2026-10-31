@@ -161,7 +161,7 @@ class PrimaryCohortPreprocessor:
                 "Montgomery/Shenzhen": "documented filename suffix",
                 "TBX11K": "ActiveTuberculosis box; obsolete/unresolved excluded",
             },
-            "patient_id_policy": "source patient_id may be blank; one image per patient is confirmed, so image_id is the unique patient unit",  # noqa: E501
+            "patient_id_policy": "patient_id remains blank unless a verified crosswalk exists; image_id identifies an image, not a verified patient",  # noqa: E501
             "record_count": len(records),
             "successful_images": len(records),
             "decode_failures": 0,

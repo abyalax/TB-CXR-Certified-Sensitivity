@@ -19,7 +19,7 @@ def test_marginal_crc_uses_n_plus_one_correction() -> None:
     assert certificate.status is RiskControlStatus.ACCEPTED
     assert certificate.threshold == 0.0
     assert certificate.corrected_empirical_risk == pytest.approx(1 / 11)
- 
+
 
 def test_marginal_crc_refuses_without_a_finite_corrected_threshold() -> None:
     certificate = MarginalCRCCalibrator(0.10).calibrate([0.1] * 8)

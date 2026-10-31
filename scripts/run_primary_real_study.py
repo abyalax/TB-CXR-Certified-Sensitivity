@@ -18,9 +18,9 @@ from tb_certify.calibration.risk_control import (
     ImportanceWeightedLTTCalibrator,
     MarginalCRCCalibrator,
     RiskControlStatus,
-    WeightedCRCCalibrator,
 )
 from tb_certify.calibration.source_threshold import EmpiricalSensitivityThreshold
+from tb_certify.data.identity_audit import patient_level_supported
 from tb_certify.evaluation.metrics import evaluate_threshold
 from tb_certify.evaluation.selective_study import SelectiveVerificationStudy
 from tb_certify.evaluation.tier_a_study import TierAStudy
@@ -92,7 +92,7 @@ def _source_split(
                     "source_split": row["source_split"],
                     "label": row["label"],
                     "role": "train" if int(index) in train_set else "validation",
-                    "split_unit": "patient_id (image_id; one image represents one patient)", # noqa: E501
+                    "split_unit": "image-level; patient linkage not verified",
                     "seed": str(seed),
                 }
             )
@@ -165,9 +165,11 @@ def _fit_head(
     )
     head.fit(features[train_indices], train_labels)
     validation_scores = head.predict_proba(features[validation_indices])[:, 1]
-    threshold = EmpiricalSensitivityThreshold(0.90).fit(
-        validation_scores[validation_labels == 1]
-    ).threshold
+    threshold = (
+        EmpiricalSensitivityThreshold(0.90)
+        .fit(validation_scores[validation_labels == 1])
+        .threshold
+    )
     return head, validation_scores, validation_labels, threshold
 
 
@@ -187,9 +189,6 @@ def _risk_control_comparison(
     """Compare CRC-family rules under the explicit unit-weight baseline."""
     unit_weights = np.ones(calibration_scores.size, dtype=float)
     crc = MarginalCRCCalibrator(0.10).calibrate(calibration_scores)
-    wcrc = WeightedCRCCalibrator(0.10).calibrate(
-        calibration_scores, unit_weights, np.ones(evaluation_scores.size)
-    )
     ltt_thresholds = np.unique(
         np.quantile(source_validation_scores, np.linspace(0.01, 0.99, 25))
     )
@@ -204,16 +203,14 @@ def _risk_control_comparison(
         thresholds=ltt_thresholds,
     )
     methods: dict[str, Any] = {}
-    for name, certificate in (
-        ("crc", crc),
-        ("w_crc_unit_weights", wcrc[0] if wcrc else None),
-        ("iw_ltt_unit_weights", ltt),
-    ):
+    for name, certificate in (("crc", crc), ("iw_ltt_unit_weights", ltt)):
         if certificate is None:
             methods[name] = {"status": "not_evaluated", "reason": "empty_evaluation"}
             continue
-        record = {key: value.value if isinstance(value, RiskControlStatus) else value
-                  for key, value in certificate.__dict__.items()}
+        record = {
+            key: value.value if isinstance(value, RiskControlStatus) else value
+            for key, value in certificate.__dict__.items()
+        }
         if certificate.status is RiskControlStatus.ACCEPTED:
             record["evaluation_metrics"] = evaluate_threshold(
                 evaluation_scores, evaluation_labels, certificate.threshold
@@ -222,10 +219,15 @@ def _risk_control_comparison(
     return {
         "weight_assumption": "unit density ratios; exchangeable positive examples",
         "shift_adjusted": False,
+        "unit_weight_w_crc_note": (
+            "W-CRC with calibration and test weights equal to one is algebraically "
+            "identical to CRC and is not reported as a separate method."
+        ),
         "ltt_threshold_grid": "25 source-validation score quantiles from 0.01 to 0.99",
         "ltt_thresholds": [float(value) for value in ltt_thresholds],
         "methods": methods,
     }
+
 
 def run_study(
     project_root: Path,
@@ -284,7 +286,9 @@ def run_study(
             ],
             dtype=int,
         )
-        target_split_unit = "official TBX11K patient-level train/validation split (one image per patient)"  # noqa: E501
+        target_split_unit = (
+            "official TBX11K train/validation split; patient linkage not verified"  # noqa: E501
+        )
     else:
         target_split_labels = np.asarray(
             [_binary_label(rows[index]["label"]) for index in target_site_indices]
@@ -295,7 +299,7 @@ def run_study(
             random_state=seed,
             stratify=target_split_labels,
         )
-        target_split_unit = "stratified 50/50 patient split (one image per patient)"
+        target_split_unit = "stratified 50/50 image split; patient linkage not verified"
     calibration_indices = np.asarray(
         [
             index
@@ -340,10 +344,7 @@ def run_study(
             }
         )
     split_path = (
-        project_root
-        / "data"
-        / "splits"
-        / f"{protocol_name}_image_split_seed{seed}.csv"
+        project_root / "data" / "splits" / f"{protocol_name}_image_split_seed{seed}.csv"
     )
     _write_csv(split_path, split_manifest)
     calibration_sizes = list(CALIBRATION_SIZES)
@@ -361,14 +362,14 @@ def run_study(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     results: dict[str, Any] = {
-        "study": f"{protocol_name} exploratory patient-level evaluation (one image per patient)",  # noqa: E501
+        "study": f"{protocol_name} exploratory image-level evaluation (patient linkage not verified)",  # noqa: E501
         "target_site": target_site,
         "source_sites": list(source_sites),
-        "split_unit": "patient-level; one image represents one patient",
-        "patient_level_claim": True,
+        "split_unit": "image-level; patient linkage not verified",
+        "patient_level_claim": patient_level_supported(project_root),
         "pac_claim": False,
         "interpretation_limit": (
-            "Tier A outputs are exploratory patient-level estimates; representativeness, "  # noqa: E501
+            "Tier A outputs are exploratory image-level estimates; patient linkage, representativeness, "  # noqa: E501
             "i.i.d. sampling, label accuracy, and stationarity remain assumptions."
         ),
         "seed": seed,
@@ -447,7 +448,7 @@ def run_study(
             calibration_sizes=calibration_sizes,
             repetitions=repetitions,
             seed=seed,
-            split_unit=f"{target_split_unit}; one image per patient (confirmed)",
+            split_unit=f"{target_split_unit}; patient linkage not verified",
         )
         negative_control_masks = (
             {
@@ -465,16 +466,14 @@ def run_study(
         )
         negative_controls: dict[str, Any] = {}
         for control_name, control_mask in negative_control_masks.items():
-            control_study = TierAStudy(
-                target_specificity=0.70, confidence=0.95
-            ).run(
+            control_study = TierAStudy(target_specificity=0.70, confidence=0.95).run(
                 calibration_positive_scores=target_calibration_scores,
                 evaluation_scores=target_scores[control_mask],
                 evaluation_labels=target_labels[control_mask],
                 calibration_sizes=calibration_sizes,
                 repetitions=repetitions,
                 seed=seed,
-                split_unit=f"{target_split_unit}; one image per patient (confirmed)",
+                split_unit=f"{target_split_unit}; patient linkage not verified",
             )
             negative_controls[control_name] = {
                 "evaluation_count": int(np.sum(control_mask)),
@@ -500,21 +499,25 @@ def run_study(
                 raise ValueError(
                     "Source score distribution cannot define a threshold grid."
                 )
-            selective_verification = SelectiveVerificationStudy().run(
-                calibration_scores=target_calibration_all_scores,
-                calibration_labels=target_calibration_all_labels,
-                evaluation_scores=target_scores,
-                evaluation_labels=target_labels,
-                thresholds=tuple(float(value) for value in fixed_grid),
-                reference_threshold=source_threshold,
-                low_score_probabilities=(0.10, 0.25, 0.50, 1.00),
-                repetitions=selective_repetitions,
-                seed=seed,
-                split_unit=(
-                    f"{target_split_unit}; one image per patient (confirmed); "
-                    "fully labelled target split used only to simulate verification"
-                ),
-            ).to_dict()
+            selective_verification = (
+                SelectiveVerificationStudy()
+                .run(
+                    calibration_scores=target_calibration_all_scores,
+                    calibration_labels=target_calibration_all_labels,
+                    evaluation_scores=target_scores,
+                    evaluation_labels=target_labels,
+                    thresholds=tuple(float(value) for value in fixed_grid),
+                    reference_threshold=source_threshold,
+                    low_score_probabilities=(0.10, 0.25, 0.50, 1.00),
+                    repetitions=selective_repetitions,
+                    seed=seed,
+                    split_unit=(
+                        f"{target_split_unit}; patient linkage not verified; "
+                        "fully labelled target split used only to simulate verification"
+                    ),
+                )
+                .to_dict()
+            )
         results["heads"][head_name] = {
             "source_threshold_target_sensitivity": 0.90,
             "source_validation_threshold": float(source_threshold),

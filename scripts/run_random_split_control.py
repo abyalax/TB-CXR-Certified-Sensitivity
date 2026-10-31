@@ -2,7 +2,7 @@
 
 This deliberately allows every site to appear in model development. It is a
 negative control for distribution shift, not a transportability evaluation and
-patient-level unit of analysis (one image per patient).
+image-level unit of analysis; patient linkage is not verified.
 """
 
 from __future__ import annotations
@@ -21,6 +21,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 from tb_certify.calibration.source_threshold import EmpiricalSensitivityThreshold
+from tb_certify.data.identity_audit import patient_level_supported
 from tb_certify.evaluation.metrics import evaluate_threshold
 from tb_certify.evaluation.tier_a_study import TierAStudy
 
@@ -61,7 +62,10 @@ def _write_split_manifest(
                     "patient_id": row.get("patient_id", ""),
                     "label": row["label"],
                     "role": roles[index],
-                    "split_unit": "stratified patient-level; one image represents one patient",
+                    "split_unit": (
+                        "stratified image-level; one record per image, "
+                        "patient linkage not verified"
+                    ),
                     "seed": str(seed),
                 }
             )
@@ -100,9 +104,27 @@ def run_control(
     if features.shape[0] != len(rows) or set(labels) != {0, 1}:
         raise ValueError("Embeddings and binary manifest labels must align.")
 
-    all_indices = np.arange(len(rows))
+    audit_path = project_root / "artifacts" / "audits" / "image_identity.json"
+    identity_audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    duplicate_aliases = set()
+    for site, site_audit in identity_audit[
+        "exact_decoded_rgb_pixel_duplicates"
+    ].items():
+        for group in site_audit["duplicate_groups"]:
+            duplicate_aliases.update((site, image_id) for image_id in group[1:])
+    all_indices = np.asarray(
+        [
+            index
+            for index, row in enumerate(rows)
+            if (row["site"], row["image_id"]) not in duplicate_aliases
+        ],
+        dtype=int,
+    )
     development_indices, evaluation_indices = train_test_split(
-        all_indices, test_size=0.20, random_state=seed, stratify=labels
+        all_indices,
+        test_size=0.20,
+        random_state=seed,
+        stratify=labels[all_indices],
     )
     model_indices, calibration_indices = train_test_split(
         development_indices,
@@ -126,6 +148,13 @@ def run_control(
         **{int(index): "calibration" for index in calibration_indices},
         **{int(index): "evaluation" for index in evaluation_indices},
     }
+    roles.update(
+        {
+            index: "exact_pixel_duplicate_excluded"
+            for index, row in enumerate(rows)
+            if (row["site"], row["image_id"]) in duplicate_aliases
+        }
+    )
     split_path = (
         project_root / "data" / "splits" / f"random_image_control_seed{seed}.csv"
     )
@@ -137,8 +166,8 @@ def run_control(
             "Contrast an image-randomized, site-mixed split with leave-site-out; "
             "not a transportability study."
         ),
-        "split_unit": "patient-level; one image represents one patient",
-        "patient_level_claim": True,
+        "split_unit": "image-level; patient linkage not verified",
+        "patient_level_claim": patient_level_supported(project_root),
         "pac_claim": False,
         "seed": seed,
         "repetitions": repetitions,
@@ -151,6 +180,7 @@ def run_control(
             "evaluation": int(evaluation_indices.size),
             "evaluation_positive": int(np.sum(labels[evaluation_indices] == 1)),
             "evaluation_negative": int(np.sum(labels[evaluation_indices] == 0)),
+            "exact_duplicate_aliases_excluded": len(duplicate_aliases),
         },
         "encoder": metadata,
         "heads": {},
@@ -179,7 +209,7 @@ def run_control(
             repetitions=repetitions,
             seed=seed,
             split_unit=(
-                "stratified patient-level; site-mixed; one image per patient"
+                "stratified image-level; site-mixed; patient linkage not verified"
             ),
         )
         results["heads"][head_name] = {
@@ -191,6 +221,30 @@ def run_control(
             "evaluation_b0_metrics": evaluate_threshold(
                 evaluation_scores, labels[evaluation_indices], source_threshold
             ).__dict__,
+            "evaluation_b0_metrics_by_site": {
+                site: evaluate_threshold(
+                    evaluation_scores[
+                        np.asarray(
+                            [
+                                rows[index]["site"] == site
+                                for index in evaluation_indices
+                            ]
+                        )
+                    ],
+                    labels[evaluation_indices][
+                        np.asarray(
+                            [
+                                rows[index]["site"] == site
+                                for index in evaluation_indices
+                            ]
+                        )
+                    ],
+                    source_threshold,
+                ).__dict__
+                for site in sorted(
+                    {rows[index]["site"] for index in evaluation_indices}
+                )
+            },
             "tier_a_exploratory": tier_a.to_dict(),
         }
 

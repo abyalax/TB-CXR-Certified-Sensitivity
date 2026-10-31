@@ -1,0 +1,259 @@
+{
+  "adapter_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\experiments\\runs\\primary_tbx11k_loso\\chest_xray-110cbc18d513\\p1_2_lora_seed43\\adapter",
+  "batch_size": 1,
+  "classifier_head_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\experiments\\runs\\primary_tbx11k_loso\\chest_xray-110cbc18d513\\p1_2_lora_seed43\\classifier_head.pt",
+  "effective_batch_size": 4,
+  "encoder": {
+    "batch_size": 8,
+    "cache_metadata_sha256": "c26efaf356c748f1601bb5974d5ea564a739b2e39d736cb73b5c83cbc6e4abfa",
+    "cache_root": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\processed\\rad_dino_518",
+    "checkpoint_sha256": "dbfb9f54459c38773505de64a6ab7807bdcb392610fe1e697166342e43fb91ae",
+    "checkpoint_source": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\checkpoints\\rad-dino-110cbc18",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "embedding_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\embeddings\\chest_xray-110cbc18d513\\embeddings.npy",
+    "embedding_sha256": "59106d7c98777663fea84e94619a6a637e4cf99c69dbc853ab9a8b5231c0b62e",
+    "encoder_key": "chest_xray",
+    "feature_dimension": 768,
+    "feature_pooling": "cls_token",
+    "image_count": 9060,
+    "inference_precision": "float16_autocast",
+    "input_normalization": {
+      "crop_size": {
+        "height": 518,
+        "width": 518
+      },
+      "do_center_crop": true,
+      "do_convert_rgb": true,
+      "do_normalize": true,
+      "do_rescale": true,
+      "do_resize": true,
+      "mean": [
+        0.5307,
+        0.5307,
+        0.5307
+      ],
+      "resample": "3",
+      "rescale_factor": 0.00392156862745098,
+      "size": {
+        "shortest_edge": 518
+      },
+      "std": [
+        0.2583,
+        0.2583,
+        0.2583
+      ],
+      "use_fast": false
+    },
+    "input_resolution": 518,
+    "license_name": "MIT",
+    "manifest_path": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\artifacts\\embeddings\\chest_xray-110cbc18d513\\manifest.csv",
+    "model_name": "microsoft/rad-dino",
+    "pretraining_sites": [
+      "MIMIC-CXR",
+      "CheXpert",
+      "NIH-CXR",
+      "PadChest",
+      "BRAX"
+    ],
+    "revision": "110cbc18d5133582e320b43d53bf5c44e410c936",
+    "software_versions": {
+      "cuda_runtime": "13.0",
+      "encoder_library": "4.57.6",
+      "python": "3.12.13",
+      "torch": "2.14.1+cu130"
+    },
+    "source_manifest_sha256": "b755b078ccdd61a3df8da664afb4ad1b249caa607d4c32e99ecdbfe522c0c850"
+  },
+  "epoch_mean_bce_losses": [
+    0.6169636425837665,
+    0.2331348892603017,
+    0.11302857143480691
+  ],
+  "epochs": 3,
+  "gradient_accumulation": 4,
+  "learning_rate": 0.0001,
+  "lora": {
+    "alpha": 16,
+    "dropout": 0.05,
+    "rank": 8,
+    "target_modules": [
+      "query",
+      "value"
+    ]
+  },
+  "optimizer": "AdamW",
+  "patient_level_claim": false,
+  "runtime": {
+    "cuda": "13.0",
+    "device": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "peak_cuda_memory_bytes": 502656512,
+    "torch": "2.14.1+cu130"
+  },
+  "seed": 43,
+  "source_sites": [
+    "Montgomery",
+    "Shenzhen"
+  ],
+  "source_split_manifest": "C:\\Users\\abya\\python\\tb-cxr-certified-sensitivity\\data\\splits\\lora_source_seed43.csv",
+  "source_train_images": 639,
+  "source_validation_images": 161,
+  "source_validation_metrics": {
+    "false_negatives": 7,
+    "false_positives": 1,
+    "sensitivity": 0.9125,
+    "specificity": 0.9876543209876543,
+    "threshold": 0.9745803475379944,
+    "true_negatives": 80,
+    "true_positives": 73
+  },
+  "source_validation_threshold": 0.9745803475379944,
+  "study": "source-only RAD-DINO LoRA ablation; exploratory image-level (patient linkage not verified)",
+  "target_b0_metrics": {
+    "false_negatives": 8,
+    "false_positives": 161,
+    "sensitivity": 0.9512195121951219,
+    "specificity": 0.899375,
+    "threshold": 0.9745803475379944,
+    "true_negatives": 1439,
+    "true_positives": 156
+  },
+  "target_calibration_positive_images": 496,
+  "target_evaluation_images": 1764,
+  "target_site": "TBX11K",
+  "tier_a_exploratory": {
+    "failure_probability": 0.05,
+    "resampling": "independent simple random samples without replacement",
+    "seed": 43,
+    "summaries": [
+      {
+        "available_calibration_positive_count": 496,
+        "certified_repetitions": 1000,
+        "evaluation_negative_count": 1600,
+        "evaluation_positive_count": 164,
+        "mean_evaluation_sensitivity": 0.9519573170731708,
+        "mean_evaluation_specificity": 0.781679375,
+        "probability_specificity_at_least_target": 0.638,
+        "refusal_rate": 0.0,
+        "refusal_reason": null,
+        "refused_repetitions": 0,
+        "repetitions": 1000,
+        "requested_positive_count": 29,
+        "split_unit": "official TBX11K train/validation; image-level, patient linkage not verified",
+        "target_specificity": 0.7,
+        "violation_rate": 0.106,
+        "violation_rate_interval": {
+          "confidence": 0.95,
+          "lower": 0.0876023650692121,
+          "successes": 106,
+          "trials": 1000,
+          "upper": 0.1267530087815625
+        },
+        "violations": 106
+      },
+      {
+        "available_calibration_positive_count": 496,
+        "certified_repetitions": 1000,
+        "evaluation_negative_count": 1600,
+        "evaluation_positive_count": 164,
+        "mean_evaluation_sensitivity": 0.9420792682926828,
+        "mean_evaluation_specificity": 0.8560118749999999,
+        "probability_specificity_at_least_target": 0.828,
+        "refusal_rate": 0.0,
+        "refusal_reason": null,
+        "refused_repetitions": 0,
+        "repetitions": 1000,
+        "requested_positive_count": 46,
+        "split_unit": "official TBX11K train/validation; image-level, patient linkage not verified",
+        "target_specificity": 0.7,
+        "violation_rate": 0.1,
+        "violation_rate_interval": {
+          "confidence": 0.95,
+          "lower": 0.08210533435558001,
+          "successes": 100,
+          "trials": 1000,
+          "upper": 0.12028793651869263
+        },
+        "violations": 100
+      },
+      {
+        "available_calibration_positive_count": 496,
+        "certified_repetitions": 1000,
+        "evaluation_negative_count": 1600,
+        "evaluation_positive_count": 164,
+        "mean_evaluation_sensitivity": 0.9335,
+        "mean_evaluation_specificity": 0.897221875,
+        "probability_specificity_at_least_target": 0.937,
+        "refusal_rate": 0.0,
+        "refusal_reason": null,
+        "refused_repetitions": 0,
+        "repetitions": 1000,
+        "requested_positive_count": 61,
+        "split_unit": "official TBX11K train/validation; image-level, patient linkage not verified",
+        "target_specificity": 0.7,
+        "violation_rate": 0.137,
+        "violation_rate_interval": {
+          "confidence": 0.95,
+          "lower": 0.11628168943368121,
+          "successes": 137,
+          "trials": 1000,
+          "upper": 0.15988096510541736
+        },
+        "violations": 137
+      },
+      {
+        "available_calibration_positive_count": 496,
+        "certified_repetitions": 1000,
+        "evaluation_negative_count": 1600,
+        "evaluation_positive_count": 164,
+        "mean_evaluation_sensitivity": 0.93125,
+        "mean_evaluation_specificity": 0.9152662500000002,
+        "probability_specificity_at_least_target": 0.99,
+        "refusal_rate": 0.0,
+        "refusal_reason": null,
+        "refused_repetitions": 0,
+        "repetitions": 1000,
+        "requested_positive_count": 100,
+        "split_unit": "official TBX11K train/validation; image-level, patient linkage not verified",
+        "target_specificity": 0.7,
+        "violation_rate": 0.086,
+        "violation_rate_interval": {
+          "confidence": 0.95,
+          "lower": 0.06936253057241366,
+          "successes": 86,
+          "trials": 1000,
+          "upper": 0.10512026843432662
+        },
+        "violations": 86
+      },
+      {
+        "available_calibration_positive_count": 496,
+        "certified_repetitions": 1000,
+        "evaluation_negative_count": 1600,
+        "evaluation_positive_count": 164,
+        "mean_evaluation_sensitivity": 0.9106707317073172,
+        "mean_evaluation_specificity": 0.944585625,
+        "probability_specificity_at_least_target": 1.0,
+        "refusal_rate": 0.0,
+        "refusal_reason": null,
+        "refused_repetitions": 0,
+        "repetitions": 1000,
+        "requested_positive_count": 200,
+        "split_unit": "official TBX11K train/validation; image-level, patient linkage not verified",
+        "target_specificity": 0.7,
+        "violation_rate": 0.177,
+        "violation_rate_interval": {
+          "confidence": 0.95,
+          "lower": 0.1538228267013961,
+          "successes": 177,
+          "trials": 1000,
+          "upper": 0.20209592130778106
+        },
+        "violations": 177
+      }
+    ],
+    "target_fnr": 0.1
+  },
+  "trainable_parameters": 295681,
+  "weight_decay": 0.01
+}

@@ -30,7 +30,5 @@ def test_linear_certificate_uses_masked_labels_and_fixed_prefix() -> None:
     assert len(certificate.bounds) == 3
     assert all(
         left.threshold < right.threshold
-        for left, right in zip(
-            certificate.bounds, certificate.bounds[1:], strict=False
-        )
+        for left, right in zip(certificate.bounds, certificate.bounds[1:], strict=False)
     )

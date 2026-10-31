@@ -83,9 +83,7 @@ class NLMChestXrayCatalog:
         reading_suffixes = Counter(self._suffix(path.stem, site) for path in readings)
         return NLMSiteInventory(
             site=next(
-                name
-                for name in self.SITE_LAYOUTS
-                if name.casefold() == site.casefold()
+                name for name in self.SITE_LAYOUTS if name.casefold() == site.casefold()
             ),
             image_count=len(images),
             image_suffix_counts=dict(sorted(image_suffixes.items())),
@@ -99,10 +97,7 @@ class NLMChestXrayCatalog:
     def inspect(self) -> dict[str, NLMSiteInventory]:
         """Summarize both NLM collections."""
 
-        return {
-            site: self.inspect_site(site)
-            for site in self.SITE_LAYOUTS
-        }
+        return {site: self.inspect_site(site) for site in self.SITE_LAYOUTS}
 
     def records(self, site: str) -> tuple[ImageRecord, ...]:
         """Build labeled image records after verifying reading-file coverage."""
@@ -123,9 +118,7 @@ class NLMChestXrayCatalog:
         records = []
         for path in images:
             suffix = self._suffix(path.stem, site)
-            label = (
-                ClinicalClass.HEALTHY if suffix == "0" else ClinicalClass.ACTIVE_TB
-            )
+            label = ClinicalClass.HEALTHY if suffix == "0" else ClinicalClass.ACTIVE_TB
             records.append(
                 ImageRecord(
                     site=canonical_site,

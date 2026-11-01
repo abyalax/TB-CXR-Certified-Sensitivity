@@ -145,7 +145,11 @@ All experiments are stored under `experiments/runs/`. Each run writes its result
 
 Both studies train Logistic Regression/MLP heads on source-site embeddings, select an empirical threshold using source-site validation data, and run Tier A calibration/evaluation with 1,000 repetitions. Each runner also writes its split manifest to `data/splits/`.
 
-- ****`primary_tbx11k_loso`****: **leave-one-site-out** dengan TBX11K sebagai target, site lain sebagai sumber. Dari data target, protokol memisahkan data kalibrasi positif dan evaluasi; menjalankan baseline threshold empiris serta studi Tier A pada berbagai ukuran kalibrasi/repetisi. Untuk TBX11K juga ada negative control (`healthy_only`, `healthy_plus_non_tb`). Selective verification eksploratori hanya dihitung jika `--selective-repetitions` diaktifkan (default 0).
+Runner menerapkan kebijakan alias piksel yang konsisten: memuat alias duplikat dari `artifacts/audits/image_identity.json`, mengecualikan alias sebelum split, dan melaporkan jumlah yang dikecualikan. Ukuran kalibrasi dibatasi setengah dari pool positif yang tersedia: (29, 46, 61, 76, 100) untuk TBX11K dan (29, 46, 61, 76) untuk Shenzhen (maksimum 84 dari 168 positif).
+
+Runner menggunakan multi-seed analysis untuk head fitting dan threshold selection: setiap seed menghasilkan split source data train/validation independen, head yang dilatih dengan seed tersebut, dan threshold yang dipilih. Hasil diorganisasi per seed kemudian per head type. Ini memungkinkan pelaporan variabilitas di berbagai inisialisasi acak.
+
+- ****`primary_tbx11k_loso`****: **leave-one-site-out** dengan TBX11K sebagai target, site lain sebagai sumber. Dari data target, protokol memisahkan data kalibrasi positif dan evaluasi; menjalankan baseline threshold empiris serta studi Tier A pada berbagai ukuran kalibrasi/repetisi. Untuk TBX11K juga ada negative control (`healthy_only`, `healthy_plus_non_tb`). Negative control healthy-only hanya mencakup citra healthy (bukan active_tb). Selective verification eksploratori hanya dihitung jika `--selective-repetitions` diaktifkan (default 0).
 - ****`secondary_shenzhen_loso`****: protokol LOSO serupa dengan Shenzhen sebagai target (stratified 50/50 image split; patient linkage unverified); head dilatih pada source site, lalu threshold baseline dan Tier A dievaluasi pada target.
 
 ```powershell
@@ -167,6 +171,8 @@ uv run --extra vision python scripts/run_primary_real_study.py --project-root . 
 ### 6.3 Kontrol random split (`random_image_control`)
 
 Kontrol dengan pembagian acak tingkat gambar, site tercampur; patient linkage tidak terverifikasi dan exact duplikat dikeluarkan sebelum split. Logistic Regression dan MLP dievaluasi pada split evaluasi; threshold berasal dari validasi, Tier A memakai split kalibrasi tersendiri. Tujuannya membandingkan dengan LOSO (bukan menguji transportabilitas lintas site) — ****negative control untuk site shift****, bukan estimasi transportabilitas.
+
+Runner ini menerapkan kebijakan alias piksel yang konsisten: memuat alias duplikat dari `artifacts/audits/image_identity.json`, mengecualikan alias sebelum split, dan melaporkan jumlah yang dikecualikan. Hasil mencakup baseline prevalensi per-site untuk menguji apakah head menggunakan site sebagai shortcut.
 
 ```powershell
 uv run --extra vision python scripts/run_random_split_control.py --project-root . --embedding-dir artifacts/embeddings/chest_xray-110cbc18d513 --output-dir experiments/runs/random_image_control/chest_xray-110cbc18d513 --repetitions 1000 --seed 42
@@ -273,3 +279,16 @@ No paper-compilation command is documented because this checkout does not includ
 - Across the 2,000-repetition WSR null simulation, 50 tests rejected (2.5%; CP95 1.86–3.28%). Cross-fitted diagnostic effective sample sizes were 415/660 for TBX11K and 43/336 for Shenzhen under ResNet50-A1, and 447/660 and 69/336 under RAD-DINO; these odds are not validated density ratios and were not supplied to weighted procedures.
 - Completed the independent seed-43 LoRA run with the same 3-epoch configuration and 1,000 Tier A repetitions. Its source-only B0 was 95.1%/89.9%; at $n^+=200$ its mean sensitivity/specificity was 91.1%/94.5% and the finite-pool violation frequency was 17.7% (177/1,000; CP95 15.4–20.2%), versus 1.2% for seed 42. The large difference is an image-level audit result, not validation or disproof of patient-population PAC coverage; see `p1_2_lora_seed43/results.json`.
 - REPRODUCE.md records the commands, completed outputs, and interpretation limits for these analyses.
+
+
+## Recent Updates (November 2026)
+- **Estimand and Label Definitions (CONTEXT.md section 2.5):** Added explicit documentation of the estimand (sensitivity to radiological labels, not microbiological TB) with a table defining positive labels and prevalence per site (Montgomery, Shenzhen, TBX11K). This clarifies that all statistical guarantees apply to radiological labels defined by clinical readings and bounding box annotations, not microbiological confirmation.
+- **Research Questions (CONTEXT.md section 2.3):** Downgraded RQ1 to 2-target case study (TBX11K primary, Shenzhen secondary) and defined three research questions: RQ1 (certificate performance on TBX11K/Shenzhen), RQ2 (selective verification effects), RQ3 (verification budget trade-offs).
+- **Limitations Section (CONTEXT.md section 5.9):** Added documentation of key data limitations:
+  - Site decodability from frozen embeddings (accuracy ~99%, balanced accuracy ~98-99%) reported as a limitation showing strong site signal, not as a solved problem
+  - RAD-DINO pretraining overlap cannot be audited at pixel level because upstream training image pixels/hashes are unavailable
+  - Source data size as confound: primary protocol uses 639 source images vs 6,505 in secondary protocol
+  - Negative control composition (N1/N2): specificity sensitive to negative control composition; N1=800 healthy, N2=800 healthy + 800 non-TB
+  - Density-ratio diagnostics as sensitivity analysis only: domain classifier odds/ESS are not verified density ratios or valid weights
+- **MLP Logit Scores:** Changed MLP classifier scoring from `predict_proba` (probability outputs) to `decision_function` (logit scores) in `run_primary_real_study.py`, `run_random_split_control.py`, and `run_robustness_audits.py`. This avoids saturation issues and ties that can occur with probability outputs near 0 or 1. Logistic regression continues to use `decision_function` (via `score()` method in SourceOnlyLogisticHead).
+- **Synthetic Unit Test for Tier A:** Added `test_tier_a_synthetic_continuous_scores_reproduce_analytic_violation` to `tests/test_tier_a.py`. This test verifies that the `allowed_misses` implementation matches the analytic binomial formula `max{k: P(Bin(n, alpha) <= k) <= delta}` across a range of n values (29-153).

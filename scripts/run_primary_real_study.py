@@ -28,7 +28,9 @@ from tb_certify.training.source_head import SourceOnlyLogisticHead
 
 PRIMARY_SOURCE_SITES = ("Montgomery", "Shenzhen")
 SECONDARY_SOURCE_SITES = ("Montgomery", "TBX11K")
-CALIBRATION_SIZES = (29, 46, 61, 100, 200)
+CALIBRATION_SIZES_PRIMARY = (29, 46, 61, 76, 100)
+# Limit to ≤½ pool (168 positives / 2 = 84)
+CALIBRATION_SIZES_SECONDARY = (29, 46, 61, 76)
 SEED = 42
 
 
@@ -39,6 +41,18 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
 
 def _binary_label(label: str) -> int:
     return int(label == "active_tb")
+
+
+def _load_duplicate_aliases(project_root: Path) -> set[tuple[str, str]]:
+    """Load exact pixel duplicate aliases from identity audit."""
+    audit_path = project_root / "artifacts" / "audits" / "image_identity.json"
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    duplicate_aliases: set[tuple[str, str]] = set()
+    for site, site_audit in audit["exact_decoded_rgb_pixel_duplicates"].items():
+        for group in site_audit["duplicate_groups"]:
+            # Keep the first occurrence, exclude the rest as aliases
+            duplicate_aliases.update((site, image_id) for image_id in group[1:])
+    return duplicate_aliases
 
 
 def _source_split(
@@ -164,7 +178,7 @@ def _fit_head(
         ]
     )
     head.fit(features[train_indices], train_labels)
-    validation_scores = head.predict_proba(features[validation_indices])[:, 1]
+    validation_scores = head.decision_function(features[validation_indices])
     threshold = (
         EmpiricalSensitivityThreshold(0.90)
         .fit(validation_scores[validation_labels == 1])
@@ -176,7 +190,7 @@ def _fit_head(
 def _scores(head: Any, head_name: str, features: np.ndarray) -> np.ndarray:
     if head_name == "logistic":
         return np.asarray(head.score(features), dtype=float)
-    return np.asarray(head.predict_proba(features)[:, 1], dtype=float)
+    return np.asarray(head.decision_function(features), dtype=float)
 
 
 def _risk_control_comparison(
@@ -237,6 +251,7 @@ def run_study(
     selective_repetitions: int,
     seed: int,
     target_site: str,
+    head_seeds: list[int],
 ) -> dict[str, Any]:
     embedding_dir = embedding_dir.resolve()
     metadata = json.loads((embedding_dir / "metadata.json").read_text(encoding="utf-8"))
@@ -254,6 +269,19 @@ def run_study(
     ):
         raise ValueError("Manifest contains an unrecognized site.")
 
+    # Load and apply pixel-alias exclusion policy
+    duplicate_aliases = _load_duplicate_aliases(project_root)
+    original_count = len(rows)
+    # Filter out duplicate aliases from the data
+    valid_indices = [
+        index
+        for index, row in enumerate(rows)
+        if (row["site"], row["image_id"]) not in duplicate_aliases
+    ]
+    rows = [rows[index] for index in valid_indices]
+    features = features[valid_indices]
+    excluded_count = original_count - len(rows)
+
     if target_site == "TBX11K":
         source_sites = PRIMARY_SOURCE_SITES
         protocol_name = "primary_tbx11k_loso"
@@ -262,9 +290,11 @@ def run_study(
         protocol_name = "secondary_shenzhen_loso"
     else:
         raise ValueError(f"Unsupported target site: {target_site}")
+    # _source_split operates on filtered rows and returns indices into the filtered list
     train_indices, validation_indices, split_manifest = _source_split(
         rows, source_sites, seed
     )
+
     target_site_indices = np.asarray(
         [index for index, row in enumerate(rows) if row["site"] == target_site],
         dtype=int,
@@ -347,7 +377,11 @@ def run_study(
         project_root / "data" / "splits" / f"{protocol_name}_image_split_seed{seed}.csv"
     )
     _write_csv(split_path, split_manifest)
-    calibration_sizes = list(CALIBRATION_SIZES)
+    calibration_sizes = (
+        list(CALIBRATION_SIZES_PRIMARY)
+        if target_site == "TBX11K"
+        else list(CALIBRATION_SIZES_SECONDARY)
+    )
     if output_dir is None:
         revision = metadata.get("revision", "unknown")[:12]
         output_dir = (
@@ -373,9 +407,10 @@ def run_study(
             "i.i.d. sampling, label accuracy, and stationarity remain assumptions."
         ),
         "seed": seed,
+        "head_seeds": head_seeds,
         "repetitions": repetitions,
-        "source_train_count": int(len(train_indices)),
-        "source_validation_count": int(len(validation_indices)),
+        "pixel_alias_excluded_count": excluded_count,
+        "calibration_sizes": calibration_sizes,
         "target_calibration_split_count": int(len(target_train_indices)),
         "target_calibration_pool_count": int(len(calibration_indices)),
         "target_calibration_positive_count": int(len(calibration_indices)),
@@ -401,133 +436,190 @@ def run_study(
         [_binary_label(rows[index]["label"]) for index in target_evaluation_indices],
         dtype=int,
     )
-    for head_name in ("logistic", "mlp"):
+    # Multi-seed head analysis: iterate over seeds first, then head types
+    for head_seed in head_seeds:
+        # Re-split source data with this head_seed
         (
-            head,
-            source_validation_scores,
-            source_validation_labels,
-            source_threshold,
-        ) = _fit_head(
-            head_name,
-            features,
+            train_indices_for_seed,
+            validation_indices_for_seed,
+            _,
+        ) = _source_split(
             rows,
-            train_indices,
-            validation_indices,
-            target_site,
             source_sites,
-            seed,
+            target_site,
+            head_seed,
         )
-        source_metrics = evaluate_threshold(
-            source_validation_scores, source_validation_labels, source_threshold
-        )
-        target_scores = _scores(head, head_name, features[target_evaluation_indices])
-        target_b0_metrics = evaluate_threshold(
-            target_scores, target_labels, source_threshold
-        )
-        target_calibration_scores = _scores(
-            head, head_name, features[calibration_indices]
-        )
-        target_calibration_all_scores = _scores(
-            head, head_name, features[target_train_indices]
-        )
-        target_calibration_all_labels = np.asarray(
-            [_binary_label(rows[index]["label"]) for index in target_train_indices],
-            dtype=int,
-        )
-        risk_control_comparison = _risk_control_comparison(
-            target_calibration_scores,
-            target_scores,
-            target_labels,
-            source_validation_scores,
-            seed,
-        )
-        study = TierAStudy(target_specificity=0.70, confidence=0.95).run(
-            calibration_positive_scores=target_calibration_scores,
-            evaluation_scores=target_scores,
-            evaluation_labels=target_labels,
-            calibration_sizes=calibration_sizes,
-            repetitions=repetitions,
-            seed=seed,
-            split_unit=f"{target_split_unit}; patient linkage not verified",
-        )
-        negative_control_masks = (
-            {
-                "healthy_only": np.asarray(
-                    [
-                        rows[index]["label"] in ("active_tb", "healthy")
-                        for index in target_evaluation_indices
-                    ],
-                    dtype=bool,
+        for head_name in ("logistic", "mlp"):
+            (
+                head,
+                source_validation_scores,
+                source_validation_labels,
+                source_threshold,
+            ) = _fit_head(
+                head_name,
+                features,
+                rows,
+                train_indices_for_seed,
+                validation_indices_for_seed,
+                target_site,
+                source_sites,
+                head_seed,
+            )
+            source_metrics = evaluate_threshold(
+                source_validation_scores, source_validation_labels, source_threshold
+            )
+            target_scores = _scores(
+                head, head_name, features[target_evaluation_indices]
+            )
+            target_b0_metrics = evaluate_threshold(
+                target_scores, target_labels, source_threshold
+            )
+            target_calibration_scores = _scores(
+                head, head_name, features[calibration_indices]
+            )
+            target_calibration_all_scores = _scores(
+                head, head_name, features[target_train_indices]
+            )
+            target_calibration_all_labels = np.asarray(
+                [_binary_label(rows[index]["label"]) for index in target_train_indices],
+                dtype=int,
+            )
+            risk_control_comparison = _risk_control_comparison(
+                target_calibration_scores,
+                target_scores,
+                target_labels,
+                source_validation_scores,
+                seed,
+            )
+            # Source-certified baseline: Tier A on source validation positives
+            source_calibration_scores = source_validation_scores[
+                source_validation_labels == 1
+            ]
+            source_certified_study = TierAStudy(
+                target_specificity=0.70, confidence=0.95
+            ).run(
+                calibration_positive_scores=source_calibration_scores,
+                evaluation_scores=target_scores,
+                evaluation_labels=target_labels,
+                calibration_sizes=calibration_sizes,
+                repetitions=repetitions,
+                seed=seed,
+                split_unit=(
+                    "source validation calibration; "
+                    "target evaluation; patient linkage not verified"
                 ),
-                "healthy_plus_non_tb": np.ones(target_labels.size, dtype=bool),
+            )
+            source_certified_baseline = {
+                "description": (
+                    "Tier A calibrated on source validation positives, "
+                    "applied to held-out target"
+                ),
+                "source_calibration_positive_count": int(
+                    np.sum(source_validation_labels == 1)
+                ),
+                "tier_a": source_certified_study.to_dict(),
             }
-            if target_site == "TBX11K"
-            else {}
-        )
-        negative_controls: dict[str, Any] = {}
-        for control_name, control_mask in negative_control_masks.items():
-            control_study = TierAStudy(target_specificity=0.70, confidence=0.95).run(
+            study = TierAStudy(target_specificity=0.70, confidence=0.95).run(
                 calibration_positive_scores=target_calibration_scores,
-                evaluation_scores=target_scores[control_mask],
-                evaluation_labels=target_labels[control_mask],
+                evaluation_scores=target_scores,
+                evaluation_labels=target_labels,
                 calibration_sizes=calibration_sizes,
                 repetitions=repetitions,
                 seed=seed,
                 split_unit=f"{target_split_unit}; patient linkage not verified",
             )
-            negative_controls[control_name] = {
-                "evaluation_count": int(np.sum(control_mask)),
-                "evaluation_positive_count": int(
-                    np.sum(target_labels[control_mask] == 1)
-                ),
-                "evaluation_negative_count": int(
-                    np.sum(target_labels[control_mask] == 0)
-                ),
-                "b0_metrics": evaluate_threshold(
-                    target_scores[control_mask],
-                    target_labels[control_mask],
-                    source_threshold,
-                ).__dict__,
-                "tier_a_exploratory": control_study.to_dict(),
-            }
-        selective_verification: dict[str, Any] | None = None
-        if selective_repetitions:
-            fixed_grid = np.unique(
-                np.quantile(source_validation_scores, np.linspace(0.01, 0.99, 25))
-            )
-            if fixed_grid.size < 2:
-                raise ValueError(
-                    "Source score distribution cannot define a threshold grid."
-                )
-            selective_verification = (
-                SelectiveVerificationStudy()
-                .run(
-                    calibration_scores=target_calibration_all_scores,
-                    calibration_labels=target_calibration_all_labels,
-                    evaluation_scores=target_scores,
-                    evaluation_labels=target_labels,
-                    thresholds=tuple(float(value) for value in fixed_grid),
-                    reference_threshold=source_threshold,
-                    low_score_probabilities=(0.10, 0.25, 0.50, 1.00),
-                    repetitions=selective_repetitions,
-                    seed=seed,
-                    split_unit=(
-                        f"{target_split_unit}; patient linkage not verified; "
-                        "fully labelled target split used only to simulate verification"
+            negative_control_masks = (
+                {
+                    "healthy_only": np.asarray(
+                        [
+                            rows[index]["label"] == "healthy"
+                            for index in target_evaluation_indices
+                        ],
+                        dtype=bool,
                     ),
-                )
-                .to_dict()
+                    "healthy_plus_non_tb": np.ones(target_labels.size, dtype=bool),
+                }
+                if target_site == "TBX11K"
+                else {}
             )
-        results["heads"][head_name] = {
-            "source_threshold_target_sensitivity": 0.90,
-            "source_validation_threshold": float(source_threshold),
-            "source_validation_metrics": source_metrics.__dict__,
-            "target_b0_metrics": target_b0_metrics.__dict__,
-            "tier_a_exploratory": study.to_dict(),
-            "risk_control_comparison": risk_control_comparison,
-            "negative_controls": negative_controls,
-            "selective_verification_exploratory": selective_verification,
-        }
+            negative_controls: dict[str, Any] = {}
+            for control_name, control_mask in negative_control_masks.items():
+                control_study = TierAStudy(
+                    target_specificity=0.70, confidence=0.95
+                ).run(
+                    calibration_positive_scores=target_calibration_scores,
+                    evaluation_scores=target_scores[control_mask],
+                    evaluation_labels=target_labels[control_mask],
+                    calibration_sizes=calibration_sizes,
+                    repetitions=repetitions,
+                    seed=seed,
+                    split_unit=f"{target_split_unit}; patient linkage not verified",
+                )
+                negative_controls[control_name] = {
+                    "control_type": control_name,
+                    "evaluation_count": int(np.sum(control_mask)),
+                    "evaluation_positive_count": int(
+                        np.sum(target_labels[control_mask] == 1)
+                    ),
+                    "evaluation_negative_count": int(
+                        np.sum(target_labels[control_mask] == 0)
+                    ),
+                    "composition": (
+                        f"healthy only (N={int(np.sum(control_mask))})"
+                        if control_name == "healthy_only"
+                        else f"healthy + non-TB (N={int(np.sum(control_mask))})"
+                    ),
+                    "b0_metrics": evaluate_threshold(
+                        target_scores[control_mask],
+                        target_labels[control_mask],
+                        source_threshold,
+                    ).__dict__,
+                    "tier_a_exploratory": control_study.to_dict(),
+                }
+            selective_verification: dict[str, Any] | None = None
+            if selective_repetitions:
+                fixed_grid = np.unique(
+                    np.quantile(source_validation_scores, np.linspace(0.01, 0.99, 25))
+                )
+                if fixed_grid.size < 2:
+                    raise ValueError(
+                        "Source score distribution cannot define a threshold grid."
+                    )
+                selective_verification = (
+                    SelectiveVerificationStudy()
+                    .run(
+                        calibration_scores=target_calibration_all_scores,
+                        calibration_labels=target_calibration_all_labels,
+                        evaluation_scores=target_scores,
+                        evaluation_labels=target_labels,
+                        thresholds=tuple(float(value) for value in fixed_grid),
+                        reference_threshold=source_threshold,
+                        low_score_probabilities=(0.10, 0.25, 0.50, 1.00),
+                        repetitions=selective_repetitions,
+                        seed=seed,
+                        split_unit=(
+                            f"{target_split_unit}; patient linkage not verified; "
+                            "fully labelled target split used only to simulate "
+                            "verification"
+                        ),
+                    )
+                    .to_dict()
+                )
+            # Store results by seed first, then head name
+            if f"seed_{head_seed}" not in results["heads"]:
+                results["heads"][f"seed_{head_seed}"] = {}
+            results["heads"][f"seed_{head_seed}"][head_name] = {
+                "head_seed": head_seed,
+                "source_threshold_target_sensitivity": 0.90,
+                "source_validation_threshold": float(source_threshold),
+                "source_validation_metrics": source_metrics.__dict__,
+                "target_b0_metrics": target_b0_metrics.__dict__,
+                "tier_a_exploratory": study.to_dict(),
+                "source_certified_baseline": source_certified_baseline,
+                "risk_control_comparison": risk_control_comparison,
+                "negative_controls": negative_controls,
+                "selective_verification_exploratory": selective_verification,
+            }
 
     result_path = output_dir / "results.json"
     result_path.write_text(
@@ -553,11 +645,20 @@ def main() -> int:
         help="selective-verification simulations per policy (default: disabled)",
     )
     parser.add_argument("--seed", type=int, default=SEED)
+    parser.add_argument(
+        "--head-seeds",
+        type=int,
+        nargs="+",
+        default=[42],
+        help="seeds for head fitting and threshold selection (default: 42)",
+    )
     arguments = parser.parse_args()
     if arguments.repetitions < 1:
         parser.error("--repetitions must be positive")
     if arguments.selective_repetitions < 0:
         parser.error("--selective-repetitions must not be negative")
+    if not arguments.head_seeds:
+        parser.error("--head-seeds must not be empty")
     result = run_study(
         arguments.project_root.resolve(),
         arguments.embedding_dir,
@@ -566,6 +667,7 @@ def main() -> int:
         arguments.selective_repetitions,
         arguments.seed,
         arguments.target_site,
+        arguments.head_seeds,
     )
     print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
     return 0

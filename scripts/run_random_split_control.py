@@ -25,7 +25,7 @@ from tb_certify.data.identity_audit import patient_level_supported
 from tb_certify.evaluation.metrics import evaluate_threshold
 from tb_certify.evaluation.tier_a_study import TierAStudy
 
-CALIBRATION_SIZES = (29, 46, 61, 100, 200)
+CALIBRATION_SIZES = (29, 46, 61, 76, 100)
 
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
@@ -35,6 +35,18 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
 
 def _labels(rows: list[dict[str, str]]) -> np.ndarray:
     return np.asarray([row["label"] == "active_tb" for row in rows], dtype=int)
+
+
+def _load_duplicate_aliases(project_root: Path) -> set[tuple[str, str]]:
+    """Load exact pixel duplicate aliases from identity audit."""
+    audit_path = project_root / "artifacts" / "audits" / "image_identity.json"
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    duplicate_aliases: set[tuple[str, str]] = set()
+    for site, site_audit in audit["exact_decoded_rgb_pixel_duplicates"].items():
+        for group in site_audit["duplicate_groups"]:
+            # Keep the first occurrence, exclude the rest as aliases
+            duplicate_aliases.update((site, image_id) for image_id in group[1:])
+    return duplicate_aliases
 
 
 def _write_split_manifest(
@@ -104,22 +116,20 @@ def run_control(
     if features.shape[0] != len(rows) or set(labels) != {0, 1}:
         raise ValueError("Embeddings and binary manifest labels must align.")
 
-    audit_path = project_root / "artifacts" / "audits" / "image_identity.json"
-    identity_audit = json.loads(audit_path.read_text(encoding="utf-8"))
-    duplicate_aliases = set()
-    for site, site_audit in identity_audit[
-        "exact_decoded_rgb_pixel_duplicates"
-    ].items():
-        for group in site_audit["duplicate_groups"]:
-            duplicate_aliases.update((site, image_id) for image_id in group[1:])
-    all_indices = np.asarray(
-        [
-            index
-            for index, row in enumerate(rows)
-            if (row["site"], row["image_id"]) not in duplicate_aliases
-        ],
-        dtype=int,
-    )
+    # Load and apply pixel-alias exclusion policy
+    duplicate_aliases = _load_duplicate_aliases(project_root)
+    original_count = len(rows)
+    valid_indices = [
+        index
+        for index, row in enumerate(rows)
+        if (row["site"], row["image_id"]) not in duplicate_aliases
+    ]
+    rows = [rows[index] for index in valid_indices]
+    features = features[valid_indices]
+    labels = labels[valid_indices]
+    excluded_count = original_count - len(rows)
+
+    all_indices = np.arange(len(rows), dtype=int)
     development_indices, evaluation_indices = train_test_split(
         all_indices,
         test_size=0.20,
@@ -148,13 +158,6 @@ def run_control(
         **{int(index): "calibration" for index in calibration_indices},
         **{int(index): "evaluation" for index in evaluation_indices},
     }
-    roles.update(
-        {
-            index: "exact_pixel_duplicate_excluded"
-            for index, row in enumerate(rows)
-            if (row["site"], row["image_id"]) in duplicate_aliases
-        }
-    )
     split_path = (
         project_root / "data" / "splits" / f"random_image_control_seed{seed}.csv"
     )
@@ -171,6 +174,8 @@ def run_control(
         "pac_claim": False,
         "seed": seed,
         "repetitions": repetitions,
+        "pixel_alias_excluded_count": excluded_count,
+        "calibration_sizes": list(CALIBRATION_SIZES),
         "split_manifest": str(split_path),
         "counts": {
             "model_train": int(model_train_indices.size),
@@ -180,7 +185,6 @@ def run_control(
             "evaluation": int(evaluation_indices.size),
             "evaluation_positive": int(np.sum(labels[evaluation_indices] == 1)),
             "evaluation_negative": int(np.sum(labels[evaluation_indices] == 0)),
-            "exact_duplicate_aliases_excluded": len(duplicate_aliases),
         },
         "encoder": metadata,
         "heads": {},
@@ -189,18 +193,16 @@ def run_control(
     for head_name in ("logistic", "mlp"):
         model = _model(head_name, seed)
         model.fit(features[model_train_indices], labels[model_train_indices])
-        validation_scores = model.predict_proba(features[source_validation_indices])[
-            :, 1
-        ]
+        validation_scores = model.decision_function(features[source_validation_indices])
         source_threshold = (
             EmpiricalSensitivityThreshold(0.90)
             .fit(validation_scores[labels[source_validation_indices] == 1])
             .threshold
         )
-        evaluation_scores = model.predict_proba(features[evaluation_indices])[:, 1]
-        calibration_scores = model.predict_proba(
+        evaluation_scores = model.decision_function(features[evaluation_indices])
+        calibration_scores = model.decision_function(
             features[calibration_positive_indices]
-        )[:, 1]
+        )
         tier_a = TierAStudy(target_specificity=0.70, confidence=0.95).run(
             calibration_positive_scores=calibration_scores,
             evaluation_scores=evaluation_scores,
@@ -247,6 +249,23 @@ def run_control(
             },
             "tier_a_exploratory": tier_a.to_dict(),
         }
+
+    # Add site prevalence baseline to each head
+    eval_site_labels = {}
+    for site in sorted({rows[i]["site"] for i in evaluation_indices}):
+        site_mask = np.asarray([rows[i]["site"] == site for i in evaluation_indices])
+        eval_site_labels[site] = labels[evaluation_indices][site_mask]
+    site_prevalence_baseline = {
+        site: {
+            "evaluation_count": len(eval_site_labels[site]),
+            "prevalence": float(np.mean(eval_site_labels[site])),
+        }
+        for site in sorted(eval_site_labels.keys())
+    }
+    for head_name in results["heads"]:
+        results["heads"][head_name]["site_prevalence_baseline"] = (
+            site_prevalence_baseline
+        )
 
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / "results.json"

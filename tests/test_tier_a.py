@@ -33,3 +33,35 @@ def test_tier_a_ties_at_selected_order_statistic_are_included() -> None:
     assert certificate.allowed_misses == 1
     assert certificate.threshold == 1.0
     assert np.count_nonzero(scores < certificate.threshold) == 1
+
+
+def test_tier_a_synthetic_continuous_scores_reproduce_analytic_violation() -> None:
+    """Test that allowed_misses matches analytic binomial violation probabilities.
+
+    The allowed_misses k* is defined as max{k: P(Bin(n, alpha) <= k) <= delta}.
+    This test verifies that the implementation matches the analytic formula.
+    """
+    from scipy.stats import binom
+
+    calibrator = TierACalibrator(target_fnr=0.10, failure_probability=0.05)
+
+    # Test a range of n values against the analytic binomial CDF
+    test_cases = list(range(29, 153))  # From floor to k=8
+
+    for n in test_cases:
+        k = calibrator.allowed_misses(n)
+        analytic_prob = binom.cdf(k, n, 0.10)
+
+        # For k* defined as max{k: P(Bin(n, alpha) <= k) <= delta}:
+        # - k must satisfy P(Bin(n, alpha) <= k) <= delta
+        # - k+1 must satisfy P(Bin(n, alpha) <= k+1) > delta (if k+1 exists)
+        assert analytic_prob <= 0.05, (
+            f"n={n}, k={k}: P(Bin({n}, 0.10) <= {k}) = {analytic_prob:.4f} > 0.05"
+        )
+
+        if k + 1 <= n:
+            analytic_prob_k1 = binom.cdf(k + 1, n, 0.10)
+            assert analytic_prob_k1 > 0.05, (
+                f"n={n}, k={k}: P(Bin({n}, 0.10) <= {k+1}) = {analytic_prob_k1:.4f} <= 0.05, "
+                f"should have allowed k+1={k+1} misses"
+            )

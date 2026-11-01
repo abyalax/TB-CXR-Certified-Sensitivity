@@ -208,3 +208,45 @@ The experiment runners generate the scenario-specific split manifests as they ru
 The paper sources are `paper/imrad.md` and `paper/main.typ`. No paper compilation command is specified here because the checkout does not contain the Typst executable or its `juti` template dependency. Installing those external paper-build dependencies is required to compile `paper/main.typ`; the runnable analysis pipeline does not depend on them.
 
 Dataset downloads require network access and acceptance of the source dataset terms. Model downloads require access to the pinned Hugging Face revision. Repeated bootstrap/resampling runs are deterministic from their recorded seed, subject to matching dependency versions, device behavior, and input file contents.
+
+## Code Changes Summary
+
+### Pixel-Alias Policy Implementation
+Added consistent pixel-alias exclusion to all runners:
+- `run_primary_real_study.py`: Added `_load_duplicate_aliases()` function to load exact pixel duplicates from `artifacts/audits/image_identity.json`. Filters out duplicate aliases before processing, tracks excluded count in results.
+- `run_random_split_control.py`: Added same `_load_duplicate_aliases()` function and filtering logic.
+- Both scripts now report `pixel_alias_excluded_count` in results.
+
+### Calibration Size Limits
+- Updated `CALIBRATION_SIZES_PRIMARY` to (29, 46, 61, 76, 100) for TBX11K target
+- Updated `CALIBRATION_SIZES_SECONDARY` to (29, 46, 61, 76) for Shenzhen target (limited to ≤½ pool of 168 positives / 2 = 84)
+- Removed n+=200 from Shenzhen as it exceeded half the calibration pool
+
+### Negative Control Composition
+- Fixed N1 (healthy-only) mask to only include healthy images (changed from including active_tb)
+- Added explicit composition reporting with actual N counts in results
+
+### Site Prevalence Baseline
+- Added `site_prevalence_baseline` to random-split control results, reporting per-site evaluation count and prevalence
+- This provides a baseline "site/prevalence only" model to test whether heads use site as a shortcut
+
+### Multi-Seed Head Analysis
+- Added `--head-seeds` argument to `run_primary_real_study.py` for multi-seed head fitting and threshold selection
+- Each seed produces independent source train/validation splits, trained heads, and selected thresholds
+- Results are organized by seed first, then head type: `results["heads"]["seed_42"]["logistic"]`
+- Default is `--head-seeds 42` (single seed for backward compatibility)
+- Use `--head-seeds 42 43 44 45 46` for 5-seed analysis to report variability
+
+## Limitations to Report
+
+CONTEXT.md (section 5.9) documents five key limitations that must be reported:
+
+1. **Site decodability:** Frozen embeddings contain strong site signals (accuracy ~99%, balanced accuracy ~98-99%). This is not evidence of causal shortcutting, but indicates that encoders capture imaging characteristic differences between sites. Report as a limitation, not as a solved problem.
+
+2. **RAD-DINO pretraining overlap:** Pixel-level overlap cannot be audited because upstream training data (pixels/pixel hashes) are unavailable. Only metadata ID/filename matching was checked (0 matches from 882,775 training rows vs 9,060 local images).
+
+3. **Source data size confound:** Primary protocol (TBX11K target) uses 639 source images, while secondary protocol (Shenzhen target) uses 6,505 source images. This difference can confound site shift effects with training data size effects.
+
+4. **Negative control composition (N1/N2):** Specificity is sensitive to negative control composition. N1 (healthy-only, N=800) increases B0 specificity compared to N2 (healthy + non-TB, N=1,600). Report explicit N counts for each control.
+
+5. **Density-ratio diagnostics:** Domain classifier odds and ESS are not verified density ratios or valid weights. Use only as sensitivity analysis to describe domain separability, not as input to statistical guarantee procedures.

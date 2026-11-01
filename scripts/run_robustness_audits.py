@@ -480,13 +480,13 @@ def _within_site_control(
         for head_name in ("logistic", "mlp"):
             head = _model(head_name, seed)
             head.fit(features[train], train_labels)
-            validation_scores = head.predict_proba(features[validation])[:, 1]
+            validation_scores = head.decision_function(features[validation])
             threshold = (
                 EmpiricalSensitivityThreshold(0.90)
                 .fit(validation_scores[validation_labels])
                 .threshold
             )
-            test_scores = head.predict_proba(features[test])[:, 1]
+            test_scores = head.decision_function(features[test])
             site_summary["heads"][head_name] = evaluate_threshold(
                 test_scores, test_labels.astype(int), threshold
             ).__dict__
